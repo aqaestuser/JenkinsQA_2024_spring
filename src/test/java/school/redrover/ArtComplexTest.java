@@ -14,11 +14,11 @@ public class ArtComplexTest {
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://art-complex.ru/brand/kl-acoustics/");
-        Thread.sleep(2000);
+        Thread.sleep(3000);
 
         WebElement input = driver.findElement(By.id("mod_search_searchword"));
         input.sendKeys("INVOTONE H829");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         WebElement search = driver.findElement(By.id("sr0"));
         search.click();
@@ -31,7 +31,9 @@ public class ArtComplexTest {
 
         WebElement text = driver.findElement(By.className("shop-cart-div-1"));
         String resultText = text.getText();
+
         Assert.assertEquals(resultText, "Минимальный заказ в нашем магазине 10 000 руб.");
+
         driver.quit();
     }
 }
