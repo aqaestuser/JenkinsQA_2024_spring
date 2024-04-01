@@ -2,7 +2,9 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -127,5 +129,21 @@ public class ByteBustersGroupTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElements(By.className("shopping_cart_badge")).isEmpty());
         Assert.assertTrue(getDriver().findElements(By.className("cart_item")).isEmpty());
+    }
+
+    @Test
+    public void googleTranslatorTest() throws InterruptedException {
+
+        getDriver().get("https://translate.google.com/#");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(2000));
+
+        WebElement textField = getDriver().findElement(By.className("er8xn"));
+        textField.sendKeys("Hello World");
+
+        WebElement translationFieldText = getDriver().findElement(By.
+                xpath("(//span[@class='ryNqvb'])[1]"));
+
+        Assert.assertEquals(translationFieldText.getText(), "Привет, мир");
+
     }
 }

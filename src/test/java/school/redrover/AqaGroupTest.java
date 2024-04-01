@@ -811,4 +811,57 @@ public class AqaGroupTest extends AqaGroupBaseTest {
                 myName,
                 "input field contains wrong value");
     }
+
+    @Test
+    public void testHoverParagraph() {
+        getDriver().get("https://testpages.eviltester.com/styled/csspseudo/css-hover.html");
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.id("hoverpara")))
+                .perform();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.id("hoverparaeffect")).getText(),
+                "You can see this paragraph now that you hovered on the above 'button'.");
+    }
+
+    @Test
+    public void testModalWindow() {
+        getDriver().get("https://tympanus.net/Development/ModalWindowEffects/");
+
+        getDriver().findElement(By.cssSelector("[data-modal = 'modal-1']")).click();
+        getDriver().findElement(By.className("md-close")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("[data-modal = 'modal-1']")).isEnabled());
+    }
+
+    @Test
+    public void testDragDrop(){
+        getDriver().get("https://testpages.eviltester.com/styled/drag-drop-javascript.html");
+
+        WebElement draggable = getDriver().findElement(By.id("draggable1"));
+        WebElement droppable = getDriver().findElement(By.id("droppable1"));
+
+        new Actions(getDriver())
+                .dragAndDrop(draggable, droppable)
+                .perform();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.id("droppable1")).getText(),
+                "Dropped!",
+                "Не удалось перетащить элемент");
+    }
+
+    @Test
+    public void testHoverDiv() {
+        getDriver().get("https://testpages.eviltester.com/styled/csspseudo/css-hover.html");
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.id("hoverdivpara")))
+                .perform();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.id("hoverdivparaeffect")).getText(),
+                "You can see this child div content now that you hovered on the above 'button'.");
+    }
 }
