@@ -18,7 +18,7 @@ public class FarfetchTest {
         driver.findElement(By.xpath("//input[@data-testid='search-input']")).sendKeys("Valentino");
         driver.findElement(By.xpath("//input[@data-testid='search-input']")).click();
 
-//        Thread.sleep (  1000);
+
 
         driver.get("https://www.farfetch.com/shopping/women/items.aspx");
 

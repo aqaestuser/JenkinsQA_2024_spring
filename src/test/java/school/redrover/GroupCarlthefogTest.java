@@ -69,7 +69,7 @@ public class GroupCarlthefogTest extends BaseTest {
         List<String> actualElementsHeader = WebElementsToString(elementsHeaderList);
 
         Assert.assertEquals(expectedElementsQuantity, actualElementsQuantity);
-        Assert.assertEquals(expectedElementsHeader,actualElementsHeader);
+        Assert.assertEquals(expectedElementsHeader, actualElementsHeader);
 
         driver.quit();
     }
@@ -167,11 +167,70 @@ public class GroupCarlthefogTest extends BaseTest {
 
         getDriver().get("https://qa-practice.netlify.app");
 
-        getDriver().findElement( By.id("products-list") ).click();
+        getDriver().findElement(By.id("products-list")).click();
         getDriver().findElement(By.xpath("//div[@class='shop-item-details']/button")).click();
         getDriver().findElement(By.xpath("//button[text()='PURCHASE']")).click();
         String value = getDriver().findElement(By.id("message")).getText();
 
         Assert.assertEquals(value, "Congrats! Your order of $905.99 has been registered!");
+    }
+
+    @Test
+    public void testExpandtesting() {
+
+        getDriver().get("https://practice.expandtesting.com/login");
+
+        getDriver().findElement(By.id("username")).sendKeys("practice");
+        getDriver().findElement(By.name("password")).sendKeys("SuperSecretPassword!");
+        getDriver().findElement(By.xpath("//button[@type='submit' and contains(text(),'Login')]")).click();
+
+        String actual = getDriver().findElement(By.id("flash")).getText();
+
+        Assert.assertEquals(actual, "You logged into a secure area!");
+    }
+
+    @Test
+
+    public void testLoginConduit() {
+        String userName ="Grechka"+ Math.random()*3 ;
+        String email = "Suyn@mail" + userName + ".ru";
+        String password = "W1234567" + Math.random()*3;
+
+        WebDriver driver = getDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        driver.get("https://demo.realworld.io/#/register");
+
+        WebElement textBoxUserName = driver.findElement(By.xpath("//input[ @ng-model='$ctrl.formData.username']"));
+        textBoxUserName.sendKeys(userName);
+
+        WebElement textBoxEmail = driver.findElement(By.xpath("//input[@ng-model=\"$ctrl.formData.email\"]"));
+        textBoxEmail.sendKeys(email);
+
+        WebElement textBoxPassword = driver.findElement(By.xpath("//input[@ng-model=\"$ctrl.formData.password\"]"));
+        textBoxPassword.sendKeys(password);
+
+        WebElement buttons = driver.findElement(By.xpath("//button[@ng-bind='$ctrl.title']"));
+        buttons.click();
+
+        String actualUrl = driver.getCurrentUrl();
+        String expectedUrl = "https://demo.realworld.io/#/register";
+
+        Assert.assertEquals(actualUrl, expectedUrl, "URL не совпадает");
+
+    }
+    @Test
+    public void testWikipediaSearch() throws InterruptedException {
+
+        getDriver().get("https://en.wikipedia.org");
+        getDriver().findElement(By.id("searchInput")).sendKeys("Selenium (software)");
+        getDriver().findElement(By.xpath("//button[contains(@Class, 'search-input')]")).click();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(3000));
+
+        String expectedTitle = "Selenium (software) - Wikipedia";
+
+        String actualTitle = getDriver().getTitle();
+
+        Assert.assertEquals(actualTitle, expectedTitle, "Page title doesn't match expected title");
     }
 }
