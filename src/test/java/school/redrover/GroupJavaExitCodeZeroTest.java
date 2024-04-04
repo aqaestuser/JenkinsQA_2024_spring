@@ -11,9 +11,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GroupJavaExitCodeZeroTest extends BaseTest {
@@ -29,10 +28,54 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         StringBuilder sb = new StringBuilder(n);
 
         for (int i = 0; i < n; i++) {
-            int index = (int)(AlphaNumericString.length() * Math.random());
+            int index = (int) (AlphaNumericString.length() * Math.random());
             sb.append(AlphaNumericString.charAt(index));
         }
         return sb.toString() + "@gmail.com";
+    }
+
+    private int uniqueLetters(String word) {
+        String word2 = word.trim().toLowerCase();
+        String word3 = "";
+
+        HashMap<Character, Integer> charCountMap = new HashMap<>();
+
+        for (int i = 0; i < word2.length(); i++) {
+            char c = word2.charAt(i);
+            charCountMap.put(c, charCountMap.getOrDefault(c, 0) + 1);
+        }
+        for (char c : charCountMap.keySet()) {
+            if (charCountMap.get(c) == 1) {
+                word3 += c + "";
+            }
+
+        }
+        return word3.length();
+    }
+
+    private void openSauceDemo() {
+        getDriver().get(" https://www.saucedemo.com/");
+    }
+
+    private void clickFilterZtoA() {
+        getDriver().findElement(By.xpath("//option[@value='za']")).click();
+    }
+
+    private void loginToSauceDemo() {
+        WebElement username = getDriver().findElement(By.id("user-name"));
+        username.sendKeys("standard_user");
+        WebElement password = getDriver().findElement(By.id("password"));
+        password.sendKeys("secret_sauce");
+
+        getDriver().findElement(By.id("login-button")).click();
+    }
+
+    private List<String> getTexts(List<WebElement> list) {
+        List<String> texts = new ArrayList<>();
+        for (WebElement element : list) {
+            texts.add(element.getText());
+        }
+        return texts;
     }
 
     @Test
@@ -99,7 +142,7 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
     }
 
     @Test
-    public void testAllProductsNavigationYS() throws InterruptedException{
+    public void testAllProductsNavigationYS() throws InterruptedException {
         final String expectedProductsUrl = "https://automationexercise.com/products";
         final String expectedHeader = "ALL PRODUCTS";
 
@@ -137,7 +180,7 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         getDriver().get(BASE_URL);
         getDriver().manage().window().maximize();
 
-        ((JavascriptExecutor)getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        ((JavascriptExecutor) getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
         Thread.sleep(1000);
         WebElement subscription = getDriver().findElement(By.xpath("//h2[contains(text(), 'Subscription')]"));
 
@@ -169,7 +212,7 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[contains(text(), 'Cart')]")).click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), BASE_URL + "/view_cart");
-        ((JavascriptExecutor)getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        ((JavascriptExecutor) getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
         Thread.sleep(1000);
         WebElement subscription = getDriver().findElement(By.xpath("//h2[contains(text(), 'Subscription')]"));
@@ -245,6 +288,7 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         Assert.assertTrue(elementSelector.isDisplayed());
         Assert.assertEquals(elementSelector.getText(), reviewMessage);
     }
+
     @Test
     public void testContactUs() {
         final String expectedMessage = "Success! Your details have been submitted successfully.";
@@ -268,7 +312,7 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
     @Test
     public void testFindWomenBootsPage() throws InterruptedException {
         final String expectedElement = "Women'S Boots";
-        final  String BASE_URL = "https://www.6pm.com/";
+        final String BASE_URL = "https://www.6pm.com/";
 
         getDriver().get(BASE_URL);
         getDriver().manage().window().maximize();
@@ -400,7 +444,7 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//ul//li[@id='item-0']/span[text()='Text Box']")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),urlTextBoxPage);
+        Assert.assertEquals(getDriver().getCurrentUrl(), urlTextBoxPage);
 
         getDriver().findElement(By.cssSelector("#userName")).sendKeys(userName);
         getDriver().findElement(By.cssSelector("#userEmail")).sendKeys(userEmail);
@@ -409,10 +453,10 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         String emailInForm = getDriver().findElement(By.cssSelector("div>p#email")).getText().trim();
 
         Assert.assertEquals(nameInForm, expectedName);
-        Assert.assertEquals(emailInForm,expectedEmail);
+        Assert.assertEquals(emailInForm, expectedEmail);
     }
 
-     @Test
+    @Test
     public void testVerifyProductInCart() throws InterruptedException {
         final String expectVerifyHomePage = "FEATURES ITEMS";
         final String expectVerifyProductDetail = "Availability:";
@@ -490,11 +534,11 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         getDriver().get(BASE_URL);
         getDriver().manage().window().maximize();
 
-        WebElement buttonText = getDriver().findElement(By.xpath("//div/input[@type='text']"));
+        WebElement buttonText = getDriver().findElement(By.id("user-name"));
         buttonText.sendKeys(userName);
-        WebElement buttonPassword = getDriver().findElement(By.xpath("//div/input[@type='password']"));
+        WebElement buttonPassword = getDriver().findElement(By.id("password"));
         buttonPassword.sendKeys(PASSWORD);
-        WebElement buttonSubmit = getDriver().findElement(By.xpath("//input[@type='submit']"));
+        WebElement buttonSubmit = getDriver().findElement(By.id("login-button"));
         buttonSubmit.click();
         WebElement logoText = getDriver().findElement(By.xpath("//div[@class='app_logo']"));
         String actualLogoText = logoText.getText();
@@ -518,11 +562,11 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         getDriver().get(BASE_URL);
         getDriver().manage().window().maximize();
 
-        WebElement buttonText = getDriver().findElement(By.xpath("//div/input[@type='text']"));
+        WebElement buttonText = getDriver().findElement(By.id("user-name"));
         buttonText.sendKeys(userName);
-        WebElement buttonPassword = getDriver().findElement(By.xpath("//div/input[@type='password']"));
+        WebElement buttonPassword = getDriver().findElement(By.id("password"));
         buttonPassword.sendKeys(PASSWORD);
-        WebElement buttonSubmit = getDriver().findElement(By.xpath("//input[@type='submit']"));
+        WebElement buttonSubmit = getDriver().findElement(By.id("login-button"));
         buttonSubmit.click();
         WebElement errorText = getDriver().findElement(By.xpath("//h3[contains(text(),'Epic sadface')]"));
         String actualErrorText = errorText.getText();
@@ -561,5 +605,92 @@ public class GroupJavaExitCodeZeroTest extends BaseTest {
         }
 
         Assert.assertEquals(namesOfNavbar, expectedResult);
+    }
+
+    @Test
+    public void testUniqueLetters() {
+
+        int expectedResult = 9;
+
+        getDriver().get("https://ru.wikipedia.org/wiki/%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%87%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C");
+        WebElement heading = getDriver().findElement(By.xpath("//h1//span"));
+        int actualResult = uniqueLetters(heading.getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testFilterZtoA() {
+
+        openSauceDemo();
+
+        loginToSauceDemo();
+
+        clickFilterZtoA();
+        List<WebElement> productsNamesElements = getDriver().findElements(By.xpath("//div[@class='inventory_item_name '] "));
+        List<String> productsNamesText = getTexts(productsNamesElements);
+
+        List<String> expectedResult = new ArrayList<>(productsNamesText);
+
+        expectedResult.sort(Collections.reverseOrder());
+
+        Assert.assertEquals(productsNamesText, expectedResult);
+    }
+
+    @Test
+    public void testImageClickToProductCard() {
+
+        final String BASE_URL = "https://www.saucedemo.com/";
+        final String userName = "standard_user";
+        final String PASSWORD = "secret_sauce";
+        final String expectedLink = "https://www.saucedemo.com/inventory-item.html?id=4";
+
+
+        getDriver().get(BASE_URL);
+        getDriver().manage().window().maximize();
+
+        WebElement buttonText = getDriver().findElement(By.id("user-name"));
+        buttonText.sendKeys(userName);
+        WebElement buttonPassword = getDriver().findElement(By.id("password"));
+        buttonPassword.sendKeys(PASSWORD);
+        WebElement buttonSubmit = getDriver().findElement(By.id("login-button"));
+        buttonSubmit.click();
+        WebElement image = getDriver().findElement(By.xpath("//div/a[@id=\"item_4_img_link\"]"));
+        image.click();
+        String actualLink = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualLink, expectedLink);
+
+    }
+    @Test
+    public void testAddToCart() {
+
+        final String BASE_URL = "https://www.saucedemo.com/";
+        final String userName = "standard_user";
+        final String PASSWORD = "secret_sauce";
+        final String expectedLogoText = "Swag Labs";
+        final String expectedTitle = "Products";
+        final String expectedLink = "https://www.saucedemo.com/inventory-item.html?id=4";
+        final String expectedCartElement = "1";
+
+        getDriver().get(BASE_URL);
+        getDriver().manage().window().maximize();
+
+        WebElement buttonText = getDriver().findElement(By.id("user-name"));
+        buttonText.sendKeys(userName);
+        WebElement buttonPassword = getDriver().findElement(By.id("password"));
+        buttonPassword.sendKeys(PASSWORD);
+        WebElement buttonSubmit = getDriver().findElement(By.id("login-button"));
+        buttonSubmit.click();
+        WebElement image = getDriver().findElement(By.xpath("//div/a[@id=\"item_4_img_link\"]"));
+        image.click();
+        String actualLink = getDriver().getCurrentUrl();
+        getDriver().findElement(By.name("add-to-cart")).click();
+        WebElement cartElement = getDriver().findElement(By.xpath("//div[@id='shopping_cart_container']/a/span"));
+        String actualCartElement = cartElement.getText();
+
+        Assert.assertEquals(actualLink, expectedLink);
+        Assert.assertEquals(actualCartElement, expectedCartElement);
+
     }
 }

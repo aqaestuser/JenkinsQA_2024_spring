@@ -1,8 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -15,6 +13,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GroupCarlthefogTest extends BaseTest {
+
+    private final static String FULL_NAME = "John Smith";
+    private final static String EMAIL = "john.smith@gmail.com";
+    private final static String ADDRESS = "5th Ave, New York";
+    private final static String PERM_ADDRESS = "5th Ave, New York";
 
     @Test
     public void testSaucedemo() {
@@ -121,45 +124,39 @@ public class GroupCarlthefogTest extends BaseTest {
         String expectedHeader1 = "For Adults";
         String expectedHeader2 = "Kids Recommended";
 
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.olathelibrary.org/");
+        getDriver().get("https://www.olathelibrary.org/");
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
 
-        WebElement servicesTab = driver.findElement(By.xpath("//a[text()='Services']"));
-        Actions actions = new Actions(driver);
+        WebElement servicesTab = getDriver().findElement(By.xpath("//a[text()='Services']"));
+        Actions actions = new Actions(getDriver());
         actions.moveToElement(servicesTab).build().perform();
 
-        driver.findElement(By.xpath("//a[text()='Adult Book Recommendations']")).click();
-        WebElement header1 = driver.findElement(By.xpath("//header[@id='widget_6876_11653_2227']"));
+        getDriver().findElement(By.xpath("//a[text()='Adult Book Recommendations']")).click();
+        WebElement header1 = getDriver().findElement(By.xpath("//header[@id='widget_6876_11653_2227']"));
         String actualHeader1 = header1.getText();
 
         Assert.assertEquals(actualHeader1, expectedHeader1);
 
-        WebElement kidsTab = driver.findElement(By.xpath("//a[text()='Kids']"));
+        WebElement kidsTab = getDriver().findElement(By.xpath("//a[text()='Kids']"));
         actions.moveToElement(kidsTab).build().perform();
 
-        driver.findElement(By.xpath("//a[text()='Kids Recommended']")).click();
-        WebElement header2 = driver.findElement(By.xpath("//header[@id='widget_4280_11723_2315']"));
+        getDriver().findElement(By.xpath("//a[text()='Kids Recommended']")).click();
+        WebElement header2 = getDriver().findElement(By.xpath("//header[@id='widget_4280_11723_2315']"));
         String actualHeader2 = header2.getText();
 
         Assert.assertEquals(actualHeader2, expectedHeader2);
-
-        driver.quit();
     }
 
     @Test
     public void testMortgagePage() {
 
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.bankofamerica.com/");
+        getDriver().get("https://www.bankofamerica.com/");
 
-        driver.findElement(By.xpath("//a[@id='navHomeLoans']")).click();
-        driver.findElement(By.xpath("//a[@id='mortgage']")).click();
+        getDriver().findElement(By.xpath("//a[@id='navHomeLoans']")).click();
+        getDriver().findElement(By.xpath("//a[@id='mortgage']")).click();
 
-        Assert.assertTrue(driver.findElement(By.xpath("//h1[@id='skip-to-h1']")).getText().contains("Mortgage"));
-
-        driver.quit();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@id='skip-to-h1']")).getText().contains("Mortgage"));
     }
 
     @Test
@@ -192,9 +189,9 @@ public class GroupCarlthefogTest extends BaseTest {
     @Test
 
     public void testLoginConduit() {
-        String userName ="Grechka"+ Math.random()*3 ;
+        String userName = "Grechka" + Math.random() * 3;
         String email = "Suyn@mail" + userName + ".ru";
-        String password = "W1234567" + Math.random()*3;
+        String password = "W1234567" + Math.random() * 3;
 
         WebDriver driver = getDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
@@ -216,10 +213,47 @@ public class GroupCarlthefogTest extends BaseTest {
         String expectedUrl = "https://demo.realworld.io/#/register";
 
         Assert.assertEquals(actualUrl, expectedUrl, "URL не совпадает");
-
     }
+
     @Test
-    public void testWikipediaSearch() throws InterruptedException {
+    public void testTexBoxUseForm() {
+
+        String expectedHeader = "Text Box";
+
+        WebDriver driver = getDriver();
+        driver.manage().window().maximize();
+        driver.get("https://demoqa.com/text-box");
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
+        String actualHeader = driver.findElement(By.xpath("//div[@id='app']//h1")).getText();
+
+        driver.findElement(By.cssSelector("input#userName")).sendKeys(FULL_NAME);
+        driver.findElement(By.cssSelector("input#userEmail")).sendKeys(EMAIL);
+        driver.findElement(By.cssSelector("textarea#currentAddress")).sendKeys(ADDRESS);
+        driver.findElement(By.cssSelector("textarea#permanentAddress")).sendKeys(PERM_ADDRESS);
+
+        Actions act = new Actions(driver);
+        act.sendKeys(Keys.PAGE_DOWN).build().perform();
+        WebElement submitButton = driver.findElement(By.cssSelector("button#submit"));
+        submitButton.click();
+
+        WebElement expectedName = driver.findElement(By.cssSelector("p#name"));
+        WebElement expectedEmail = driver.findElement(By.cssSelector("p#email"));
+        WebElement expectedCurrentAddress = driver.findElement(By.cssSelector("p#currentAddress"));
+        WebElement expectedPermanentAddress = driver.findElement(By.cssSelector("p#permanentAddress"));
+
+        Assert.assertEquals(actualHeader, expectedHeader);
+        Assert.assertEquals(expectedName.getText(), "Name:" + FULL_NAME);
+        Assert.assertEquals(expectedEmail.getText(), "Email:" + EMAIL);
+        Assert.assertEquals(expectedCurrentAddress.getText(), "Current Address :" + ADDRESS);
+        Assert.assertEquals(expectedPermanentAddress.getText(), "Permananet Address :" + PERM_ADDRESS);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testWikipediaSearch() {
 
         getDriver().get("https://en.wikipedia.org");
         getDriver().findElement(By.id("searchInput")).sendKeys("Selenium (software)");
@@ -232,5 +266,26 @@ public class GroupCarlthefogTest extends BaseTest {
         String actualTitle = getDriver().getTitle();
 
         Assert.assertEquals(actualTitle, expectedTitle, "Page title doesn't match expected title");
+    }
+
+    @Test
+    public void GoogleTranslateTest() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+
+        getDriver().get("https://translate.google.com/");
+
+        Assert.assertEquals(getDriver().getTitle().toLowerCase(), "google переводчик");
+
+        WebElement inputField = getDriver().findElement(By.xpath("//textarea"));
+
+        inputField.sendKeys("Привет");
+
+        WebElement translateToEnglish = getDriver().findElement(By.xpath("(//span[contains(text(), 'английский')])[2]/ancestor::button"));
+
+        translateToEnglish.click();
+
+        WebElement translationResult = getDriver().findElement(By.xpath("//span[@lang='en']"));
+
+        Assert.assertEquals(translationResult.getText(), "Hello");
     }
 }
