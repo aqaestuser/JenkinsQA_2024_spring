@@ -84,7 +84,7 @@ public class JavAngryTest extends BaseTest {
 
     @Test
     public void testCheckBox1() {
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = getDriver();
         driver.get("https://demoqa.com/checkbox");
         WebElement checkBox = driver.findElement(By.className("rct-checkbox"));
         checkBox.click();
@@ -109,8 +109,6 @@ public class JavAngryTest extends BaseTest {
                 "downloads\n" +
                 "wordFile\n" +
                 "excelFile");
-        driver.quit();
-
     }
 
     @Test
@@ -140,6 +138,7 @@ public class JavAngryTest extends BaseTest {
                 .perform();
         driver.findElement(By.xpath("//ul[@class='pagination']"));
         driver.findElement(By.linkText("2")).click();
+      
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://portal.311.nyc.gov/search/?q=concerts&page=2");
         driver.quit();
