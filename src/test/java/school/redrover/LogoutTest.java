@@ -1,36 +1,17 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class LogoutTest {
+public class LogoutTest extends BaseTest {
     @Test
-    public void TestMyTest() {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
+    public void testLogout() {
+        getDriver().findElement(By.xpath("//*[@href='/logout']")).click();
+        String actual = getDriver().findElement(
+                By.xpath("//*[text()='Sign in to Jenkins']")).getText();
 
-        WebElement textArea = driver.findElement(By.id("user-name"));
-        textArea.sendKeys("standard_user");
-
-        WebElement textArea2 = driver.findElement(By.id("password"));
-        textArea2.sendKeys("secret_sauce");
-
-        WebElement button = driver.findElement(By.name("login-button"));
-        button.click();
-
-        WebElement button2= driver.findElement(By.className("bm-burger-button"));
-        button2.click();
-
-        WebElement logOut = driver.findElement(By.id("logout_sidebar_link"));
-        String value = logOut.getAccessibleName();
-
-        Assert.assertEquals(value,"Logout");
-
-        driver.quit();
-
+        Assert.assertEquals(actual, "Sign in to Jenkins");
     }
 }
