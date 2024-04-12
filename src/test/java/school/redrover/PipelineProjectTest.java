@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -20,6 +21,9 @@ public class PipelineProjectTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
         createNewJob(PROJECT_NAME);
+
+        getDriver().findElement(By.xpath("//*[text()='Pipeline']")).click();
+        // this line duplicates click on Pipeline, because of the Jenkins bug. Sometimes warning message doesn`t appear. Second click on Pipeline makes it happen.
 
         String warningMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
 
