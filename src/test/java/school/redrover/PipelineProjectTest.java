@@ -69,10 +69,11 @@ public class PipelineProjectTest extends BaseTest {
 //        FOLDER,
 //        MULTI_BRUNCH_PIPELINE,
 //        ORGANIZATION_FOLDER
-        private String jobName;
+        private final String jobName;
+
         Job(String jobName){
             this.jobName = jobName;
-        }
+            }
 
         @Override
         public String toString() {
