@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -35,5 +36,25 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertFalse(okButton.isEnabled());
         Assert.assertTrue(actualErrorMessage.isDisplayed());
         Assert.assertEquals(actualErrorMessage.getText(),expectedErrorMessage);
+    }
+
+    @Test
+    public void testRenameMultibranchPipeline() {
+        getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']"))
+                   .sendKeys("First Multibranch Pipeline project");
+        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[3]"))
+                   .click();
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
+        getDriver().findElement(By.cssSelector("#breadcrumbs > li:nth-child(3")).click();
+        getDriver().findElement(By.cssSelector("#tasks > div:nth-child(8) > span > a")).click();
+        getDriver().findElement(By.cssSelector("input.jenkins-input.validated")).clear();
+        getDriver().findElement(By.cssSelector("input.jenkins-input.validated"))
+                   .sendKeys("New Multibranch Pipeline project");
+        getDriver().findElement(By.xpath("//div[@id='bottom-sticker']//button")).click();
+
+        WebElement newName = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"));
+
+        Assert.assertEquals(newName.getText(), "Project" + " New Multibranch Pipeline project");
     }
 }
