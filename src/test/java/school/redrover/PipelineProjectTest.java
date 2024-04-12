@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class PipelineProjectTest extends BaseTest {
-
+    public static final String JOB_XPATH = "//*[text()='%s']";
     @Test
     public void testSameNamePipeline() {
         final String PROJECT_NAME = "Random pipeline";
@@ -55,11 +55,10 @@ public class PipelineProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(jobName);
     }
-    public void createJob(Job job, String jobName ) {
+
+    public void createJob(Job job, String jobName) {
         goToJobPageAndEnterJobName(jobName);
-
-        getDriver().findElement(By.xpath("//*[text()='" + job + "']")).click();
-
+        getDriver().findElement(By.xpath(JOB_XPATH.formatted(job))).click();
         getDriver().findElement(By.id("ok-button")).click();
     }
 
