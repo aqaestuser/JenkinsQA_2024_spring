@@ -57,23 +57,27 @@ public class PipelineProjectTest extends BaseTest {
     }
     public void createJob(Job job, String jobName ) {
         goToJobPageAndEnterJobName(jobName);
-        if(job==Job.PIPELINE) {
-            getDriver().findElement(By.xpath("//*[text()='Pipeline']")).click();
-        } else if (job==Job.FREESTYLE) {
-            getDriver().findElement(By.xpath("//*[text()='Freestyle project']")).click();
-        }else if (job==Job.MULTI_CONFIGURATION) {
-            getDriver().findElement(By.xpath("//*[text()='Multi-configuration project']")).click();
-        }
+
+        getDriver().findElement(By.xpath("//*[text()='" + job + "']")).click();
+
         getDriver().findElement(By.id("ok-button")).click();
     }
 
     enum Job{
-        FREESTYLE,
-        PIPELINE,
-        MULTI_CONFIGURATION,
-        FOLDER,
-        MULTI_BRUNCH_PIPELINE,
-        ORGANIZATION_FOLDER
+        FREESTYLE("Freestyle project"),
+        PIPELINE("Pipeline"),
+        MULTI_CONFIGURATION("Multi-configuration project");
+//        FOLDER,
+//        MULTI_BRUNCH_PIPELINE,
+//        ORGANIZATION_FOLDER
+        private String jobName;
+        Job(String jobName){
+            this.jobName = jobName;
+        }
 
+        @Override
+        public String toString() {
+            return jobName;
+        }
     }
 }
