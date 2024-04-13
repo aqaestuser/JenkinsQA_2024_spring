@@ -12,7 +12,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-public class FreeStyleProjectTest_iris extends BaseTest {
+public class FreeStyleProjectByIrisTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
