@@ -15,7 +15,8 @@ public class NewItem4Test extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//*[@name='Submit']")).click();
 
-        WebElement actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"));
-        Assert.assertEquals(actualResult.getText(), "My folder");
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
+
+        Assert.assertEquals(actualResult, "My folder");
     }
 }
