@@ -31,7 +31,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         String[] invalidCharacters = {"!", "@", "#", "$", "%", "^", "&", "*", "?", "|", "/", "["};
 
-        getDriver().findElement(By.xpath("//a[@it='hudson.model.Hudson@72b00a0']")).click();
+        getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']")).click();
 
         for (String invalidChar : invalidCharacters) {
             getDriver().findElement(By.xpath("//*[@class='jenkins-input']")).clear();
@@ -49,7 +49,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
     @Test
     public void testFreestyleProjectCreate() {
-        getDriver().findElement(By.xpath("//a[@it='hudson.model.Hudson@72b00a0']")).click();
+        getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys("Project8");
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
