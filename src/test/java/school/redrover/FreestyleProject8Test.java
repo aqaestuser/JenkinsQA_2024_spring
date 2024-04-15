@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -22,6 +23,30 @@ public class FreestyleProject8Test extends BaseTest {
 
         String text = getDriver().findElement(By.xpath("//*[@id='description']/div")).getText();
         System.out.println(text);
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//*[@id='description']/div")).getText(),
+                description);
+    }
+
+    @Test
+    public void testAddDescriptionInFreestyleProjectFromDashboard() {
+        String description = "Testing adding a project description from Dashboard.";
+
+        TestUtils.createItem("Freestyle project", "Freestyle project test 2", getDriver());
+        getDriver().findElement(By.xpath("//*[@class=\"model-link\" and text()='Dashboard']")).click();
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//span[text()='Freestyle project test 2']/ancestor::a")))
+                .perform();
+
+        getDriver()
+                .findElement(By.xpath("//span[text()='Freestyle project test 2']/following-sibling::button"))
+                .click();
+
+        getDriver().findElement(By.xpath("//*[contains(@href, 'configure')]")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//*[@id='description']/div")).getText(),
