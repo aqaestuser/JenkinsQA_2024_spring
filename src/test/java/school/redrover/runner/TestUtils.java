@@ -11,8 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class TestUtils {
 
@@ -114,5 +112,36 @@ public final class TestUtils {
         }
 
         return stringList;
+    }
+
+    public static void goToJobPageAndEnterJobName(BaseTest baseTest, String jobName) {
+        baseTest.getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        baseTest.getDriver().findElement(By.id("name")).sendKeys(jobName);
+    }
+
+    public static void createJob(BaseTest baseTest, Job job, String jobName) {
+        goToJobPageAndEnterJobName(baseTest, jobName);
+        baseTest.getDriver().findElement(By.xpath(JOB_XPATH.formatted(job))).click();
+        baseTest.getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    public enum Job {
+        FREESTYLE("Freestyle project"),
+        PIPELINE("Pipeline"),
+        MULTI_CONFIGURATION("Multi-configuration project"),
+        FOLDER("Folder"),
+        MULTI_BRUNCH_PIPELINE("Multibranch Pipeline"),
+        ORGANIZATION_FOLDER("Organization Folder");
+
+        private final String jobName;
+
+        Job(String jobName) {
+            this.jobName = jobName;
+        }
+
+        @Override
+        public String toString() {
+            return jobName;
+        }
     }
 }
