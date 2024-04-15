@@ -92,4 +92,14 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertEquals(result, "OrganizationFolder");
     }
+    @Test
+    public void testCheckPage() {
+        getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']"))
+                .sendKeys("Test Project");
+        boolean okButtonIsEnable = getDriver().findElement(By.xpath("//button[@id='ok-button']")).isEnabled();
+        Assert.assertFalse(okButtonIsEnable);
+
+
+    }
 }
