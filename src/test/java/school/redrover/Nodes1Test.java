@@ -19,9 +19,9 @@ public class Nodes1Test extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='computer']")).click();
         getDriver().findElement(By.xpath("//a[@href='new']")).click();
 
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Node-1");
+        getDriver().findElement(By.id("name")).sendKeys("Node-1");
         getDriver().findElement(By.xpath("//label[@for='hudson.slaves.DumbSlave']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getDriver().findElement(By.name("Submit")).click();
 
         getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate' and @name='Submit']")).click();
 
