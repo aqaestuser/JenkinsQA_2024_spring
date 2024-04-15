@@ -82,4 +82,24 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(resultHeader, NEW_FREESTYLE_PROJECT_NAME);
         Assert.assertEquals(resultName, NEW_FREESTYLE_PROJECT_NAME);
     }
+    @Test
+    public void testCreatingFreestyleInvalidChar() {
+
+        String[] invalidCharacters = {"!", "@", "#", "$", "%", "^", "&", "*", "?", "|", "/", "["};
+
+        getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']")).click();
+
+        for (String invalidChar : invalidCharacters) {
+            getDriver().findElement(By.xpath("//*[@class='jenkins-input']")).clear();
+            getDriver().findElement(By.xpath("//*[@class='jenkins-input']")).sendKeys(invalidChar);
+
+            String actualResult = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"))
+                    .getText();
+            String expectedResult = "» ‘" + invalidChar + "’ is an unsafe character";
+            Assert.assertEquals(actualResult, expectedResult);
+
+            boolean okButton = getDriver().findElement(By.xpath("//button[@type='submit']")).isEnabled();
+            Assert.assertFalse(okButton);
+        }
+    }
 }
