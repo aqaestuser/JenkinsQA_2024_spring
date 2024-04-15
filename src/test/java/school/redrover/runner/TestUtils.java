@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TestUtils {
 
@@ -23,6 +25,7 @@ public final class TestUtils {
     public static final By DROPDOWN_DELETE = By.cssSelector("button[href $= '/doDelete']");
     public static final By DIALOG_DEFAULT_BUTTON = By.cssSelector("dialog .jenkins-button--primary");
     public static final By EMPTY_STATE_BLOCK = By.cssSelector("div.empty-state-block");
+    public static final String JOB_XPATH = "//*[text()='%s']";
 
     public static String getUserID(WebDriver driver) {
         return driver.findElement(By.xpath("//a[contains(@href, 'user')]")).getText();
