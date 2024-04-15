@@ -10,7 +10,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testFreestyleProjectCreate() {
         String newName = "Project8";
-        getDriver().findElement(By.xpath("//a[@it='hudson.model.Hudson@6724f5ea']")).click();
+        getDriver().findElement(By.xpath("//a[@it='hudson.model.Hudson@72b00a0']")).click();
         getDriver().findElement(By.id("name")).sendKeys(newName);
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
