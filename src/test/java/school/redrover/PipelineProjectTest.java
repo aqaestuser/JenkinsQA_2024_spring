@@ -10,13 +10,16 @@ public class PipelineProjectTest extends BaseTest {
     public static final String JOB_XPATH = "//*[text()='%s']";
     @Test
     public void testSameNamePipeline() {
+
         final String PROJECT_NAME = "Random pipeline";
+
 
         createJob(Job.PIPELINE,PROJECT_NAME);
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
         goToJobPageAndEnterJobName(PROJECT_NAME);
+       
 
         getDriver().findElement(By.xpath("//*[text()='Pipeline']")).click();
         // this line duplicates click on Pipeline, because of the Jenkins bug. Sometimes warning message doesn`t appear. Second click on Pipeline makes it happen.
@@ -25,6 +28,7 @@ public class PipelineProjectTest extends BaseTest {
 
         Assert.assertEquals(warningMessage, "» A job already exists with the name ‘" + PROJECT_NAME + "’");
     }
+
 
 
     @Test
