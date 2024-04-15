@@ -28,12 +28,12 @@ public class PipelineProjectTest extends BaseTest {
 
 
     @Test
-    public void testCreationOfNewPipelineProject() {
+    public void testCreationOfNewPipelineProject() throws InterruptedException {
 
         getDriver().findElement(By.linkText("Create a job")).click();
         String newJobUrl= getDriver().getCurrentUrl();
         Assert.assertTrue(newJobUrl.endsWith("/newJob"));
-
+        Thread.sleep(500);
         Assert.assertTrue(getDriver().findElement(By.cssSelector("div#add-item-panel .h3")).isDisplayed());
 
         getDriver().findElement(By.id("name")).sendKeys("firstPipeline");
