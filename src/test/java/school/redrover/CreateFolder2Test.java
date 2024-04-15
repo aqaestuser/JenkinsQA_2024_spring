@@ -15,7 +15,8 @@ public class CreateFolder2Test extends BaseTest {
         getDriver().findElement(By.xpath("//label[.='Folder']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//a[.='Dashboard']")).click();
 
-        Assert.assertTrue(getDriver().findElement(By.tagName("h1")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[.='New Folder']")).isDisplayed());
     }
 }
