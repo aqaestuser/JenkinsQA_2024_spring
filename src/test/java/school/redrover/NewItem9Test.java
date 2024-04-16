@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class NewItem7Test extends BaseTest {
+public class NewItem9Test extends BaseTest {
 
 
     @Test
@@ -18,4 +18,5 @@ public class NewItem7Test extends BaseTest {
         Assert.assertEquals(title, "Enter an item name");
 
     }
+
 }
