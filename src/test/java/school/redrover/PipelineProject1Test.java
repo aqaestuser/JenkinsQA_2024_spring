@@ -115,8 +115,7 @@ public class PipelineProject1Test extends BaseTest {
 
         Assert.assertEquals(buildStatus, "Schedule a Build for " + PIPELINE_NAME);
     }
-
-    @Ignore
+@Ignore
     @Test
     public void testPipelineBuildSuccessFromConsole() {
         createPipeline(PIPELINE_NAME);
