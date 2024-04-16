@@ -117,4 +117,22 @@ public class MultibranchPipelineTest extends BaseTest {
         String foundText = getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).getText();
         Assert.assertEquals(foundText, "Disable Multibranch Pipeline");
     }
+
+    @Test
+    public void testDisabledMultPipelineTooltip() {
+        final String multPipelineName = "Multibranch Pipeline";
+        final String tooltipText = "(No new builds within this Multibranch Pipeline will be executed until it is re-enabled)";
+
+        createNewMultPipeline(multPipelineName);
+        disableCreatedMultPipeline(multPipelineName);
+
+        getDriver().findElement(By.xpath("//span[text()='" + multPipelineName + "']")).click();
+        getDriver().findElement(By.cssSelector("[href$='Pipeline/configure']")).click();
+        WebElement disabledSpan = getDriver().findElement(By.cssSelector("[data-title*='Disabled']"));
+        new Actions(getDriver()).moveToElement(disabledSpan).perform();
+        WebElement tooltip = getDriver().findElement(By.className("tippy-box"));
+
+        Assert.assertTrue(tooltip.isDisplayed());
+        Assert.assertEquals(tooltip.getText(),tooltipText);
+    }
 }
