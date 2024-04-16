@@ -7,6 +7,7 @@ import school.redrover.runner.BaseTest;
 
 public class FolderRenameTest extends BaseTest {
     private static final By NEW_NAME = By.xpath("//input[@name='newName']");
+
     private void createNewFolder(String folderName) {
         getDriver().findElement(By.xpath("//a[.='New Item']")).click();
         getDriver().findElement(By.id("name")).click();
@@ -15,6 +16,7 @@ public class FolderRenameTest extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.name("Submit")).click();
     }
+
     @Test
     public void testRenameFolder() {
         final String folderName = "New folder";
