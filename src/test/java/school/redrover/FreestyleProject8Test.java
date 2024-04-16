@@ -5,8 +5,16 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+import org.openqa.selenium.WebElement;
 
 public class FreestyleProject8Test extends BaseTest {
+    public WebElement okButton() {
+        return getDriver().findElement(By.id("ok-button"));
+    }
+
+    public WebElement submitButton() {
+        return getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+    }
 
     @Test
     public void testAddDescriptionInFreestyleProjectFromProject() {
@@ -27,18 +35,6 @@ public class FreestyleProject8Test extends BaseTest {
                 getDriver().findElement(By.xpath("//*[@id='description']/div")).getText(),
                 description);
     }
-
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import school.redrover.runner.BaseTest;
-
-public class FreestyleProject8Test extends BaseTest {
-    public WebElement okButton(){
-        return getDriver().findElement(By.id("ok-button"));
-    }
-    public WebElement submitButton(){
-        return getDriver().findElement(By.xpath("//button[@name = 'Submit']"));}
 
     @Test
     public void testFreestyleProjectMoveToFolder() {
