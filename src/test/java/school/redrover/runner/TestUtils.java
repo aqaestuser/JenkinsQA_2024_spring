@@ -127,6 +127,13 @@ public final class TestUtils {
         baseTest.getDriver().findElement(By.xpath(JOB_XPATH.formatted(job))).click();
         baseTest.getDriver().findElement(By.id("ok-button")).click();
     }
+    public static void createNewJob(BaseTest baseTest, Job job, String jobName) {
+        goToJobPageAndEnterJobName(baseTest, jobName);
+        baseTest.getDriver().findElement(By.xpath(JOB_XPATH.formatted(job))).click();
+        baseTest.getDriver().findElement(By.id("ok-button")).click();
+        baseTest.getDriver().findElement(By.id("jenkins-home-link")).click();
+
+    }
 
     public enum Job {
         FREESTYLE("Freestyle project"),
