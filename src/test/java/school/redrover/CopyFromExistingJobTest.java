@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.TestUtils.*;
 import school.redrover.runner.TestUtils;
-
     public class CopyFromExistingJobTest extends BaseTest{
          @Test
          public void testCopyFromExistingJob() {
