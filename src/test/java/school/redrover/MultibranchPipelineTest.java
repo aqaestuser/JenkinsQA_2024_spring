@@ -7,6 +7,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
+
+import static school.redrover.runner.TestUtils.*;
 
 public class MultibranchPipelineTest extends BaseTest {
 
@@ -116,5 +119,22 @@ public class MultibranchPipelineTest extends BaseTest {
 
         String foundText = getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).getText();
         Assert.assertEquals(foundText, "Disable Multibranch Pipeline");
+    }
+
+    @Test
+    public void testRenameMultibranchPipelineWithNameSameAsCurrent() {
+
+        final String MULTIBRANCH_PIPELINE_NAME = "First Multibranch Pipeline project";
+        final String expectedErrorMessage = "The new name is the same as the current name.";
+
+        TestUtils.createJob(this, Job.MULTI_BRUNCH_PIPELINE, MULTIBRANCH_PIPELINE_NAME);
+
+        getDriver().findElement(By.cssSelector("#breadcrumbs > li:nth-child(3")).click();
+        getDriver().findElement(By.cssSelector("#tasks > div:nth-child(8) > span > a")).click();
+        getDriver().findElement(By.xpath("//div[@id='bottom-sticker']//button")).click();
+
+        WebElement actualErrorMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p"));
+
+        Assert.assertEquals(actualErrorMessage.getText(), expectedErrorMessage);
     }
 }
