@@ -55,7 +55,7 @@ public class PipelineProjectTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionPreview() {
+    public void testAddDescriptionPreview(){
 
         final String PIPELINE_NAME = "Pipeline project";
         final String description = "First";
