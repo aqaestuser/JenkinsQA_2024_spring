@@ -7,11 +7,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import school.redrover.PipelineProjectTest;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TestUtils {
 
@@ -105,6 +106,15 @@ public final class TestUtils {
         getWait15(baseTest).until(ExpectedConditions.visibilityOfElementLocated(By.id("description-link"))).click();
         baseTest.getDriver().findElement(By.name("description")).sendKeys(description);
         baseTest.getDriver().findElement(By.name("Submit")).click();
+    }
+
+    public static List<String> getTexts(List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+
+        return stringList;
     }
 
     public static void goToJobPageAndEnterJobName(BaseTest baseTest, String jobName) {
