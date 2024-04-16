@@ -53,4 +53,22 @@ public class PipelineProjectTest extends BaseTest {
         WebElement jobInTableName = getDriver().findElement(By.cssSelector("a[href='job/firstPipeline/']"));
         Assert.assertEquals(jobInTableName.getText(), "firstPipeline");
     }
+
+    @Test
+    public void testAddDescriptionPreview() {
+
+        final String PIPELINE_NAME = "Pipeline project";
+        final String description = "First";
+
+        TestUtils.createJob(this, Job.PIPELINE, PIPELINE_NAME);
+
+        getDriver().findElement(By.cssSelector("#breadcrumbs > li:nth-child(3)")).click();
+        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
+        getDriver().findElement(By.xpath("//a[@class='textarea-show-preview']")).click();
+
+        WebElement previewDescription = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
+
+        Assert.assertEquals(previewDescription.getText(),description);
+    }
 }
