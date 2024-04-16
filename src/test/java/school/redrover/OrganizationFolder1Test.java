@@ -10,7 +10,7 @@ import static org.testng.Assert.assertTrue;
 public class OrganizationFolder1Test extends BaseTest {
 
     @Test
-    public void testOrganizationFolderPipelineSyntax() {
+    public void testCreateOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys("Pipeline syntax");
         getDriver().findElement(By.xpath("//span[contains(text(), 'Organization Folder')]")).click();
