@@ -11,7 +11,7 @@ import school.redrover.runner.TestUtils;
          public void testCopyFromExistingJob() {
              TestUtils.createNewJob(this, Job.PIPELINE, "ppp");
              TestUtils.createNewJob(this, Job.FREESTYLE, "fff");
-             TestUtils.createNewJob(this, Job.FOLDER, "Folder");
+             TestUtils.createNewJob(this, Job.FOLDER, "Folder1");
 
              String notExistingName ="AAA";
 
