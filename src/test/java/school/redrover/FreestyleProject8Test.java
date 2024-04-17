@@ -1,7 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -30,19 +30,15 @@ public class FreestyleProject8Test extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionInFreestyleProjectFromDashboard() {
+    public void testAddDescriptionInFreestyleProjectFromDashboardWithDropdown() {
         String description = "Testing adding a project description from Dashboard.";
 
         TestUtils.createItem("Freestyle project", "Freestyle project test 2", getDriver());
-        getDriver().findElement(By.xpath("//*[@class=\"model-link\" and text()='Dashboard']")).click();
+        TestUtils.returnToDashBoard(this);
 
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By.xpath("//span[text()='Freestyle project test 2']/ancestor::a")))
-                .perform();
+        WebElement elementDropdown = getDriver().findElement(By.xpath("//span[text()='Freestyle project test 2']/ancestor::a"));
 
-        getDriver()
-                .findElement(By.xpath("//span[text()='Freestyle project test 2']/following-sibling::button"))
-                .click();
+        TestUtils.openElementDropdown(this, elementDropdown);
 
         getDriver().findElement(By.xpath("//*[contains(@href, 'configure')]")).click();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
