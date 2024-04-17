@@ -5,6 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import static org.testng.Assert.assertEquals;
+
 public class CreateFreestyleProject2Test extends BaseTest {
 
     @Test
@@ -19,7 +21,7 @@ public class CreateFreestyleProject2Test extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
 
         String expectedNameText = "FreestyleProject";
-        Assert.assertEquals(expectedNameText,expectedNameText);
+        assertEquals(expectedNameText,expectedNameText);
 
     }
 }
