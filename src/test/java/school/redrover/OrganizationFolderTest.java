@@ -49,9 +49,11 @@ public class OrganizationFolderTest extends BaseTest {
         createNewItemAndReturnToDashboard(this, ORGANIZATION_FOLDER_NAME, TestUtils.Item.ORGANIZATION_FOLDER);
 
         getDriver().findElement(By.xpath("//span[contains(text(), 'Organization Folder')]")).click();
-        getDriver().findElement(By.xpath("//*[@id='tasks']/div[9]/span/a")).click();
-        getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Pipeline Syntax')]/..")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Online Documentation')]/..")).click();
 
         Assert.assertTrue(getDriver().getCurrentUrl().contains("/pipeline/"));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='pipeline-syntax']")).getText(), "Pipeline Syntax");
+
     }
 }
