@@ -9,20 +9,22 @@ import school.redrover.runner.BaseTest;
 import static java.sql.DriverManager.getDriver;
 
 public class EditPipelineTest extends BaseTest {
-    public final String NAME_PIPELINE = "Pipeline1";
-    public final String DESCRIPTION = "Пишем описание";
+    public static final String NAME_PIPELINE = "Pipeline1";
+    public static final String DESCRIPTION = "Пишем описание";
+
     @Test
     public void testCreatePipeline() {
 
         getDriver().findElement(By.linkText("New Item")).click();
         WebElement field = getDriver().findElement(By.className("jenkins-input"));
         field.sendKeys(NAME_PIPELINE);
+
         getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        //getDriver().findElement(By.name("description")).sendKeys("Наш новый пайплайн");
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
     }
+
     @Test
     public void testEditPipelineWithPreview() {
         testCreatePipeline();
@@ -32,10 +34,6 @@ public class EditPipelineTest extends BaseTest {
 
         WebElement fieldDescription = getDriver().findElement(By.name("description"));
         fieldDescription.sendKeys(DESCRIPTION);
-      //  String comparasonText = getDriver().findElement(By.cssSelector(".textarea-preview-container")).getText();
-
-      //  Assert.assertEquals("Plain text", comparasonText);
-
         getDriver().findElement(By.className("textarea-show-preview")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), DESCRIPTION);
@@ -44,7 +42,7 @@ public class EditPipelineTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
 
         String textDescription = getDriver().findElement(By.xpath("/html[1]/body[1]/div[2]/div[2]/div[2]/div[1]")).getText();
-        Assert.assertEquals(textDescription, DESCRIPTION);
 
+        Assert.assertEquals(textDescription, DESCRIPTION);
     }
 }
