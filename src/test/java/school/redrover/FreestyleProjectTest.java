@@ -210,10 +210,10 @@ public class FreestyleProjectTest extends BaseTest {
         freestyleProjectCreate(FREESTYLE_PROJECT_NAME);
 
         getDriver().findElement(By.xpath("//a[@data-build-success='Build scheduled']")).click();
-        getDriver().findElement(By.xpath("//span[@class='task-link-text' and text()='Status']/parent::a")).click();
-        String actualResult = getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).getText();
+        String actualResult = getDriver().findElement(By.xpath("//*[@href='/job/"
+                                + FREESTYLE_PROJECT_NAME.replaceAll(" ", "%20") + "/1/']")).getText();
 
-        Assert.assertTrue(actualResult.contains("Last build (#1)"));
+        Assert.assertEquals(actualResult, "#1");
     }
 
     @Test

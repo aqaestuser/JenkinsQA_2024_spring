@@ -1,31 +1,58 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrganizationFolder4Test extends BaseTest {
-    private final String ORG_FOLDER_NAME = "EmptyFolder";
 
-    private void createOrganizationFolder(String orgFolderName) {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(orgFolderName);
-        getDriver().findElement(By.xpath("//label[normalize-space(.)='Organization Folder']")).click();
+    public void createOrganizationFolder(String name){
+        getDriver().findElement(By.className("task-icon-link")).click();
+        getDriver().findElement(By.className("jenkins-input")).sendKeys(name);
+        getDriver().findElement(By.className("jenkins_branch_OrganizationFolder")).click();
         getDriver().findElement(By.id("ok-button")).click();
     }
 
-    @Test
-    public void testViewEmptyOrganizationFolderEvents() {
-        createOrganizationFolder(ORG_FOLDER_NAME);
+    private final List<String> getExpectedList = List.of("Back", "Snippet Generator", "Declarative Directive Generator",
+            "Declarative Online Documentation", "Steps Reference",
+            "Global Variables Reference", "Online Documentation", "Examples Reference",
+            "IntelliJ IDEA GDSL");
 
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-        getDriver().findElement(By.linkText(ORG_FOLDER_NAME)).click();
-        getDriver().findElement(By.linkText("Organization Folder Events")).click();
-
-        //Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='out']/div")).getText(), "No events as of.+waiting for events\\.{3}", "Messages not equals!");
-        Assert.assertTrue(getDriver().findElement(By.xpath("//*[@id='out']/div")).getText()
-                .matches("No events as of.+waiting for events\\.{3}"), "Messages not equals!");
+    private List<String> getActualList(){
+        List<String> actualList = new ArrayList<>();
+        for (int i=1; i<=9; i++){
+            String xPath = "//*[@id=\"tasks\"]/div["+ i + "]/span/a/span[2]";
+            actualList.add(getDriver().findElement(By.xpath(xPath)).getText());
+        }
+        return actualList;
     }
 
+    @Test
+    public void testPipelineSyntaxMenuList(){
+        String setOrganizationFolder = "TestOrganizationFolder";
+        createOrganizationFolder(setOrganizationFolder);
+
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+
+        WebElement currentOrganizationFolder = getDriver().
+                findElement(By.xpath("//span[text()='" + setOrganizationFolder + "']/..")) ;
+        new Actions(getDriver()).moveToElement(currentOrganizationFolder).perform();
+
+        WebElement menuForCurrentOrganizationFolder = getDriver().
+                findElement(By.xpath("//*[@id='job_"+ setOrganizationFolder + "']/td[3]/a"));
+        menuForCurrentOrganizationFolder.click();
+
+        WebElement pipelineSyntaxMenu = getDriver().
+                findElement(By.xpath("//*[@href='/job/"+ setOrganizationFolder +"/pipeline-syntax']"));
+        pipelineSyntaxMenu.click();
+
+        for (int i=0; i<getActualList().size(); i++){
+            Assert.assertEquals(getActualList().get(i), getExpectedList.get(i));
+        }
+    }
 }
