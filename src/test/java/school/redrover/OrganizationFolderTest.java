@@ -6,6 +6,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
+
+import static school.redrover.runner.TestUtils.createNewItemAndReturnToDashboard;
 
 public class OrganizationFolderTest extends BaseTest {
     private static final String ORGANIZATION_FOLDER_NAME = "Organization Folder";
@@ -40,5 +43,15 @@ public class OrganizationFolderTest extends BaseTest {
 
         String organizationFolderIcon = getDriver().findElement(By.cssSelector("h1 > svg")).getAttribute("title");
         Assert.assertEquals(organizationFolderIcon, "Folder");
+    }
+    @Test
+    public void testPipelineSyntaxDocumentationAccess() {
+        createNewItemAndReturnToDashboard(this, ORGANIZATION_FOLDER_NAME, TestUtils.Item.ORGANIZATION_FOLDER);
+
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Organization Folder')]")).click();
+        getDriver().findElement(By.xpath("//*[@id='tasks']/div[9]/span/a")).click();
+        getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a")).click();
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("/pipeline/"));
     }
 }
