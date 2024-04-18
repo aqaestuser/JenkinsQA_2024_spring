@@ -5,8 +5,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import static org.testng.Assert.assertEquals;
-
 public class FreestyleProject16Test extends BaseTest {
 
     @Test
