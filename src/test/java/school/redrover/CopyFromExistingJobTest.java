@@ -7,10 +7,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.TestUtils.*;
 import school.redrover.runner.TestUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CopyFromExistingJobTest extends BaseTest{
          @Test
