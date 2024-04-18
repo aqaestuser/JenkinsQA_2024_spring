@@ -14,6 +14,7 @@ public class FolderTest extends BaseTest {
     private static final By NAME_ERROR_MESSAGE_LOCATOR = By.id("itemname-invalid");
     private static final String FOLDER_NAME = "First_Folder";
     private static final String NEW_FOLDER_NAME = "Renamed_First_Folder";
+    private static final By NEW_NAME = By.name("newName");
 
     private void createFolderViaCreateAJob() {
         getDriver().findElement(By.linkText("Create a job")).click();
@@ -99,5 +100,17 @@ public class FolderTest extends BaseTest {
         String folderPageHeading = getDriver().findElement(By.tagName("h1")).getText();
         Assert.assertEquals(folderPageHeading, NEW_FOLDER_NAME,
                 "The Folder name is not equal to " + NEW_FOLDER_NAME);
+    }
+
+    @Test
+    public void testRenameFolderViaSidebarMenu() {
+        createFolderViaCreateAJob();
+
+        getDriver().findElement(By.linkText("Rename")).click();
+        getDriver().findElement(NEW_NAME).clear();
+        getDriver().findElement(NEW_NAME).sendKeys(NEW_FOLDER_NAME);
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), NEW_FOLDER_NAME);
     }
 }
