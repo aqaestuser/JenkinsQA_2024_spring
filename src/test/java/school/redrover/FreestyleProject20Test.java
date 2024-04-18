@@ -35,4 +35,17 @@ public class FreestyleProject20Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#breadcrumbs > li:nth-child(3)")).getText(),
                 projectName, "Wrong project is opened");
     }
+    @Test
+    public void testAddDescription() {
+        createItem(projectName,"Freestyle project");
+        getDriver().findElement(By.linkText(projectName)).click();
+
+        getDriver().findElement(By.linkText("Add description")).click();
+        getDriver().findElement(By.name("description")).clear();
+        getDriver().findElement(By.name("description")).sendKeys("Description for "+projectName);
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='description']/div[1]")).getText(),
+                "Description for "+projectName);
+    }
 }
