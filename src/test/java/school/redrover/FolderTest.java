@@ -103,19 +103,14 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testRenameFolderViaSidebarMenu() throws InterruptedException {
-        getDriver().findElement(By.linkText("Create a job")).click();
-        getDriver().findElement(By.id("name")).sendKeys(FOLDER_NAME);
-        getDriver().findElement(By.cssSelector("[class$='_Folder']")).click();
-        Thread.sleep(300);
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
+    public void testRenameFolderViaSidebarMenu() {
+        createFolderViaCreateAJob();
 
         getDriver().findElement(By.linkText("Rename")).click();
         getDriver().findElement(NEW_NAME).clear();
         getDriver().findElement(NEW_NAME).sendKeys(NEW_FOLDER_NAME);
         getDriver().findElement(By.name("Submit")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.tagName("H1")).getText(), NEW_FOLDER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), NEW_FOLDER_NAME);
     }
 }
