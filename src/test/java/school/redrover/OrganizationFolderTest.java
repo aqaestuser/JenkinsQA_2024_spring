@@ -48,8 +48,8 @@ public class OrganizationFolderTest extends BaseTest {
     public void testPipelineSyntaxDocumentationAccess() {
         createNewItemAndReturnToDashboard(this, ORGANIZATION_FOLDER_NAME, TestUtils.Item.ORGANIZATION_FOLDER);
 
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Organization Folder')]")).click();
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Pipeline Syntax')]/..")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), '"+ ORGANIZATION_FOLDER_NAME +"')]")).click();
+        getDriver().findElement(By.xpath("//a[contains(@href,'pipeline-syntax')]")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Online Documentation')]/..")).click();
 
         Assert.assertTrue(getDriver().getCurrentUrl().contains("/pipeline/"));
