@@ -34,12 +34,13 @@ public final class TestUtils {
         return driver.findElement(By.xpath("//a[contains(@href, 'user')]")).getText();
     }
 
-    public static void createItem(String type, String name, WebDriver driver) {
-        driver.findElement(By.linkText("New Item")).click();
-        driver.findElement(By.id("name")).sendKeys(name);
-        driver.findElement(By.xpath("//span[text()='" + type + "']")).click();
-        driver.findElement(By.id("ok-button")).click();
-        driver.findElement(By.xpath("//button[contains(text(), 'Save')]")).click();
+    public static void createItem(String type, String name, BaseTest baseTest) {
+        baseTest.getDriver().findElement(By.linkText("New Item")).click();
+        baseTest.getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(name);
+        baseTest.getDriver().findElement(By.xpath("//span[text()='" + type + "']")).click();
+        baseTest.getDriver().findElement(By.id("ok-button")).click();
+        baseTest.getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//button[contains(text(), 'Save')]"))).click();
     }
 
     public static void goToMainPage(WebDriver driver) {
