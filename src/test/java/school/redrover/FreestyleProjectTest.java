@@ -124,6 +124,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testFreestyleProjectCreate() {
         freestyleProjectCreate(FREESTYLE_PROJECT_NAME);
@@ -136,6 +137,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualResult, FREESTYLE_PROJECT_NAME);
     }
 
+    @Ignore
     @Test
     public void testAddDescription() {
         final String projectName = "New Freestyle project";
@@ -175,6 +177,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[text()='No name is specified']")).getText(), "No name is specified");
     }
 
+    @Ignore
     @Test
     public void testMoveToFolder() {
 

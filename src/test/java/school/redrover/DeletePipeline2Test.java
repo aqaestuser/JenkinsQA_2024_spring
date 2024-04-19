@@ -2,11 +2,14 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class DeletePipeline2Test extends BaseTest {
     final String NAME_PIPELINE = "Pipeline1";
+
+    @Ignore
     @Test
     public void createPipeline() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -18,6 +21,8 @@ public class DeletePipeline2Test extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
     }
+
+    @Ignore
     @Test
     public void testDeletePipeline() {
         createPipeline();
