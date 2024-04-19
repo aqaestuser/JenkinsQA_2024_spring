@@ -4,8 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import static school.redrover.runner.TestUtils.*;
+import school.redrover.runner.TestUtils;
 
 import java.util.*;
 
@@ -24,15 +23,14 @@ public class Dashboard1Test extends BaseTest {
 
     public void createItemsFromList(List<String> list) {
         for (String name : list) {
-            createItem(MULTIBRANCH_PIPELINE, name, getDriver());
-            goToMainPage(getDriver());
+            TestUtils.createItem(TestUtils.MULTIBRANCH_PIPELINE, name, this);
+            TestUtils.goToMainPage(getDriver());
         }
-
     }
 
     public List<String> getItemNamesFromColumnAfterSortingByName() {
         getDriver().findElement(By.xpath("//a[@class='sortheader' and text()='Name']")).click();
-        return getTexts(getDriver().findElements(By.xpath("//td/a[contains(@href, 'job/')]")));
+        return TestUtils.getTexts(getDriver().findElements(By.xpath("//td/a[contains(@href, 'job/')]")));
     }
 
     @Test
