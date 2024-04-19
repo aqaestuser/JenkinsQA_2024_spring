@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class MultibranchPipeline2Test extends BaseTest {
 
     @Test
-    public void testEnableMultiIndustryPipeline() {
+    public void testEnableMultibranchPipeline() {
 
         getDriver().findElement(By.xpath("//span[.='Create a job']")).click();
         getDriver().findElement(By.className("jenkins-input")).sendKeys("TextName");
