@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public class FreestyleProject20Test extends BaseTest {
     final String projectName = "Freestyle-" + UUID.randomUUID();
+    final String newProjectName = "New" + projectName;
 
     public void createItem(String itemName, String item) {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -49,5 +50,18 @@ public class FreestyleProject20Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='description']/div[1]")).getText(),
                 "Description for "+projectName);
+    }
+
+    @Test(dependsOnMethods = "testAddDescription")
+    public void testRenameProject() {
+        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(By.linkText(projectName)).click();
+
+        getDriver().findElement(By.linkText("Rename")).click();
+        getDriver().findElement(By.name("newName")).clear();
+        getDriver().findElement(By.name("newName")).sendKeys(newProjectName);
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.className("job-index-headline")).getText(), newProjectName);
     }
 }
