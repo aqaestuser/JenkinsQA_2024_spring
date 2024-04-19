@@ -25,6 +25,7 @@ public class MultibranchPipeline2Test extends BaseTest {
         getDriver().findElement(By.xpath("//span[.='Configure the project']")).click();
 
         String statusToggle = getDriver().findElement(By.id("enable-disable-project")).getDomProperty("checked");
+
         Assert.assertEquals(statusToggle, "true");
     }
 }
