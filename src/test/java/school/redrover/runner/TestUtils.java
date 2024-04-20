@@ -39,7 +39,8 @@ public final class TestUtils {
         baseTest.getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(name);
         baseTest.getDriver().findElement(By.xpath("//span[text()='" + type + "']")).click();
         baseTest.getDriver().findElement(By.id("ok-button")).click();
-        baseTest.getDriver().findElement(By.id("//button[contains(text(), 'Save')]")).click();
+        baseTest.getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//button[contains(text(), 'Save')]"))).click();
     }
 
     public static void goToMainPage(WebDriver driver) {
