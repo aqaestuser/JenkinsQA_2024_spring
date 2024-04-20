@@ -48,15 +48,15 @@ public class Dashboard1Test extends BaseTest {
         Assert.assertEquals(getItemNamesFromColumnAfterSortingByName(), names);
     }
 
-    @Ignore
-    @Test
-    public void testCreateViewWithSelectedItem() {
-        createItemsFromList(getNamesList());
-
-        getDriver().findElement(By.xpath("//a[@title='New View']")).click();
-        getDriver().findElement(By.id("Name")).sendKeys("Classic");
-        getDriver().findElement(By.id("hudson.model.ListView")).click();
-        getDriver().findElement(By.id("ok")).click();
-
-    }
+//    @Ignore
+//    @Test
+//    public void testCreateViewWithSelectedItem() {
+//        createItemsFromList(getNamesList());
+//
+//        getDriver().findElement(By.xpath("//a[@title='New View']")).click();
+//        getDriver().findElement(By.id("Name")).sendKeys("Classic");
+//        getDriver().findElement(By.id("hudson.model.ListView")).click();
+//        getDriver().findElement(By.id("ok")).click();
+//
+//    }
 }
