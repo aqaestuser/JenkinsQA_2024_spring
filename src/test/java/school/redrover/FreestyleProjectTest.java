@@ -29,7 +29,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     public void createFreestyleProject(String newName) {
         getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(newName);
+        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("name")))).sendKeys(newName);
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(
                 By.className("hudson_model_FreeStyleProject")))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("ok-button")))).click();
@@ -279,5 +279,25 @@ public class FreestyleProjectTest extends BaseTest {
         }
 
         Assert.assertTrue(elementsList.contains(oldProjectName1));
+    }
+
+    @Test
+    public void testCreateNewItemFromOtherExisting() {
+
+        final String projectName1 = "Race Cars";
+        final String projectName2 = "Vintage Cars";
+
+        createFreestyleProject(projectName1);
+        jenkinsHomeLink().click();
+
+        createNewItemFromOtherExisting(projectName2, projectName1);
+        jenkinsHomeLink().click();
+
+        List<WebElement> elementsList = getDriver().findElements(
+                By.xpath("//td/a[contains(@href, 'job/')]/span"));
+
+        List<String> stringList = TestUtils.getTexts(elementsList);
+
+        Assert.assertTrue(stringList.contains(projectName2));
     }
 }
