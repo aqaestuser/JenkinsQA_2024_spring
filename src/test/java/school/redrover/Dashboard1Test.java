@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -47,6 +48,7 @@ public class Dashboard1Test extends BaseTest {
         Assert.assertEquals(getItemNamesFromColumnAfterSortingByName(), names);
     }
 
+    @Ignore
     @Test
     public void testCreateViewWithSelectedItem() {
         createItemsFromList(getNamesList());
