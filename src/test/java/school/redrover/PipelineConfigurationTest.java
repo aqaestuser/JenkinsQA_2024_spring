@@ -11,6 +11,11 @@ import school.redrover.runner.BaseTest;
 
 public class PipelineConfigurationTest extends BaseTest {
     private static final String JOB_NAME = "TestCrazyTesters";
+
+    public static final By SAVE_BUTTON_CONFIGURATION = By.xpath("//button[@formnovalidate='formNoValidate']");
+
+    public static final By TOGGLE_SWITCH_ENABLE_DISABLE = By.xpath("//label[@data-title='Disabled']");
+
     public void createPipline() {
         getDriver().findElement(By.xpath("//span[contains(text(),'Create')]")).click();
         getDriver().findElement(By.id("name")).sendKeys(JOB_NAME);
@@ -52,6 +57,19 @@ public class PipelineConfigurationTest extends BaseTest {
 
         Assert.assertTrue(
                 getDriver().findElement(By.id("enable-project")).getText().contains(expectedMessageForDisabledProject));
+    }
+
+    @Test(dependsOnMethods = "testDisableProjectInConfigureMenu")
+    public void testEnableProjectInConfigureMenu() {
+
+        getDriver().findElement(By.xpath("//a[contains(@href, 'job')]")).click();
+
+        getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
+
+        getDriver().findElement(TOGGLE_SWITCH_ENABLE_DISABLE).click();
+        getDriver().findElement(SAVE_BUTTON_CONFIGURATION).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@data-build-success='Build scheduled']")).isDisplayed());
     }
 
     @Test
