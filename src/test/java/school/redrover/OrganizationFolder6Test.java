@@ -5,10 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class OrganizationFolder1Test extends BaseTest {
+public class OrganizationFolder6Test extends BaseTest {
 
     @Test
-    public void testCreateOrganizationFolder() {
+    public void testCreateOrganization6Folder() {
         getDriver().findElement(By.xpath("//div[@id='tasks']//div[1]//span[1]//a[1]")).click();
         getDriver().findElement(By.id("name")).sendKeys("organization folder");
         getDriver().findElement(By.className("jenkins_branch_OrganizationFolder")).click();
