@@ -3,6 +3,7 @@ package school.redrover;
 import java.time.Duration;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,12 +13,12 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import static school.redrover.runner.TestUtils.*;
+import static school.redrover.runner.TestUtils.Job;
 
 public class MultibranchPipelineTest extends BaseTest {
 
-    private void disableCreatedMultPipeline(String MultPipelineName) {
-        getDriver().findElement(By.xpath("//span[text()='" + MultPipelineName + "']")).click();
+    private void disableCreatedMultiPipeline(String multiPipelineName) {
+        getDriver().findElement(By.xpath("//span[text()='" + multiPipelineName + "']")).click();
         WebElement configureLink = getDriver().findElement(By.cssSelector(".task-link-wrapper [href$='configure']"));
         configureLink.click();
         if (getDriver().findElement(By.className("jenkins-toggle-switch__label__checked-title"))
@@ -28,9 +29,9 @@ public class MultibranchPipelineTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-home-link")).click();
     }
 
-    private void createNewMultPipeline(String MultPipelineName) {
+    private void createNewMultiPipeline(String multiPipelineName) {
         getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(MultPipelineName);
+        getDriver().findElement(By.id("name")).sendKeys(multiPipelineName);
         getDriver().findElement(By.cssSelector("[class*='WorkflowMultiBranchProject']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("jenkins-home-link")).click();
@@ -86,18 +87,18 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testChangeMultPipelineFromDisabledToEnabledOnStatusPage() {
-        final String multPipelineName = "Multibranch Pipeline";
+    public void testChangeMultiPipelineFromDisabledToEnabledOnStatusPage() {
+        final String multiPipelineName = "Multibranch Pipeline";
 
-        createNewMultPipeline(multPipelineName);
-        disableCreatedMultPipeline(multPipelineName);
+        createNewMultiPipeline(multiPipelineName);
+        disableCreatedMultiPipeline(multiPipelineName);
 
-        getDriver().findElement(By.xpath("//span[text()='" + multPipelineName + "']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + multiPipelineName + "']")).click();
         getDriver().findElement(By.xpath("//button[contains(., 'Enable')]")).click();
-        List<WebElement> disabledMultPipelineMessage = getDriver().findElements(
+        List<WebElement> disabledMultiPipelineMessage = getDriver().findElements(
             By.xpath("//form[contains(., 'This Multibranch Pipeline is currently disabled')]"));
 
-        Assert.assertEquals(disabledMultPipelineMessage.size(), 0, "Disabled message is displayed!!!");
+        Assert.assertEquals(disabledMultiPipelineMessage.size(), 0, "Disabled message is displayed!!!");
     }
 
     @Test
@@ -126,15 +127,15 @@ public class MultibranchPipelineTest extends BaseTest {
 
 
     @Test
-    public void testDisabledMultPipelineTooltip() {
+    public void testDisabledMultiPipelineTooltip() {
         WebDriverWait webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
-        final String multPipelineName = "Multibranch Pipeline";
+        final String multiPipelineName = "Multibranch Pipeline";
         final String tooltipText = "(No new builds within this Multibranch Pipeline will be executed until it is re-enabled)";
 
-        createNewMultPipeline(multPipelineName);
-        disableCreatedMultPipeline(multPipelineName);
+        createNewMultiPipeline(multiPipelineName);
+        disableCreatedMultiPipeline(multiPipelineName);
 
-        getDriver().findElement(By.xpath("//span[text()='" + multPipelineName + "']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + multiPipelineName + "']")).click();
         getDriver().findElement(By.cssSelector("[href$='Pipeline/configure']")).click();
         WebElement disabledSpan = getDriver().findElement(By.cssSelector("[data-title*='Disabled']"));
         new Actions(getDriver()).moveToElement(disabledSpan).perform();
@@ -179,19 +180,44 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testRenameMultibranchPipelineOnTheSidebar() {
-        final String multPipelineName = "MultibranchPipeline";
-        final String newMultPipelineName = "newMultibranchPipeline";
+        final String multiPipelineName = "MultibranchPipeline";
+        final String newMultiPipelineName = "newMultibranchPipeline";
 
-        createNewMultPipeline(multPipelineName);
+        createNewMultiPipeline(multiPipelineName);
 
-        getDriver().findElement(By.xpath("//span[text()='" + multPipelineName + "']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + multiPipelineName + "']")).click();
         getDriver().findElement(By.cssSelector("[href $='rename']")).click();
         WebElement renameInput = getDriver().findElement(By.xpath("//input[@name='newName']"));
         renameInput.clear();
-        renameInput.sendKeys(newMultPipelineName);
+        renameInput.sendKeys(newMultiPipelineName);
         getDriver().findElement(By.name("Submit")).click();
         String multiPipelinePageHeading = getDriver().findElement(By.tagName("h1")).getText();
 
-        Assert.assertEquals(multiPipelinePageHeading, newMultPipelineName, "Wrong name");
+        Assert.assertEquals(multiPipelinePageHeading, newMultiPipelineName, "Wrong name");
+    }
+
+    @Test
+    public void testRenameMultibranchPipelineViaMainPageDropdownMenu() {
+        final String multiPipelineName = "MultibranchPipeline";
+        final String newMultiPipelineName = "NewMultibranchPipelineName";
+
+        createNewMultiPipeline(multiPipelineName);
+
+        getDriver().findElement(By.id("jenkins-head-icon")).click();
+        WebElement createdMultibranchPipeline = getDriver().findElement(By.xpath("//span[text()='" + multiPipelineName + "']"));
+        new Actions(getDriver()).moveToElement(createdMultibranchPipeline).perform();
+        WebElement dropdownChevron = getDriver().findElement(By.cssSelector("#job_" + multiPipelineName + " > td:nth-child(3) > a > button"));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].dispatchEvent(new Event('mouseenter'));" +
+            "arguments[0].dispatchEvent(new Event('click'));", dropdownChevron);
+        getDriver().findElement(By.cssSelector("[href $='rename']")).click();
+
+        WebElement renameInput = getDriver().findElement(By.xpath("//input[@checkdependson='newName']"));
+        renameInput.clear();
+        renameInput.sendKeys(newMultiPipelineName);
+        getDriver().findElement(By.name("Submit")).click();
+
+        String multiPipelinePageHeading = getDriver().findElement(By.tagName("h1")).getText();
+        Assert.assertEquals(multiPipelinePageHeading, newMultiPipelineName,
+            "The Multi Pipeline name is not equal to " + newMultiPipelineName);
     }
 }
