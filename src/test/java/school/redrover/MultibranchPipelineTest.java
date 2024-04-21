@@ -176,4 +176,22 @@ public class MultibranchPipelineTest extends BaseTest {
         String statusToggle = getDriver().findElement(By.id("enable-disable-project")).getDomProperty("checked");
         Assert.assertEquals(statusToggle,"true");
     }
+
+    @Test
+    public void testRenameMultibranchPipelineOnTheSidebar() {
+        final String multPipelineName = "MultibranchPipeline";
+        final String newMultPipelineName = "newMultibranchPipeline";
+
+        createNewMultPipeline(multPipelineName);
+
+        getDriver().findElement(By.xpath("//span[text()='" + multPipelineName + "']")).click();
+        getDriver().findElement(By.cssSelector("[href $='rename']")).click();
+        WebElement renameInput = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        renameInput.clear();
+        renameInput.sendKeys(newMultPipelineName);
+        getDriver().findElement(By.name("Submit")).click();
+        String multiPipelinePageHeading = getDriver().findElement(By.tagName("h1")).getText();
+
+        Assert.assertEquals(multiPipelinePageHeading, newMultPipelineName, "Wrong name");
+    }
 }
