@@ -51,7 +51,7 @@ public class DisablePipelineProjectTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(By.cssSelector("#tasks > div:nth-child(4) > span > a")).click();
 
-        sleep(this, 5);
+        sleep(this, 7);
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#disable-project > button")).isDisplayed());
 
