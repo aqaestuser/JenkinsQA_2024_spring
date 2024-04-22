@@ -2,15 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
 
-public class SearchBoxTest2 extends BaseTest {
+public class SearchBox2Test extends BaseTest {
     private static final String PIPELINE_NAME = "Pipeline";
 
     public void createNewPipeline(String pipelineName){
