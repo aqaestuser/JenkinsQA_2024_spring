@@ -23,4 +23,16 @@ public class ManageAppearanceTest extends BaseTest{
 
             Assert.assertEquals(getDriver().findElements(By.className("app-theme-picker__item")).size(), 3);
         }
+
+    @Test
+        public void testDarkThemeSwitchNotification() {
+            getDriver().findElement(By.linkText("Manage Jenkins")).click();
+            getDriver().findElement(By.cssSelector("[href=\"appearance\"]")).click();
+            getDriver().findElement(By.cssSelector("[for='radio-block-0']")).click();
+            getDriver().findElement(By.name("Apply")).click();
+
+            Assert.assertEquals(
+                    getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("notification-bar"))).getText(),
+                    "Saved");
+        }
     }
