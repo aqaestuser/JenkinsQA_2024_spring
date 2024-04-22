@@ -14,21 +14,21 @@ public class SearchBoxTest2 extends BaseTest {
     private static final String PIPELINE_NAME = "Pipeline";
 
     public void createNewPipeline(String pipelineName){
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(pipelineName);
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/view/all/newJob']"))).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("name"))).sendKeys(pipelineName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
     }
     public void goHomePage(){
-        getDriver().findElement(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']")).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']"))).click();
     }
     @Test
     public void testSearchBox(){
         createNewPipeline(PIPELINE_NAME);
         goHomePage();
 
-        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        WebElement searchBox = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("search-box")));
         searchBox.sendKeys(PIPELINE_NAME);
         searchBox.sendKeys(Keys.ENTER);
 
