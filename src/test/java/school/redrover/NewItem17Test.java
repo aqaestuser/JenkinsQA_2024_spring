@@ -15,7 +15,6 @@ public class NewItem17Test extends BaseTest {
         getDriver().findElement(By.xpath("//li[contains(@class, '_FreeStyleProject')]")).click();
         getDriver().findElement(By.id("ok-button")).click();
 
-        //String configurationHeaderH1 = getDriver().findElement(By.xpath("//hi[@class='jenkins-app-bar__content']")).getText();
         String configurationHeaderH1 = getDriver().findElement(By.tagName("h1")).getText();
         Assert.assertEquals( configurationHeaderH1, "Configure");
 
