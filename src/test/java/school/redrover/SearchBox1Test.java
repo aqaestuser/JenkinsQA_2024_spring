@@ -53,7 +53,19 @@ public class SearchBox1Test extends BaseTest {
         getDriver().findElement(By.id("search-box")).sendKeys("Log");
         getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class='error']")).getText(), "Nothing seems to match.");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class='error']")).getText(),
+                "Nothing seems to match.");
+    }
+
+    @Test
+    public void testCaseSensitiveOnLowercaseInput() {
+        turnOffInsensitiveSearch();
+
+        getDriver().findElement(By.id("search-box")).sendKeys("log");
+        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='__content']")).getText(),
+                "Log Recorders");
     }
 }
 
