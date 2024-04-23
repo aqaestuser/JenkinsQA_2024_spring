@@ -171,6 +171,17 @@ public final class TestUtils {
         baseTest.getDriver().findElement(By.xpath("//button[@data-id='ok']")).click();
     }
 
+    public static boolean checkIfProjectIsOnTheBoard(WebDriver driver, String projectName){
+        goToMainPage(driver);
+        List<WebElement> displayedProjects = driver.findElements(
+                By.xpath("//table[@id='projectstatus']//button/preceding-sibling::span"));
+
+        boolean isDisplayed = displayedProjects.stream()
+                .anyMatch(el -> el.getText().equals(projectName));
+
+        return isDisplayed;
+    }
+
     public enum Job {
         FREESTYLE("Freestyle project"),
         PIPELINE("Pipeline"),
