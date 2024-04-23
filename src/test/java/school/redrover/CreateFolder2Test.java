@@ -3,14 +3,13 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class CreateFolder2Test extends BaseTest {
 
     @Test
-    public void testCreateNewFolder() {
+    public void testCreate() {
         getDriver().findElement(By.xpath("//a[.='New Item']")).click();
         getDriver().findElement(By.id("name")).sendKeys("New Folder");
         getDriver().findElement(By.xpath("//label[.='Folder']")).click();
