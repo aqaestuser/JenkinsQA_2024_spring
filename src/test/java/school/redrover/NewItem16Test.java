@@ -16,6 +16,16 @@ public class NewItem16Test extends BaseTest {
 
         //String configurationHeaderH1 = getDriver().findElement(By.xpath("//hi[@class='jenkins-app-bar__content']")).getText();
         String configurationHeaderH1 = getDriver().findElement(By.tagName("h1")).getText();
-        Assert.assertEquals("Configure", configurationHeaderH1);
+        Assert.assertEquals( configurationHeaderH1, "Configure");
+
+        String configurationPageBreadcrumbs = getDriver().findElement(By.xpath("//*[@id=\"breadcrumbs\"]/li[5]")).getText();
+        Assert.assertEquals(configurationPageBreadcrumbs, "Configuration");
+    }
+
+    @Test (dependsOnMethods = "testCreateNewItemFP")
+    public void testConfigurationPage () {
+        String sourceCodeManagementBlock = getDriver().findElement(By.xpath("//*[@id='source-code-management']")).getText();
+        Assert.assertEquals(sourceCodeManagementBlock, "Source Code Management");
+
     }
 }
