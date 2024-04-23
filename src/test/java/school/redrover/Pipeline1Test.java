@@ -1,8 +1,9 @@
 package school.redrover;
 
-import org.checkerframework.checker.index.qual.IndexFor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -84,7 +85,20 @@ public class Pipeline1Test extends BaseTest {
         String expectedResult = PIPELINE_NAME + " - Stage View";
 
         chooseProjectAndClick(PIPELINE_NAME);
+        clickFullStageViewButton();
 
+        Assert.assertEquals(getH2HeaderText(), expectedResult);
+    }
+
+    @Test
+    public void testFullStageViewButtonInDropDown() {
+        TestUtils.createItem(TestUtils.PIPELINE, PIPELINE_NAME, this);
+        TestUtils.goToMainPage(getDriver());
+
+        String expectedResult = PIPELINE_NAME + " - Stage View";
+
+        TestUtils.openElementDropdown(this, getDriver().findElement(
+                By.cssSelector(String.format("td a[href = 'job/%s/']", TestUtils.asURL(PIPELINE_NAME)))));
         clickFullStageViewButton();
 
         Assert.assertEquals(getH2HeaderText(), expectedResult);
