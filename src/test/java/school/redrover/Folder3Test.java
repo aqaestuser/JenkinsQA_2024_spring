@@ -8,7 +8,7 @@ import school.redrover.runner.TestUtils;
 
 public class Folder3Test extends BaseTest {
 
-    private final String FOLDER_NAME = "Folder_1";
+    private static final String FOLDER_NAME = "Folder_1";
 
     @Test
     public void testCreate() {
