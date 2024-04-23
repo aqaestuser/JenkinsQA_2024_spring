@@ -190,4 +190,15 @@ public final class TestUtils {
             return jobName;
         }
     }
+
+    public static void resetJenkinsTheme(BaseTest baseTest) {
+        baseTest.getDriver().findElement(By.cssSelector("[href='/manage']")).click();
+        baseTest.getDriver().findElement(By.cssSelector("[href='appearance']")).click();
+
+        WebElement defaultThemeButton = baseTest.getDriver().findElement(By.cssSelector("[for='radio-block-2']"));
+        if (!defaultThemeButton.isSelected()) {
+            defaultThemeButton.click();
+            baseTest.getDriver().findElement(By.name("Apply")).click();
+        }
+    }
 }

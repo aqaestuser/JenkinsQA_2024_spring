@@ -6,9 +6,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 
 public class PipelineTest extends BaseTest {
@@ -24,9 +24,11 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
     }
 
-    @Ignore
     @Test
     public void testPipelineDescriptionTextAreaBacklightColor() {
+        TestUtils.resetJenkinsTheme(this);
+        TestUtils.goToMainPage(getDriver());
+
         createPipelineWithCreateAJob();
         getDriver().findElement(ADD_DESCRIPTION_LOCATOR).click();
 
@@ -38,9 +40,11 @@ public class PipelineTest extends BaseTest {
                 "Current text area border backlight color is not equal to rgba(11, 106, 162, 0.25)");
     }
 
-    @Ignore
     @Test
     public void testPipelineDescriptionTextAreaBacklightDefaultColor() {
+        TestUtils.resetJenkinsTheme(this);
+        TestUtils.goToMainPage(getDriver());
+
         createPipelineWithCreateAJob();
         getDriver().findElement(ADD_DESCRIPTION_LOCATOR).click();
         new Actions(getDriver()).sendKeys(Keys.TAB).perform();
@@ -53,11 +57,12 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(defaultTextAreaBorderBacklightColor, "rgba(11,106,162,.25)");
     }
 
-    @Ignore
     @Test
     public void testYesButtonColorDeletingPipelineInSidebar() {
-        createPipelineWithCreateAJob();
+        TestUtils.resetJenkinsTheme(this);
+        TestUtils.goToMainPage(getDriver());
 
+        createPipelineWithCreateAJob();
         getDriver().findElement(By.cssSelector("[data-title='Delete Pipeline']")).click();
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
