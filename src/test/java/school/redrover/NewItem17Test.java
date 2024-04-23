@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class NewItem16Test extends BaseTest {
+public class NewItem17Test extends BaseTest {
 
     @Test
     public void testCreateNewItemFP () {
