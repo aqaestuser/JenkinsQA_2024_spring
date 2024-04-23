@@ -18,7 +18,7 @@ public class NewItem17Test extends BaseTest {
         String configurationHeaderH1 = getDriver().findElement(By.tagName("h1")).getText();
         Assert.assertEquals( configurationHeaderH1, "Configure");
 
-        String configurationPageBreadcrumbs = getDriver().findElement(By.xpath("//*[@id=\"breadcrumbs\"]/li[5]")).getText();
+        String configurationPageBreadcrumbs = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[5]")).getText();
         Assert.assertEquals(configurationPageBreadcrumbs, "Configuration");
     }
 
