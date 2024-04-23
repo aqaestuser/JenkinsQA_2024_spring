@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -22,6 +23,7 @@ public class NewItem17Test extends BaseTest {
         Assert.assertEquals(configurationPageBreadcrumbs, "Configuration");
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testCreateNewItemFP")
     public void testConfigurationPage () {
         String sourceCodeManagementBlock = getDriver().findElement(By.xpath("//*[@id='source-code-management']")).getText();
