@@ -27,6 +27,7 @@ public class NewItem12Test extends BaseTest {
             okButton.click();
 
             getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
+
             WebElement projectName1 = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/h1"));
             Assert.assertEquals(projectName1.getText(), "Project GBtest");
 
