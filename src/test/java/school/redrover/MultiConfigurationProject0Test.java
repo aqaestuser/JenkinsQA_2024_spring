@@ -221,4 +221,34 @@ public class MultiConfigurationProject0Test extends BaseTest {
             Assert.assertEquals(expectedColorDark, actualColor);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Test
+    public void testTryCreateProjectExistName() {
+        final String errorMessage = "A job already exists with the name ‘MultiBuild’";
+
+        TestUtils.createNewItemAndReturnToDashboard(this, "MultiBuild", TestUtils.Item.MULTI_CONFIGURATION_PROJECT);
+
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.className("hudson_matrix_MatrixProject")).click();
+        getDriver().findElement(By.className("jenkins-input")).sendKeys("MultiBuild");
+        getDriver().findElement(By.id("ok-button")).click();
+
+        String actualMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/p")).getText();
+        Assert.assertEquals(actualMessage, errorMessage);
+    }
 }
