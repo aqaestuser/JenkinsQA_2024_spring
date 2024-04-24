@@ -25,9 +25,7 @@ public class NewItem6Test extends BaseTest {
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='Submit']"))).click();
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1")));
-
-        String actualFolderName = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
+        String actualFolderName =  getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
 
         Assert.assertEquals(actualFolderName, FOLDER_NAME);
     }
