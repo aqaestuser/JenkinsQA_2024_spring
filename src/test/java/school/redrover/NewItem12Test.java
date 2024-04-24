@@ -15,7 +15,7 @@ public class NewItem12Test extends BaseTest {
             getDriver().findElement(By.linkText("New Item")).click();
             getDriver().findElement(By.id("main-panel")).click();
 
-            getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required")));
+            getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required")));
 
             WebElement validationMessage = getDriver().findElement(By.id("itemname-required"));
             Assert.assertEquals(validationMessage.getText(), "» This field cannot be empty, please enter a valid name");
