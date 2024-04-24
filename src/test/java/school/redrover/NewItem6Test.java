@@ -25,7 +25,8 @@ public class NewItem6Test extends BaseTest {
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='Submit']"))).click();
 
-        String actualFolderName =  getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
+        String actualFolderName =  getWait10().until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
 
         Assert.assertEquals(actualFolderName, FOLDER_NAME);
     }
@@ -34,7 +35,8 @@ public class NewItem6Test extends BaseTest {
     public void testNewFolderOnDashboard(){
         getDriver().findElement(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']")).click();
 
-        String actualNewFolderName = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='jenkins-table__link model-link inside']"))).getText();
+        String actualNewFolderName = getWait10().until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='jenkins-table__link model-link inside']"))).getText();
 
         Assert.assertEquals(actualNewFolderName,FOLDER_NAME);
     }
@@ -43,7 +45,8 @@ public class NewItem6Test extends BaseTest {
     public void testRenameFolder(){
         getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tasks']//*[contains(@href,'confirm-rename')]"))).click();
+        getWait10().until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tasks']//*[contains(@href,'confirm-rename')]"))).click();
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.name("newName"))).clear();
 
