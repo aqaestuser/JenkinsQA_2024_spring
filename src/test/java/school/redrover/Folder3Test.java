@@ -13,15 +13,15 @@ public class Folder3Test extends BaseTest {
     private static final String FOLDER_DESCRIPTION_FIRST = "Some description of the folder.";
 
 
-    public void clickSaveButton() {
+    private void clickSaveButton() {
         getDriver().findElement(By.xpath("//*[@name='Submit']")).click();
     }
 
-    public void clickFolderName(String folderName) {
+    private void clickFolderName(String folderName) {
         getDriver().findElement(By.xpath("//td/a[@href='job/" + folderName + "/']")).click();
     }
     
-    public boolean isFolderExists(String folderName) {
+    private boolean isFolderExists(String folderName) {
         return !getDriver().findElements(By.xpath("//*[@id='job_" + folderName + "']")).isEmpty();
     }
 
