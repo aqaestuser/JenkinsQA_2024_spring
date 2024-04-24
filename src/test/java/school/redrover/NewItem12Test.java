@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -13,6 +14,9 @@ public class NewItem12Test extends BaseTest {
 
             getDriver().findElement(By.linkText("New Item")).click();
             getDriver().findElement(By.id("main-panel")).click();
+
+            getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required")));
+
             WebElement validationMessage = getDriver().findElement(By.id("itemname-required"));
             Assert.assertEquals(validationMessage.getText(), "» This field cannot be empty, please enter a valid name");
 
