@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -9,7 +10,6 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 
 import static school.redrover.runner.TestUtils.goToMainPage;
-import static school.redrover.runner.TestUtils.sleep;
 
 public class DisablePipelineProjectTest extends BaseTest {
 
@@ -26,10 +26,8 @@ public class DisablePipelineProjectTest extends BaseTest {
         CreatePipelineProject();
         getDriver().findElement(By.cssSelector("#tasks > div:nth-child(4) > span > a")).click();
 
-        sleep(this, 7);
-
-        Assert.assertEquals("Stage View\n" +
-                "This Pipeline has run successfully, but does not define any stages. Please use the stage step to define some stages in this Pipeline.", getDriver().findElement(By.id("pipeline-box")).getText());
+        getWait10().until(ExpectedConditions.textToBePresentInElementLocated(By.id("pipeline-box"), "Stage View\n" +
+                "This Pipeline has run successfully, but does not define any stages. Please use the stage step to define some stages in this Pipeline."));
 
         getDriver().findElement(By.cssSelector("#disable-project > button")).click();
 
@@ -51,9 +49,7 @@ public class DisablePipelineProjectTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(By.cssSelector("#tasks > div:nth-child(4) > span > a")).click();
 
-        sleep(this, 7);
-
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("#disable-project > button")).isDisplayed());
+        getWait10().until(ExpectedConditions.numberOfElementsToBe(By.className("build-row-cell"), 2));
 
         List<WebElement> buildList = getDriver().findElements(By.className("build-row-cell"));
         String[] bArray = buildList.stream().map(WebElement::getText).toArray(String[]::new);
