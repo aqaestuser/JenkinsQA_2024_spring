@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 
 
-public class InformationAboutFunctionalityVersionTest extends BaseTest {
+public class Footer9Test extends BaseTest {
 
     @Test
     public void testJenkinsInformationVersionFooter() {
