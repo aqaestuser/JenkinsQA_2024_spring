@@ -76,6 +76,17 @@ public class SearchBox1Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='__content']")).getText(),
                 "Log Recorders");
     }
+
+    @Test
+    public void testCaseSensitiveOffUppercaseInput() {
+        turnOnInsensitiveSearch();
+
+        getDriver().findElement(By.id("search-box")).sendKeys("loG");
+        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='__content']")).getText(),
+                "Log Recorders");
+    }
 }
 
 
