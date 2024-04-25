@@ -33,13 +33,9 @@ public class FreestyleProject16Test extends BaseTest {
         Assert.assertEquals(general, "General");
     }
 
-    @Test
+    @Test (dependsOnMethods = {"testCreateFirstTest"})
     public void testRenameFirstProject(){
-        getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
+
         getDriver().findElement(By.xpath
                 ("//*[@id='breadcrumbs']/li[1]")).click();
         getDriver().findElement(By.xpath
