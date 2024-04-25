@@ -237,20 +237,6 @@ public class MultiConfigurationProject0Test extends BaseTest {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Test
     public void testTryCreateProjectExistName() {
         final String errorMessage = "A job already exists with the name ‘MultiBuild’";
