@@ -37,7 +37,7 @@ public class PipelineProject6Test extends BaseTest {
         WebElement dropDown = getDriver().findElement(By.xpath("//tr[@id='job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']"));
         getActions().moveToElement(dropDown).perform();
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+        getWait10().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button"))).click();
 
         getWait10().until(ExpectedConditions.presenceOfElementLocated(
