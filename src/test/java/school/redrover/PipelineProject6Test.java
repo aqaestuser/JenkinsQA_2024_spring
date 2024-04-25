@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -31,16 +32,26 @@ public class PipelineProject6Test extends BaseTest {
     }
 
     @Test
-    public void testFullStageViewDropDownMenu(){
+    public void testFullStageViewDropDownMenu() throws InterruptedException {
         createNewPipeline(PIPELINE_NAME);
         goHomePage();
 
         WebElement dropDown = getWait60().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tr[@id='job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']")));
         getActions().moveToElement(dropDown).perform();
 
-        getWait60().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button"))).click();
+        WebElement dropDownMenu =  getWait60().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button")));
 
+        int attempts = 0;
+        while(attempts < 3) {
+            try {
+                dropDownMenu.click();
+                break; // Выход из цикла, если клик успешен
+            } catch (ElementClickInterceptedException e) {
+                Thread.sleep(1000); // Ожидание перед следующей попыткой
+                attempts++;
+            }
+        }
         getWait60().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/workflow-stage']"))).click();
 
