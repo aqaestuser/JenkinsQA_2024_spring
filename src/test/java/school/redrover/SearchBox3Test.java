@@ -13,7 +13,7 @@ public class SearchBox3Test extends BaseTest {
         getDriver().findElement(SEARCH_BOX).sendKeys("config");
         getDriver().findElement(SEARCH_BOX).sendKeys(Keys.ENTER);
 
-        String systemPageTitle = getDriver().findElement(By.xpath("//h1[.='System']")).getText();
+        String systemPageTitle = getDriver().findElement(By.tagName("h1")).getText();
 
         Assert.assertEquals(systemPageTitle, "System");
     }
