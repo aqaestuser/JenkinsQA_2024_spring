@@ -52,8 +52,19 @@ public class PipelineProject6Test extends BaseTest {
                 attempts++;
             }
         }
-        getWait60().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/workflow-stage']"))).click();
+        WebElement dropDownMenus =  getWait60().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/workflow-stage']")));
+
+        int attempt = 0;
+        while(attempt < 3) {
+            try {
+                dropDownMenus.click();
+                break;
+            } catch (ElementClickInterceptedException e) {
+                Thread.sleep(1000);
+                attempt++;
+            }
+        }
 
         String expectedText = PIPELINE_NAME + " - Stage View";
         Assert.assertEquals(getWait5().until(ExpectedConditions.presenceOfElementLocated(
