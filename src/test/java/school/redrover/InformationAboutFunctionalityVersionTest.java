@@ -9,19 +9,17 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 
 
-public class FooterInformationVersionJenkinsTest extends BaseTest {
-
-    private List<String> checkЕabBar = List.of("Mavenized dependencies", "Static resources", "License and dependency information for plugins");
+public class InformationAboutFunctionalityVersionTest extends BaseTest {
 
     @Test
     public void testJenkinsInformationVersionFooter() {
 
+        List<String> checkЕabBar = List.of("Mavenized dependencies", "Static resources", "License and dependency information for plugins");
+
         getDriver().findElement(By.cssSelector("[class$='jenkins_ver']")).click();
 
         WebElement dropDownMenu = getDriver().findElement(By.cssSelector("#tippy-1"));
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//a[@href='/manage/about']"))));
-
-        WebElement aboutJenkins = dropDownMenu.findElement(By.xpath("//a[@href='/manage/about']"));
+        WebElement aboutJenkins = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//a[@href='/manage/about']"))));
         Assert.assertTrue(aboutJenkins.isDisplayed());
 
         WebElement getInvolved = dropDownMenu.findElement(By.xpath("//a[@href='https://www.jenkins.io/participate/']"));
