@@ -46,13 +46,13 @@ public class PipelineProject6Test extends BaseTest {
         while(attempts < 3) {
             try {
                 dropDownMenu.click();
-                break; // Выход из цикла, если клик успешен
+                break;
             } catch (ElementClickInterceptedException e) {
-                Thread.sleep(1000); // Ожидание перед следующей попыткой
+                Thread.sleep(1000);
                 attempts++;
             }
         }
-        getWait60().until(ExpectedConditions.presenceOfElementLocated(
+        getWait60().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/workflow-stage']"))).click();
 
         String expectedText = PIPELINE_NAME + " - Stage View";
