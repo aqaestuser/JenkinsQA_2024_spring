@@ -34,7 +34,7 @@ public class PipelineProject6Test extends BaseTest {
         createNewPipeline(PIPELINE_NAME);
         goHomePage();
 
-        WebElement dropDown = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_\" + PIPELINE_NAME + \"']//a[@href='job/\" + PIPELINE_NAME + \"/']")));
+        WebElement dropDown = getWait60().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tr[@id='job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']")));
         getActions().moveToElement(dropDown).perform();
 
         getWait60().until(ExpectedConditions.elementToBeClickable(
