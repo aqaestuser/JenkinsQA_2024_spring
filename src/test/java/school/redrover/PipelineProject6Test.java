@@ -34,13 +34,13 @@ public class PipelineProject6Test extends BaseTest {
         createNewPipeline(PIPELINE_NAME);
         goHomePage();
 
-        WebElement dropDown = getDriver().findElement(By.xpath("//tr[@id='job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']"));
+        WebElement dropDown = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_\" + PIPELINE_NAME + \"']//a[@href='job/\" + PIPELINE_NAME + \"/']")));
         getActions().moveToElement(dropDown).perform();
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(
+        getWait60().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button"))).click();
 
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(
+        getWait60().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/workflow-stage']"))).click();
 
         String expectedText = PIPELINE_NAME + " - Stage View";
