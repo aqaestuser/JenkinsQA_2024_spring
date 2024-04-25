@@ -5,10 +5,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
-
-import static school.redrover.runner.TestUtils.MULTIBRANCH_PIPELINE;
-
 
 public class MultibranchPipeline2Test extends BaseTest {
 
