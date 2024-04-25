@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -37,7 +38,7 @@ public class PipelineProject6Test extends BaseTest {
         WebElement dropDown = getWait60().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tr[@id='job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']")));
         getActions().moveToElement(dropDown).perform();
 
-        getWait60().until(ExpectedConditions.elementToBeClickable(
+        getWait60().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button"))).click();
 
         getWait60().until(ExpectedConditions.presenceOfElementLocated(
