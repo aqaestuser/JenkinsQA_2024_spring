@@ -3,6 +3,9 @@ package school.redrover.runner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public final class TestUtils {
 
     public static final String FREESTYLE_PROJECT = "Freestyle project";
@@ -26,6 +29,10 @@ public final class TestUtils {
 
     public static void goToMainPage(WebDriver driver) {
         driver.findElement(By.id("jenkins-name-icon")).click();
+    }
+
+    public static String getUniqueName(String value) {
+        return value + new SimpleDateFormat("HHmmssSS").format(new Date());
     }
 
 }
