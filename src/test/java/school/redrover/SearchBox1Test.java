@@ -1,5 +1,4 @@
 package school.redrover;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -9,13 +8,26 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class SearchBox1Test extends BaseTest {
-
     private WebElement checkbox() {
-        return getDriver().findElement(By.xpath("//div[2]/span/input"));
+        return getDriver().findElement(By.cssSelector("[name^='insensitive']"));
     }
+
+    private static final By SEARCH_RESULT = By.cssSelector("[class$='__content']");
+
+    private static final String EXPECTED_RESULT = "Log Recorders";
 
     private Actions getActions() {
         return new Actions(getDriver());
+    }
+
+    private void uppercaseInput() {
+        getDriver().findElement(By.id("search-box")).sendKeys("Log");
+        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
+    }
+
+    public void lowercaseInput() {
+        getDriver().findElement(By.id("search-box")).sendKeys("log");
+        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
     }
 
     private void goToConfigure() {
@@ -23,70 +35,52 @@ public class SearchBox1Test extends BaseTest {
         getDriver().findElement(By.cssSelector("[href$='configure']")).click();
     }
 
-    private void checkboxClick() {
+    private void flagInsensitiveCheckbox() {
         getActions().scrollToElement(getDriver().findElement(By.xpath("//div[3]/div[2]/span")))
                 .sendKeys(Keys.TAB, Keys.SPACE)
                 .perform();
         getDriver().findElement(By.cssSelector("[class$='primary ']")).click();
     }
 
-    private void turnOffInsensitiveSearch() {
+    private void turnInsensitiveSearch(boolean flag) {
         goToConfigure();
-        if(checkbox().isSelected()) {
-            checkboxClick();
-        }
-    }
-
-    private void turnOnInsensitiveSearch() {
-        goToConfigure();
-        if(!checkbox().isSelected()) {
-            checkboxClick();
+        boolean isCheckboxSelected = checkbox().isSelected();
+        if ((flag && !isCheckboxSelected) || (!flag && isCheckboxSelected)) {
+            flagInsensitiveCheckbox();
         }
     }
 
     @Test
     public void testCaseSensitiveOnUppercaseInput() {
-        turnOffInsensitiveSearch();
-
-        getDriver().findElement(By.id("search-box")).sendKeys("Log");
-        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
+        turnInsensitiveSearch(false);
+        uppercaseInput();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("[class='error']")).getText(),
                 "Nothing seems to match.");
     }
-
     @Test
     public void testCaseSensitiveOnLowercaseInput() {
-        turnOffInsensitiveSearch();
+        turnInsensitiveSearch(false);
+        lowercaseInput();
 
-        getDriver().findElement(By.id("search-box")).sendKeys("log");
-        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='__content']")).getText(),
-                "Log Recorders");
+        Assert.assertEquals(getDriver().findElement(SEARCH_RESULT).getText(),
+                EXPECTED_RESULT);
     }
-
     @Test
     public void testCaseSensitiveOffLowercaseInput() {
-        turnOnInsensitiveSearch();
+        turnInsensitiveSearch(true);
+        lowercaseInput();
 
-        getDriver().findElement(By.id("search-box")).sendKeys("log");
-        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='__content']")).getText(),
-                "Log Recorders");
+        Assert.assertEquals(getDriver().findElement(SEARCH_RESULT).getText(),
+                EXPECTED_RESULT);
     }
 
     @Test
     public void testCaseSensitiveOffUppercaseInput() {
-        turnOnInsensitiveSearch();
+        turnInsensitiveSearch(true);
+        uppercaseInput();
 
-        getDriver().findElement(By.id("search-box")).sendKeys("loG");
-        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='__content']")).getText(),
-                "Log Recorders");
+        Assert.assertEquals(getDriver().findElement(SEARCH_RESULT).getText(),
+                EXPECTED_RESULT);
     }
 }
-
-
