@@ -10,7 +10,6 @@ public class HeaderSearchHelpTest extends BaseTest {
 
     @Test
     public void testAccessToUserDoc(){
-        getDriver().findElement(By.xpath("//input[@id='search-box']"));
         getDriver().findElement(By.xpath("//a[@class='main-search__icon-trailing']")).click();
 
         String actualHandbook = getWait10().until(
@@ -23,4 +22,3 @@ public class HeaderSearchHelpTest extends BaseTest {
         Assert.assertEquals(actualResources, "Resources");
     }
 }
-
