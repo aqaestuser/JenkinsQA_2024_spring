@@ -67,7 +67,6 @@ public class FreestyleProject16Test extends BaseTest {
 
         Assert.assertEquals(newProjectName, NEW_PROJECT_NAME);
     }
-
     @Test (dependsOnMethods = "testRenameFirstProject")
     public void testDeleteFirstProject(){
 
