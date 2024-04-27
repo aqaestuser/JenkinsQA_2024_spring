@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -29,16 +28,32 @@ public class Folder6Test extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
         getDriver().findElement(By.id("description-link")).click();
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"description\"]/form/div[1]/div[1]/textarea")))
-                    .sendKeys(addDescription);
+                .sendKeys(addDescription);
         getDriver().findElement(By.xpath("//*[@id=\"description\"]/form/div[2]/button")).click();
 
-        String editNewDescription = "edit new description ";
-        getDriver().findElement(By.id("description-link")).click();
+        String addFolderDescription = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"description\"]/div[1]"))).getText();
+        Assert.assertEquals(addFolderDescription, addDescription);
+        TestUtils.returnToDashBoard(this);
+    }
+    @Test(dependsOnMethods = "testAddDescription")
+    public void testEditDescription() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + name + "']"))).click();
+        getDriver().findElement(By.xpath("//*[@id=\"description-link\"]")).click();
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"description\"]/form/div[1]/div[1]/textarea")))
-                .sendKeys(editNewDescription);
+                .clear();
+        String changeFolderDescription = "edit description ";
+        getDriver().findElement(By.xpath("//*[@id=\"description\"]/form/div[1]/div[1]/textarea"))
+                .sendKeys(changeFolderDescription);
         getDriver().findElement(By.xpath("//*[@id=\"description\"]/form/div[2]/button")).click();
 
-        getDriver().findElement(By.id("description-link")).click();
+        boolean allEditDescription = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"description\"]/div[1]"))).isDisplayed();
+        Assert.assertTrue(allEditDescription, changeFolderDescription);
+        TestUtils.returnToDashBoard(this);
+    }
+    @Test(dependsOnMethods = "testEditDescription")
+    public void testDeleteDescription() {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+        getDriver().findElement(By.xpath("//*[@id=\"description-link\"]")).click();
         getDriver().findElement(By.xpath("//*[@id=\"description\"]/form/div[1]/div[1]/textarea")).clear();
         getDriver().findElement(By.xpath("//*[@id=\"description\"]/form/div[2]/button")).click();
 
@@ -46,7 +61,7 @@ public class Folder6Test extends BaseTest {
         Assert.assertTrue(isFolderEmpty);
         TestUtils.returnToDashBoard(this);
     }
-    @Test(dependsOnMethods = "testAddDescription")
+    @Test(dependsOnMethods = "testEditDescription")
     public void testRename() {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
         getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[7]/span/a")).click();
