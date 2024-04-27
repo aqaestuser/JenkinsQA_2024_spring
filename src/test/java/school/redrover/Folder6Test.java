@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.Arrays;
+
 public class Folder6Test extends BaseTest {
     private final String name = "My new Folder";
     @Test
@@ -52,8 +54,9 @@ public class Folder6Test extends BaseTest {
     }
     @Test(dependsOnMethods = "testEditDescription")
     public void testDeleteDescription() {
-        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
-        getDriver().findElement(By.xpath("//*[@id=\"description-link\"]")).click();
+        for (String s : Arrays.asList("//span[text()='" + name + "']", "//*[@id=\"description-link\"]")) {
+            getDriver().findElement(By.xpath(s)).click();
+        }
         getDriver().findElement(By.xpath("//*[@id=\"description\"]/form/div[1]/div[1]/textarea")).clear();
         getDriver().findElement(By.xpath("//*[@id=\"description\"]/form/div[2]/button")).click();
 
