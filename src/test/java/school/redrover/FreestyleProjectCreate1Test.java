@@ -16,7 +16,7 @@ public class FreestyleProjectCreate1Test extends BaseTest {
     public void testFreestyleProjectCreate() {
 
         getDriver().findElement(By.cssSelector("span.task-link-wrapper ")).click();
-        getDriver().findElement(By.id("name")).sendKeys("FreeStyleFirst");
+        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_PROJECT_NAME);
         getDriver().findElement(By.cssSelector("li.hudson_model_FreeStyleProject")).click();
 
         WebElement button = getDriver().findElement(By.id("ok-button"));
@@ -34,11 +34,12 @@ public class FreestyleProjectCreate1Test extends BaseTest {
     public void testErrorMessage() {
 
         getDriver().findElement(By.cssSelector("span.task-link-wrapper ")).click();
-        getDriver().findElement(By.id("name")).sendKeys("FreeStyleFirst");
-
-        String errorMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
+        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_PROJECT_NAME);
 
         boolean isDisabled = getDriver().findElement(By.id("ok-button")).isEnabled();
+
+        getDriver().findElement(By.id("items")).click();
+        String errorMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
 
         Assert.assertEquals(errorMessage,"» A job already exists with the name ‘FreeStyleFirst’");
         Assert.assertFalse(isDisabled);
