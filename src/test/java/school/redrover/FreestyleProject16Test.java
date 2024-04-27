@@ -35,6 +35,22 @@ public class FreestyleProject16Test extends BaseTest {
         Assert.assertEquals(general, "General");
     }
 
+    @Test (dependsOnMethods = "testCreateFirstTest")
+    public void testAddDescription(){
+
+        getDriver().findElement(By.xpath
+                ("//span[text()='" + PROJECT_NAME + "']")).click();
+        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
+        getDriver().findElement(By.name
+                ("description")).sendKeys(PROJECT_DESCRIPTION);
+        getDriver().findElement(By.name("Submit")).click();
+
+        String description = getDriver().findElement
+                (By.xpath("//*[@id='description']/div[1]")).getText();
+
+        Assert.assertEquals(description, PROJECT_DESCRIPTION);
+    }
+
     @Test (dependsOnMethods = {"testCreateFirstTest"})
     public void testRenameFirstProject(){
 
@@ -52,40 +68,22 @@ public class FreestyleProject16Test extends BaseTest {
         Assert.assertEquals(newProjectName, NEW_PROJECT_NAME);
     }
 
-    @Test (dependsOnMethods = "testCreateFirstTest")
-    public void testAddDescription(){
-
-        getDriver().findElement(By.xpath
-                ("//span[text()='" + PROJECT_NAME + "']")).click();
-        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
-        getDriver().findElement(By.name
-                ("description")).sendKeys(PROJECT_DESCRIPTION);
-        getDriver().findElement(By.name("Submit")).click();
-
-        String description = getDriver().findElement
-                (By.xpath("//*[@id='description']/div[1]")).getText();
-
-        Assert.assertEquals(description, PROJECT_DESCRIPTION);
-    }
-
-
-    @Test (dependsOnMethods = "testCreateFirstTest")
+    @Test (dependsOnMethods = "testRenameFirstProject")
     public void testDeleteFirstProject(){
 
         getDriver().findElement(By.xpath
-                ("//span[text()='" + PROJECT_NAME + "']")).click();
+                ("//span[text()='" + NEW_PROJECT_NAME + "']")).click();
         getDriver().findElement(By.xpath
                 ("//span[text()='Delete Project']")).click();
         getDriver().findElement(By.xpath
                 ("//*[@id='jenkins']/dialog/div[3]/button[1]")).click();
-        getDriver().findElement(By.id("search-box")).sendKeys(PROJECT_NAME, Keys.RETURN);
+        getDriver().findElement(By.id("search-box")).sendKeys(NEW_PROJECT_NAME, Keys.RETURN);
 
         String not_found = getDriver().findElement(By.xpath
                 ("//*[@id='main-panel']/div")).getText();
 
         Assert.assertEquals(not_found, "Nothing seems to match.");
     }
-
 
     @Test
     public void testCreateFreestyleProject() {
