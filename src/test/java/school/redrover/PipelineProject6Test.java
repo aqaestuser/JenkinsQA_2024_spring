@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class PipelineProject6Test extends BaseTest {
     private static final String PIPELINE_NAME = "Pipeline";
@@ -32,21 +33,22 @@ public class PipelineProject6Test extends BaseTest {
     }
 
     @Test
-    public void testFullStageViewDropDownMenu() throws InterruptedException {
+    public void testFullStageViewDropDownMenu() {
         createNewPipeline(PIPELINE_NAME);
         goHomePage();
 
-        WebElement dropDown = getWait60().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tr[@id='job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']")));
-        getActions().moveToElement(dropDown).perform();
+        WebElement chevron = getDriver().findElement(By.xpath("//a[@href='job/"+PIPELINE_NAME+"/']//button[@class='jenkins-menu-dropdown-chevron']"));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
 
-        WebElement dropDownMenu =  getWait60().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button")));
+        jsExecutor.executeScript("arguments[0].dispatchEvent(new Event('mouseenter'));", chevron);
+        jsExecutor.executeScript("arguments[0].dispatchEvent(new Event('click'));", chevron);
 
-        WebElement dropDownMenus =  getWait60().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/workflow-stage']")));
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(
+                    By.xpath("//a[contains(@href, 'workflow-stage')]")))).click();
 
         String expectedText = PIPELINE_NAME + " - Stage View";
         Assert.assertEquals(getWait5().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//div[@id='pipeline-box']/h2"))).getText(),expectedText);
     }
 }
+

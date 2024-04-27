@@ -110,7 +110,6 @@ public class Pipeline1Test extends BaseTest {
     public void testPipelineNotActive() {
         final String expectedProjectName = "Pipeline1";
         TestUtils.returnToDashBoard(this);
-
         boolean isNotPresent = getDriver()
                 .findElements(By.xpath("//table//a[contains(@title, 'Schedule a Build for')]")).isEmpty();
         Assert.assertTrue(isNotPresent, "Schedule a Build for is present");
