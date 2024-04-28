@@ -29,4 +29,13 @@ public class ManageAppearance1Test extends BaseTest {
 
         Assert.assertEquals(getThemeAttribute(), "dark");
     }
+
+    @Test
+    public void testDefaultThemeApply () {
+        goToAppearance();
+        getDriver().findElement(By.cssSelector("[for='radio-block-2']")).click();
+        clickSaveButton();
+
+        Assert.assertEquals(getThemeAttribute(), "none");
+    }
 }
