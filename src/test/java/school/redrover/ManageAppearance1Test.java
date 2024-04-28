@@ -31,7 +31,7 @@ public class ManageAppearance1Test extends BaseTest {
     }
 
     @Test
-    public void testDefaultThemeApply () {
+    public void testDefaultThemeApply() {
         goToAppearance();
         getDriver().findElement(By.cssSelector("[for='radio-block-2']")).click();
         clickSaveButton();
@@ -40,7 +40,7 @@ public class ManageAppearance1Test extends BaseTest {
     }
 
     @Test
-    public void testSystemThemeApply () {
+    public void testSystemThemeApply() {
         goToAppearance();
         getDriver().findElement(By.cssSelector("[for='radio-block-1']")).click();
         clickSaveButton();
