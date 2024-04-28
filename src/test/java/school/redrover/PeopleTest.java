@@ -10,7 +10,7 @@ import java.util.*;
 
 import static school.redrover.runner.TestUtils.goToMainPage;
 
-public class SortPeopleTest extends BaseTest {
+public class PeopleTest extends BaseTest {
     private void createPeople() {
         final String[] usernames = {
                 "johndoe21",
@@ -43,7 +43,7 @@ public class SortPeopleTest extends BaseTest {
 
 
     @Test
-    public void SoftPeopleTest() {
+    public void testSortPeople() {
         createPeople();
 
         getDriver().findElement(By.linkText("People")).click();
