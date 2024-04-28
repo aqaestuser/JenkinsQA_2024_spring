@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-public class AItemTests extends BaseTest {
+public class AItemTest extends BaseTest {
 
     private boolean isException = false;
     private final By nameUpItem = By.xpath("//span[.='New Folder']");
@@ -90,5 +90,11 @@ public class AItemTests extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[normalize-space()='Configure']")).isDisplayed());
         TestUtils.goToMainPage(getDriver());
         Assert.assertTrue(getDriver().findElement(nameUpItem).isDisplayed());
+    }
+
+    @Test
+    public void footerRestApiLinkRGBTest() {
+        WebElement restApi = getDriver().findElement(By.xpath("//a[normalize-space()='REST API']"));
+        Assert.assertEquals(restApi.getCssValue("color"), "rgba(20, 20, 31, 1)");
     }
 }
