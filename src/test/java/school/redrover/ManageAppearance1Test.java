@@ -38,4 +38,13 @@ public class ManageAppearance1Test extends BaseTest {
 
         Assert.assertEquals(getThemeAttribute(), "none");
     }
+
+    @Test
+    public void testSystemThemeApply () {
+        goToAppearance();
+        getDriver().findElement(By.cssSelector("[for='radio-block-1']")).click();
+        clickSaveButton();
+
+        Assert.assertTrue(getThemeAttribute().contains("system"));
+    }
 }
