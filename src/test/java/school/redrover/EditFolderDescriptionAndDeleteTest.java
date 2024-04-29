@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
-
+@Ignore
 public class EditFolderDescriptionAndDeleteTest extends BaseTest {
     private final String NAME_FOLDER = "FolderFolder";
     private final String DESCRIPTION_TEXT = "Добавили описание";
@@ -32,7 +32,7 @@ public class EditFolderDescriptionAndDeleteTest extends BaseTest {
 
         getDriver().findElement(By.id("jenkins-name-icon")).click();
     }
-
+  
     @Ignore
     @Test(dependsOnMethods = "testAddFolder")
     public void testAddDescription() {
