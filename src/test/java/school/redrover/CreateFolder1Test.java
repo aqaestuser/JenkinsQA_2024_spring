@@ -67,21 +67,20 @@ public class CreateFolder1Test extends BaseTest {
 
     @Test
     public void testCreateFolderSpecialCharacters() {
-        final String errorMessage = "’ is an unsafe character";
-        final String namePart1  = "Fold";
-        final String namePart2 = "erdate";
         String[] specialCharacters = {"!", "%", "&", "#", "@", "*", "$", "?", "^", "|", "/", "]", "["};
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
         WebElement nameField = getDriver().findElement(By.id("name"));
-        WebElement actualMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
 
         for (String specChar: specialCharacters) {
             nameField.clear();
-            nameField.sendKeys(namePart1 + specChar + namePart2);
-            String expectMessage = "» ‘" + specChar + errorMessage;
-            Assert.assertEquals(actualMessage.getText(), expectMessage);
+            nameField.sendKeys("Fold" + specChar + "erdate");
+
+            WebElement actualMessage = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='itemname-invalid']")));
+
+            String expectMessage = "» ‘" + specChar + "’ is an unsafe character";
+            Assert.assertEquals(actualMessage.getText(), expectMessage, "Message is not displayed");
         }
     }
 }
