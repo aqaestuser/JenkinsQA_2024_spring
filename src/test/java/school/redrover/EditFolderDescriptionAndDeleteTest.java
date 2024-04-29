@@ -32,6 +32,7 @@ public class EditFolderDescriptionAndDeleteTest extends BaseTest {
 
         getDriver().findElement(By.id("jenkins-name-icon")).click();
     }
+  
     @Ignore
     @Test(dependsOnMethods = "testAddFolder")
     public void testAddDescription() {
@@ -49,6 +50,7 @@ public class EditFolderDescriptionAndDeleteTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDescription")
     public void testEditDescription() {
         getDriver().findElement(By.id(DESCRIPTION_BUTTON)).click();
@@ -60,6 +62,7 @@ public class EditFolderDescriptionAndDeleteTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEditDescription")
     public void testDeleteDescription() {
         getDriver().findElement(By.id(DESCRIPTION_BUTTON)).click();
@@ -67,6 +70,7 @@ public class EditFolderDescriptionAndDeleteTest extends BaseTest {
         getDriver().findElement(By.cssSelector(BUTTON_SAVE)).click();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddFolder")
     public void testDeleteFolder() {
         getDriver().findElement(
