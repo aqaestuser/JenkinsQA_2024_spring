@@ -206,8 +206,9 @@ public class PipelineConfigurationTest extends BaseTest {
     }
 
     @Test
-    public void testVerifySectionHasTooltip() {
-        final String tooltipText = "Help for feature: Display Name";
+    public void testVerifySectionHasTooltip(){
+        String labelText = "Display Name";
+        String tooltipText = "Help for feature: Display Name";
         createPipeline();
 
         navigateToConfigurePageFromDashboard();
@@ -215,7 +216,7 @@ public class PipelineConfigurationTest extends BaseTest {
         getWait5().until(ExpectedConditions.elementToBeClickable(ADVANCED_PROJECT_OPTIONS_MENU)).click();
         clickOnAdvancedButton();
 
-        String actualTooltip = getDriver().findElement(By.xpath("//*[@id='main-panel']/form/div[1]/section[2]/div[3]/div/div[1]/a")).getAttribute("tooltip");
+        String actualTooltip = getDriver().findElement(By.xpath("//*[contains(text(), '" + labelText + "')]//a")).getAttribute("tooltip");
 
         Assert.assertEquals(actualTooltip, tooltipText);
     }
