@@ -23,12 +23,10 @@ public class FreestyleProject16Test extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
         String projectName = getDriver().findElement(By.tagName("h1")).getText();
 
-        getDriver().findElement(By.xpath
-                ("//*[@id='breadcrumbs']/li[1]")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
         getDriver().findElement(By.xpath
                 ("//span[text()='" + PROJECT_NAME + "']")).click();
-        getDriver().findElement(By.xpath
-                ("//*[@id='tasks']/div[5]/span/a")).click();
+        getDriver().findElement(By.linkText("Configure")).click();
         String general = getDriver().findElement(By.tagName("h2")).getText();
 
         Assert.assertEquals(projectName, PROJECT_NAME);
@@ -43,8 +41,7 @@ public class FreestyleProject16Test extends BaseTest {
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.xpath
-                ("//*[@id='breadcrumbs']/li[1]/a")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
         getDriver().findElement(By.xpath
                 ("//span[text()='" + PROJECT_NAME + "']")).click();
         getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
@@ -61,12 +58,10 @@ public class FreestyleProject16Test extends BaseTest {
     @Test (dependsOnMethods = {"testCreateFirstTest"})
     public void testRenameFirstProject(){
 
-        getDriver().findElement(By.xpath
-                ("//*[@id='breadcrumbs']/li[1]")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
         getDriver().findElement(By.xpath
                 ("//span[text()='" + PROJECT_NAME + "']")).click();
-        getDriver().findElement(By.xpath
-                ("//*[@id='tasks']/div[7]/span/a")).click();
+        getDriver().findElement(By.linkText("Rename")).click();
         getDriver().findElement(By.name("newName")).clear();
         getDriver().findElement(By.name("newName")).sendKeys(NEW_PROJECT_NAME);
         getDriver().findElement(By.name("Submit")).click();
@@ -81,12 +76,10 @@ public class FreestyleProject16Test extends BaseTest {
                 ("//span[text()='" + NEW_PROJECT_NAME + "']")).click();
         getDriver().findElement(By.xpath
                 ("//span[text()='Delete Project']")).click();
-        getDriver().findElement(By.xpath
-                ("//*[@id='jenkins']/dialog/div[3]/button[1]")).click();
+        getDriver().findElement(By.xpath("//*[@id='jenkins']/dialog/div[3]/button[1]")).click();
         getDriver().findElement(By.id("search-box")).sendKeys(NEW_PROJECT_NAME, Keys.RETURN);
 
-        String not_found = getDriver().findElement(By.xpath
-                ("//*[@id='main-panel']/div")).getText();
+        String not_found = getDriver().findElement(By.xpath("//*[@id='main-panel']/div")).getText();
 
         Assert.assertEquals(not_found, "Nothing seems to match.");
     }
