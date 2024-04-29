@@ -39,6 +39,8 @@ public class FreestyleProject16Test extends BaseTest {
     public void testAddDescription(){
 
         getDriver().findElement(By.xpath
+                ("//*[@id='breadcrumbs']/li[1]/a")).click();
+        getDriver().findElement(By.xpath
                 ("//span[text()='" + PROJECT_NAME + "']")).click();
         getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
         getDriver().findElement(By.name
