@@ -12,7 +12,7 @@ public class NewItem17Test extends BaseTest {
     private static final String PROJECT_NAME = "FreeStyleProjectDG";
 
     @Test
-    public void testCreateNewItemFP () {
+    public void testCreateNewItemFP() {
         getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.xpath("//li[contains(@class, '_FreeStyleProject')]")).click();
@@ -30,7 +30,7 @@ public class NewItem17Test extends BaseTest {
     }
 
     @Test
-    public void testCreateNewItemFPTU () {
+    public void testCreateNewItemFPTU() {
         TestUtils.createNewItem(this,PROJECT_NAME, TestUtils.Item.FREESTYLE_PROJECT);
         getDriver().findElement(By.name("Submit")).click();
 
