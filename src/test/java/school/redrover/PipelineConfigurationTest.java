@@ -11,6 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
@@ -202,6 +203,22 @@ public class PipelineConfigurationTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
                 .getText().contains(editedDisplayNameText),"Your DisplayName is not edited correctly");
+    }
+
+    @Test
+    public void testVerifySectionHasTooltip(){
+        String labelText = "Display Name";
+        String tooltipText = "Help for feature: Display Name";
+        createPipeline();
+
+        navigateToConfigurePageFromDashboard();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(ADVANCED_PROJECT_OPTIONS_MENU)).click();
+        clickOnAdvancedButton();
+
+        String actualTooltip = getDriver().findElement(By.xpath("//*[contains(text(), '" + labelText + "')]//a")).getAttribute("tooltip");
+
+        Assert.assertEquals(actualTooltip, tooltipText);
     }
 
     @Test
