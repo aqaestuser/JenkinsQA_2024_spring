@@ -27,6 +27,8 @@ public class PipelineConfigurationTest extends BaseTest {
 
     private static final By DISPLAY_NAME_TEXT_FIELD = By.xpath("//div[@class='setting-main']//input[contains(@checkurl, 'checkDisplayName')]");
 
+    private final String displayNameText = "This is project's Display name text for Advanced Project Options";
+
     private Actions actions;
 
     private Actions getActions() {
@@ -199,6 +201,7 @@ public class PipelineConfigurationTest extends BaseTest {
         clickOnAdvancedButton();
         getWait10().until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_TEXT_FIELD));
         getDriver().findElement(DISPLAY_NAME_TEXT_FIELD).sendKeys(editedDisplayNameText);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON_CONFIGURATION));
         getDriver().findElement(SAVE_BUTTON_CONFIGURATION).click();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
@@ -236,5 +239,19 @@ public class PipelineConfigurationTest extends BaseTest {
 
         WebElement link = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@target='blank']")));
         Assert.assertTrue(link.isDisplayed(), "Uncheck doesn't work");
+    }
+
+    @Test (dependsOnMethods = {"testAddDisplayNameInAdvancedSection", "testEditDisplayNameInAdvancedSection"})
+    public void testDeleteDisplayNameInAdvancedSection() {
+        navigateToConfigurePageFromDashboard();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(ADVANCED_PROJECT_OPTIONS_MENU)).click();
+
+        clickOnAdvancedButton();
+        getWait10().until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_TEXT_FIELD)).clear();
+        getDriver().findElement(SAVE_BUTTON_CONFIGURATION).click();
+
+        Assert.assertFalse(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
+                .getText().contains(displayNameText));
     }
 }
