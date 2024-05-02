@@ -14,51 +14,29 @@ public class NodeStatusSwitchTest extends BaseTest {
         getDriver().findElement(By.xpath(xpath)).click();
     }
 
+
     @Test
     public void testNumberOfItems() {
 
         String text = getDriver().findElement(By.id("executors")).getText();
+        List<WebElement> buildExecutors = getDriver().findElements(By.xpath("//td[text()='Idle']"));
+        int number = buildExecutors.size();
+        System.out.println(number);
 
         if(text.contains("( offline)")) {
-            WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
-            manageJenkins.click();
+            List<WebElement> buildExecutors1 = getDriver().findElements(By.xpath("//td[text()='Idle']"));
+            int number1 = buildExecutors1.size();
 
-            WebElement nodesLink = getDriver().findElement(By.xpath("//a[@href='computer']"));
-            nodesLink.click();
+            System.out.println(number1);
+            Assert.assertEquals(number, number1);
 
-            getDriver().findElement(By.cssSelector("#node_ > td:nth-child(9) > div > a > svg")).click();
-            WebElement numberOfNodes = getDriver().findElement(By.xpath("//input[@type='number']"));
-            numberOfNodes.clear();
-            numberOfNodes.sendKeys("2");
+        } else if(number >= 1){
+            List<WebElement> buildExecutors2 = getDriver().findElements(By.xpath("//td[text()='Idle']"));
+            int number2 = buildExecutors2.size();
 
-            getDriver().findElement(By.name("Submit")).click();
-
-            getDriver().findElement(By.name("Submit")).click();
-            List<WebElement> buildExecutors = getDriver().findElements(By.xpath("//td[text()='Idle']"));
-            int number = buildExecutors.size();
-
-            Assert.assertEquals(number, 2);
-
-        } else {
-            WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
-            manageJenkins.click();
-
-            WebElement nodesLink = getDriver().findElement(By.xpath("//a[@href='computer']"));
-            nodesLink.click();
-
-            getDriver().findElement(By.cssSelector("#node_ > td:nth-child(9) > div > a > svg")).click();
-            WebElement numberOfNodes = getDriver().findElement(By.xpath("//input[@type='number']"));
-            numberOfNodes.clear();
-            numberOfNodes.sendKeys("2");
-
-            getDriver().findElement(By.name("Submit")).click();
-
-            List<WebElement> buildExecutors = getDriver().findElements(By.xpath("//td[text()='Idle']"));
-            int number = buildExecutors.size();
-
-            Assert.assertEquals(number, 2);
+            System.out.println(number2);
+            Assert.assertEquals(number, number2);
         }
-
     }
 
     @Test(dependsOnMethods = "testNumberOfItems")
