@@ -71,5 +71,7 @@ public class NewItem10Test extends BaseTest {
                 .click();
 
         Assert.assertTrue(getDriver().findElement(createJob).isDisplayed());
+
+
     }
 }
