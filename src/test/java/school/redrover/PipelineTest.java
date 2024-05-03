@@ -1,9 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -126,5 +123,22 @@ public class PipelineTest extends BaseTest {
 
         List<WebElement> buildHistoryTable = getDriver().findElements(BUILD_HISTORY_PIPELINE_LOCATOR);
         Assert.assertTrue(buildHistoryTable.isEmpty(), PIPELINE_NAME + " build is in Build history table");
+    }
+
+    @Test
+    public void testStageViewDisplayedUnderPipelineInfo() {
+        TestUtils.createJob(this, TestUtils.Job.PIPELINE, TestUtils.randomString());
+        getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[3]/a")).click();
+
+        WebElement pipelineInfo = getDriver().findElement(By.xpath("//div[@id='main-panel']/div[1]"));
+        WebElement stageView = getDriver().findElement(By.xpath("//div[@id='pipeline-box']"));
+
+        Point pipelineInfoLocation = pipelineInfo.getLocation();
+        Dimension pipelineInfoSize = pipelineInfo.getSize();
+        Point stageViewLocation = stageView.getLocation();
+
+        boolean isUnderPipeline = stageViewLocation.getY() > (pipelineInfoLocation.getY() + pipelineInfoSize.getHeight());
+
+        Assert.assertTrue(isUnderPipeline,"Stage View is displayed under Pipeline Info.");
     }
 }
