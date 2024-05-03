@@ -14,6 +14,12 @@ public class HomePage extends BasePage {
     @FindBy(linkText = "Create a job")
     private WebElement createAJobLink;
 
+    @FindBy(css = "[href='/computer/']")
+    private WebElement nodesLink;
+
+    @FindBy(css = "#executors tr [href]")
+    private List<WebElement> nodesList;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -35,5 +41,22 @@ public class HomePage extends BasePage {
         createAJobLink.click();
 
         return new CreateNewItemPage(getDriver());
+    }
+
+    public NodesTablePage clickNodesLink() {
+        nodesLink.click();
+
+        return new NodesTablePage(getDriver());
+    }
+
+    public List<String> getNodesList() {
+        return nodesList
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public boolean isNodeDisplayed(String name) {
+        return getDriver().findElement(By.cssSelector("[href='/computer/" + name + "/']")).isDisplayed();
     }
 }
