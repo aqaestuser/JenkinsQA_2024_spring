@@ -21,20 +21,17 @@ public class NodeStatusSwitchTest extends BaseTest {
         String text = getDriver().findElement(By.id("executors")).getText();
         List<WebElement> buildExecutors = getDriver().findElements(By.xpath("//td[text()='Idle']"));
         int number = buildExecutors.size();
-        System.out.println(number);
-
+        
         if(text.contains("( offline)")) {
             List<WebElement> buildExecutors1 = getDriver().findElements(By.xpath("//td[text()='Idle']"));
             int number1 = buildExecutors1.size();
 
-            System.out.println(number1);
             Assert.assertEquals(number, number1);
 
         } else if(number >= 1){
             List<WebElement> buildExecutors2 = getDriver().findElements(By.xpath("//td[text()='Idle']"));
             int number2 = buildExecutors2.size();
 
-            System.out.println(number2);
             Assert.assertEquals(number, number2);
         }
     }
