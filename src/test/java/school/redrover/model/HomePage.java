@@ -3,11 +3,16 @@ package school.redrover.model;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import school.redrover.model.base.BasePage;
+import school.redrover.runner.TestUtils;
+
+import java.awt.*;
+import java.util.List;
+
 
 public class HomePage extends BasePage {
 
@@ -43,6 +48,20 @@ public class HomePage extends BasePage {
         return new CreateNewItemPage(getDriver());
     }
 
+
+    public HomePage openItemDropdown(String projectName) {
+        WebElement element = getDriver().findElement(By.cssSelector(String.format(
+                "td>a[href = 'job/%s/']",
+                TestUtils.asURL(projectName))));
+        openElementDropdown(element);
+        return this;
+    }
+
+    public DeleteDialog clickDeleteInDropdown(DeleteDialog dialog) {
+        getDriver().findElement(TestUtils.DROPDOWN_DELETE).click();
+        return dialog;
+    }
+  
     public NodesTablePage clickNodesLink() {
         nodesLink.click();
 
