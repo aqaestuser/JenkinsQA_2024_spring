@@ -1,16 +1,13 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
 
 public class PipelineProject6Test extends BaseTest {
     private static final String PIPELINE_NAME = "Pipeline";
@@ -49,6 +46,18 @@ public class PipelineProject6Test extends BaseTest {
         String expectedText = PIPELINE_NAME + " - Stage View";
         Assert.assertEquals(getWait5().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//div[@id='pipeline-box']/h2"))).getText(),expectedText);
+    }
+
+    @Test
+    public void testRunByBuildNowButton() {
+        createNewPipeline(PIPELINE_NAME);
+
+        getDriver().findElement(By.linkText("Build Now")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-build-success$='scheduled']")));
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class$='-name'][href$='1/']"))).click();
+        getDriver().findElement(By.cssSelector("[href$=console]")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("[class$='output']")).getText().contains("Finished: SUCCESS"));
     }
 }
 
