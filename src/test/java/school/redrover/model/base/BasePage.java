@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import school.redrover.model.AppearancePage;
 import school.redrover.model.HomePage;
 
@@ -36,5 +37,20 @@ public abstract class BasePage extends BaseModel {
             getDriver().findElement(By.name("Apply")).click();
         }
         return new AppearancePage(getDriver());
+    }
+
+    public void openHeaderUsernameDropdown() {
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.cssSelector("[data-href$='admin']")))
+                .pause(1000)
+                .click()
+                .perform();
+    }
+
+    public boolean isThereTextInBreadcrumbs(String text) {
+        return getDriver().findElements(By.className("jenkins-breadcrumbs__list-item"))
+                .stream()
+                .anyMatch(e -> e.getText()
+                .contains(text));
     }
 }
