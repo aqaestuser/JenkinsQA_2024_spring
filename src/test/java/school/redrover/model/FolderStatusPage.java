@@ -27,9 +27,6 @@ public class FolderStatusPage extends BasePage {
     @FindBy(xpath = "//a[.='New Item']")
     private WebElement newItem;
 
-    @FindBy(xpath = "//span[.='Configure the project']")
-    private WebElement configure;
-
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -63,11 +60,5 @@ public class FolderStatusPage extends BasePage {
                 .stream()
                 .map(WebElement::getText)
                 .toList();
-    }
-
-    public FolderConfigPage selectConfigure() {
-        configure.click();
-
-        return new FolderConfigPage(getDriver());
     }
 }

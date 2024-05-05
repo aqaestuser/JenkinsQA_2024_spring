@@ -29,6 +29,7 @@ public class MultibranchPipelineTest extends BaseTest {
     private final static List <String> PIPELINE_MENU =
             List.of("Status", "Configure", "Scan Multibranch Pipeline Log", "Multibranch Pipeline Events",
                     "Delete Multibranch Pipeline", "People", "Build History", "Rename", "Pipeline Syntax", "Credentials");
+    private MultibranchPipelineConfigPage page;
 
     private void disableCreatedMultiPipeline(String multiPipelineName) {
         getDriver().findElement(By.xpath("//span[text()='" + multiPipelineName + "']")).click();
@@ -341,5 +342,32 @@ public class MultibranchPipelineTest extends BaseTest {
         String actualPageHeader = getDriver().findElement(By.tagName("h1")).getText();
 
         Assert.assertEquals(actualPageHeader,WELCOME_PAGE_HEADER);
+    }
+
+    @Test
+    public void testEnableMultibranchPipeline() {
+        page = new HomePage(getDriver()).clickCreateAJob()
+                .setItemName("TextName")
+                .selectMultibranchPipelineAndClickOk()
+                .clickOnToggle()
+                .clickSaveButton()
+                .selectConfigure()
+                .clickOnToggle()
+                .clickSaveButton()
+                .selectConfigure();
+
+        Assert.assertEquals(page.getStatusToggle(), "true");
+    }
+
+    @Test
+    public void testDisabledMultibranchPipeline() {
+        page = new HomePage(getDriver()).clickCreateAJob()
+                .setItemName("TextName1")
+                .selectMultibranchPipelineAndClickOk()
+                .clickOnToggle()
+                .clickSaveButton()
+                .selectConfigure();
+
+        Assert.assertEquals(page.getStatusToggle(), "false");
     }
 }
