@@ -29,7 +29,6 @@ public class MultibranchPipelineTest extends BaseTest {
     private final static List <String> PIPELINE_MENU =
             List.of("Status", "Configure", "Scan Multibranch Pipeline Log", "Multibranch Pipeline Events",
                     "Delete Multibranch Pipeline", "People", "Build History", "Rename", "Pipeline Syntax", "Credentials");
-    private MultibranchPipelineConfigPage page;
 
     private void disableCreatedMultiPipeline(String multiPipelineName) {
         getDriver().findElement(By.xpath("//span[text()='" + multiPipelineName + "']")).click();
@@ -346,7 +345,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testEnableMultibranchPipeline() {
-        page = new HomePage(getDriver()).clickCreateAJob()
+        MultibranchPipelineConfigPage page = new HomePage(getDriver()).clickCreateAJob()
                 .setItemName("TextName")
                 .selectMultibranchPipelineAndClickOk()
                 .clickOnToggle()
@@ -361,7 +360,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testDisabledMultibranchPipeline() {
-        page = new HomePage(getDriver()).clickCreateAJob()
+        MultibranchPipelineConfigPage page = new HomePage(getDriver()).clickCreateAJob()
                 .setItemName("TextName1")
                 .selectMultibranchPipelineAndClickOk()
                 .clickOnToggle()
