@@ -35,6 +35,12 @@ public class PipelinePage extends BasePage {
     @FindBy(css = "[class*='dropdown'] [href$='Delete']")
     private WebElement breadcrumbsDeleteButton;
 
+    @FindBy(css = "a[href$='rename']")
+    private WebElement sidebarRenameButton;
+
+    @FindBy(css = "div > h1")
+    private WebElement headlineDisplayedName;
+
     public PipelinePage(WebDriver driver) {
         super(driver);
     }
@@ -77,7 +83,6 @@ public class PipelinePage extends BasePage {
         return this;
     }
 
-
     public PipelinePage makeDescriptionFieldNotActive() {
         new Actions(getDriver()).sendKeys(Keys.TAB).perform();
 
@@ -114,5 +119,14 @@ public class PipelinePage extends BasePage {
         breadcrumbsDeleteButton.click();
 
         return new DeleteDialog(getDriver());
+    }
+    public PipelineRenamePage clickSidebarRenameButton() {
+        sidebarRenameButton.click();
+
+        return new PipelineRenamePage(getDriver());
+    }
+
+    public String getHeadlineDisplayedName() {
+        return headlineDisplayedName.getText();
     }
 }
