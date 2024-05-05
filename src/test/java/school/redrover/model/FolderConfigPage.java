@@ -10,6 +10,12 @@ public class FolderConfigPage extends BasePage {
     @FindBy(name = "Submit")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//label[@data-title='Disabled']")
+    private WebElement toggle;
+
+    @FindBy(id = "enable-disable-project")
+    private WebElement statusToggle;
+
     public FolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -18,5 +24,15 @@ public class FolderConfigPage extends BasePage {
         saveButton.click();
 
         return new FolderStatusPage(getDriver());
+    }
+
+    public FolderConfigPage disabledToggle() {
+        toggle.click();
+
+        return this;
+    }
+
+    public String getStatusToggle() {
+        return statusToggle.getDomProperty("checked");
     }
 }

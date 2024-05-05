@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import school.redrover.model.base.BasePage;
 
 public class MultibranchPipelineConfigPage extends BasePage {
@@ -17,6 +16,9 @@ public class MultibranchPipelineConfigPage extends BasePage {
     @FindBy(className = "tippy-box")
     private WebElement tooltip;
 
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement savaButton;
+
     public MultibranchPipelineConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -24,6 +26,11 @@ public class MultibranchPipelineConfigPage extends BasePage {
     public MultibranchPipelineConfigPage clickToggle() {
         statusToggle.click();
         return this;
+    }
+
+    public FolderConfigPage clickOnToggle() {
+        statusToggle.click();
+        return new FolderConfigPage(getDriver());
     }
 
     public MultibranchPipelineConfigPage hoverOverToggle() {
