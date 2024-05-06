@@ -16,6 +16,9 @@ public class ManageJenkinsPage extends BasePage {
     @FindBy(className = "jenkins-search__input")
     private WebElement searchInput;
 
+    @FindBy(css = "[href='appearance']")
+    private WebElement appearanceButton;
+
     @FindBy(xpath = "(//div[@class='jenkins-section__items'])[5]/div[contains(@class, 'item')]")
     List<WebElement> toolsAndActionsSections;
 
@@ -35,6 +38,12 @@ public class ManageJenkinsPage extends BasePage {
 
     public boolean isSearchInputDisplayed() {
         return searchInput.isDisplayed();
+    }
+
+    public AppearancePage clickAppearanceButton() {
+        appearanceButton.click();
+
+        return new AppearancePage(getDriver());
     }
 
     public boolean areToolsAndActionsSectionsEnabled() {
