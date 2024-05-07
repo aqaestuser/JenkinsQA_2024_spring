@@ -66,4 +66,8 @@ public abstract class BasePage extends BaseModel {
         return elements.stream()
                 .allMatch(WebElement::isEnabled);
     }
+
+    public String getText(WebElement webElement) {
+        return webElement.getText();
+    }
 }
