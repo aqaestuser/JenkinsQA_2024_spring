@@ -1,14 +1,16 @@
 package school.redrover;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
+import school.redrover.model.AboutJenkinsPage;
+import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FooterTest extends BaseTest {
 
@@ -47,5 +49,35 @@ public class FooterTest extends BaseTest {
         String titleText = getDriver().getTitle();
 
         Assert.assertEquals(titleText, "Remote API [Jenkins]");
+    }
+
+    @Test
+    public void testJenkinsVersion() {
+        AboutJenkinsPage page = new HomePage(getDriver()).jenkinsFooterClick()
+                .selectAboutJenkins();
+
+        Assert.assertTrue(page.versionJenkins.isDisplayed());
+    }
+
+    @Test
+    public void testDropDownLink() {
+        HomePage page = new HomePage(getDriver()).jenkinsFooterClick();
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.elementToBeClickable(page.aboutJenkinsDropdownItem)).isDisplayed());
+
+        Assert.assertTrue(page.involvedDropdownItem.isDisplayed());
+        Assert.assertTrue(page.websiteDropdownItem.isDisplayed());
+    }
+
+    @Test
+    public void testJenkinsInformationFooter() {
+        List<String> tabBarMenu = List.of("Mavenized dependencies", "Static resources", "License and dependency information for plugins");
+
+        AboutJenkinsPage page = new HomePage(getDriver()).jenkinsFooterClick()
+                .selectAboutJenkins();
+
+        Assert.assertTrue(page.tabBar.getText().contains(tabBarMenu.get(0)), "Expected: " + tabBarMenu.get(0));
+        Assert.assertTrue(page.tabBar.getText().contains(tabBarMenu.get(1)), "Expected: " + tabBarMenu.get(1));
+        Assert.assertTrue(page.tabBar.getText().contains(tabBarMenu.get(2)), "Expected: " + tabBarMenu.get(2));
     }
 }

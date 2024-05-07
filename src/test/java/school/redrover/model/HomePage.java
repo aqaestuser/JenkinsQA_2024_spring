@@ -57,11 +57,24 @@ public class HomePage extends BasePage {
     @FindBy(css = "[class='tippy-box'] [href='/manage']")
     private WebElement manageFromDashboardBreadcrumbsMenu;
 
-    @FindBy(id="executors")
+    @FindBy(id = "executors")
     private WebElement buildExecutorStatus;
 
     @FindBy(xpath = "//td[text()='Idle']")
     private List<WebElement> buildExecutorStatusList;
+
+    @FindBy(css = "[class$='jenkins_ver']")
+    private WebElement jenkinsFooter;
+
+    @FindBy(xpath = "//div/a[@href='/manage/about']")
+    public WebElement aboutJenkinsDropdownItem;
+
+    @FindBy(xpath = "//div/a[@href='https://www.jenkins.io/participate/']")
+    public WebElement involvedDropdownItem;
+
+    @FindBy(xpath = "//div/a[@href='https://www.jenkins.io/']")
+    public WebElement websiteDropdownItem;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -259,7 +272,7 @@ public class HomePage extends BasePage {
     }
 
     public String getBuildExecutorStatusText() {
-       return buildExecutorStatus.getText();
+        return buildExecutorStatus.getText();
     }
 
     public List<WebElement> getBuildExecutorStatusList() {
@@ -268,5 +281,17 @@ public class HomePage extends BasePage {
 
     public int getBuildExecutorListSize() {
         return buildExecutorStatusList.size();
+    }
+
+    public HomePage jenkinsFooterClick() {
+        jenkinsFooter.click();
+
+        return this;
+    }
+
+    public AboutJenkinsPage selectAboutJenkins() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(aboutJenkinsDropdownItem)).click();
+
+        return new AboutJenkinsPage(getDriver());
     }
 }
