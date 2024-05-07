@@ -1,10 +1,15 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.HomePage;
+import school.redrover.model.ItemPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
+import java.util.List;
 
 public class Folder3Test extends BaseTest {
 
@@ -27,15 +32,17 @@ public class Folder3Test extends BaseTest {
 
     @Test
     public void testCreate() {
-        getDriver().findElement(By.xpath("//*[text()='New Item']/ancestor::div[contains(@class,'task')]")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(FOLDER_NAME_FIRST);
-        getDriver().findElement(By.xpath("//*[text()='Folder']/ancestor::li")).click();
-        getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
-        clickSaveButton();
 
-        TestUtils.returnToDashBoard(this);
+        HomePage homePage = new HomePage(getDriver());
+        homePage.clickNewItem();
 
-        Assert.assertTrue(isFolderExists(FOLDER_NAME_FIRST));
+        new ItemPage(getDriver())
+                .setItemName(FOLDER_NAME_FIRST)
+                .selectFolderType()
+                .clickButtonOK()
+                .clickLogo();
+
+        Assert.assertTrue(homePage.isItemExists(FOLDER_NAME_FIRST));
     }
 
     @Test (dependsOnMethods = "testCreate")
