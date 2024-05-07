@@ -187,6 +187,7 @@ public class PipelinePage extends BasePage {
 
     public boolean isBtnPresentInSidebar(String btnText) {
         getWait2().until(ExpectedConditions.visibilityOfAllElements(taskLinkTextElements));
+
         return taskLinkTextElements.stream()
                 .anyMatch(element -> btnText.equals(element.getText()));
     }
