@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.HomePage;
+import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -200,5 +201,20 @@ public class PipelineTest extends BaseTest {
                 .getH2HeadingText();
 
         Assert.assertEquals(h2HeadingText, expectedResult);
+    }
+
+    @Test
+    void testVerifyThePresenceOfTheFullStageViewButtonInTheSidebar() {
+        String pipelineName = "New Pipeline group_java_autoqa_rrschool";
+
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(pipelineName)
+                .selectPipelineAndClickOk()
+                .clickSaveButton()
+                .clickLogo()
+                .chooseCreatedProject(pipelineName);
+
+        Assert.assertTrue(new PipelinePage(getDriver()).isBtnPresentInSidebar("Full Stage View"));
     }
 }
