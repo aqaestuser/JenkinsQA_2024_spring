@@ -217,4 +217,17 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(new PipelinePage(getDriver()).isBtnPresentInSidebar("Full Stage View"));
     }
+
+    @Test(dependsOnMethods = "testCreatePipelineProject")
+    public void testBreadcrumbsOnFullStageViewPage() {
+
+        final String expectedResult = "Dashboard > " + PIPELINE_NAME + " > Full Stage View";
+
+        String actualResult = new HomePage(getDriver())
+                .chooseCreatedProject(PIPELINE_NAME)
+                .clickFullStageViewButton()
+                .getBreadcrumbsText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }

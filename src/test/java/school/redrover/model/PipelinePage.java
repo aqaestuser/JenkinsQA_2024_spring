@@ -41,6 +41,15 @@ public class PipelinePage extends BasePage {
     @FindBy(css = "div > h1")
     private WebElement headlineDisplayedName;
 
+    @FindBy(xpath = "//a[@data-build-success = 'Build scheduled']")
+    private WebElement buildButton;
+
+    @FindBy(xpath = "//td[contains(@class, 'progress-bar')]")
+    private WebElement buildProgressBar;
+
+    @FindBy(xpath = "//div[@id = 'buildHistory']//tr[@class != 'build-search-row']")
+    private List<WebElement> listOfBuilds;
+
     @FindBy(xpath = "//a[contains(@href, 'workflow-stage')]")
     private WebElement fullStageViewButton;
 
@@ -146,6 +155,30 @@ public class PipelinePage extends BasePage {
     public String getHeadlineDisplayedName() {
         return headlineDisplayedName.getText();
     }
+
+    public PipelinePage clickBuild() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buildButton)).click();
+
+        return this;
+    }
+
+    public PipelinePage waitBuildToFinish() {
+        getWait10().until(ExpectedConditions.invisibilityOf(buildProgressBar));
+
+        return this;
+    }
+
+    public boolean isBuildAppear(int buildNumber, String jobName) {
+        getDriver().navigate().refresh();
+        WebElement nBuild = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[@class = 'build-row-cell']//a[text() = '#" +buildNumber + "']")));
+
+        return nBuild.getAttribute("href").contains("/job/" +jobName.replaceAll(" ", "%20") + "/2/");
+    }
+
+    public int numberOfBuild() {
+        return getWait5().until(ExpectedConditions.visibilityOfAllElements(listOfBuilds)).size();
+    }
+
     public FullStageViewPage clickFullStageViewButton() {
         getWait5().until(ExpectedConditions.elementToBeClickable(fullStageViewButton)).click();
 
