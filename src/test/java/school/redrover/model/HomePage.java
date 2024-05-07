@@ -57,6 +57,12 @@ public class HomePage extends BasePage {
     @FindBy(css = "[class='tippy-box'] [href='/manage']")
     private WebElement manageFromDashboardBreadcrumbsMenu;
 
+    @FindBy(id="executors")
+    private WebElement buildExecutorStatus;
+
+    @FindBy(xpath = "//td[text()='Idle']")
+    private List<WebElement> buildExecutorStatusList;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -250,5 +256,17 @@ public class HomePage extends BasePage {
         manageFromDashboardBreadcrumbsMenu.click();
 
         return new ManageJenkinsPage(getDriver());
+    }
+
+    public String getBuildExecutorStatusText() {
+       return buildExecutorStatus.getText();
+    }
+
+    public List<WebElement> getBuildExecutorStatusList() {
+        return buildExecutorStatusList.stream().toList();
+    }
+
+    public int getBuildExecutorListSize() {
+        return buildExecutorStatusList.size();
     }
 }

@@ -50,6 +50,9 @@ public class PipelinePage extends BasePage {
     })
     private List<WebElement> taskLinkTextElements;
 
+    @FindBy(id = "enable-project")
+    private WebElement warningMessage;
+
     public PipelinePage(WebDriver driver) {
         super(driver);
     }
@@ -110,6 +113,7 @@ public class PipelinePage extends BasePage {
         return getWait5().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//div[text()='" + pipelineDescription + "']"))).isDisplayed();
     }
+
     public DeleteDialog clickSidebarDeleteButton() {
         sidebarDeleteButton.click();
 
@@ -153,5 +157,9 @@ public class PipelinePage extends BasePage {
 
         return taskLinkTextElements.stream()
                 .anyMatch(element -> btnText.equals(element.getText()));
+    }
+
+    public String getWarningMessageText() {
+        return getWait2().until(ExpectedConditions.visibilityOf(warningMessage)).getText();
     }
 }
