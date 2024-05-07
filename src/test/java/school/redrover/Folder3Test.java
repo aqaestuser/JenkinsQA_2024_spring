@@ -1,15 +1,12 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.HomePage;
 import school.redrover.model.ItemPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
-import java.util.List;
 
 public class Folder3Test extends BaseTest {
 
