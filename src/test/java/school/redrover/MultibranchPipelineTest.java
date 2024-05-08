@@ -90,9 +90,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickToggle()
                 .clickSaveButton()
                 .clickSidebarRenameButton()
-                .clearNameInputField()
-                .setNewName(RENAMED_MULTI_PIPELINE)
-                .clickSaveRenameButton()
+                .changeNameTo(RENAMED_MULTI_PIPELINE)
                 .getProjectNameText();
 
         Assert.assertEquals(newNameMultibranchPipeline, RENAMED_MULTI_PIPELINE);

@@ -18,11 +18,6 @@ public class MultibranchPipelineRenamePage extends BasePage {
 
     @FindBy(name = "Submit")
     private WebElement renameButton;
-    @FindBy (css ="input.jenkins-input.validated")
-    private WebElement newNameInput;
-
-    @FindBy(name = "Submit")
-    private WebElement saveRenameButton;
 
     public MultibranchPipelineRenamePage(WebDriver driver) {
         super(driver);
@@ -32,21 +27,6 @@ public class MultibranchPipelineRenamePage extends BasePage {
         newNameInput.clear();
         newNameInput.sendKeys(newName);
         renameButton.click();
-    public MultibranchPipelineRenamePage clearNameInputField() {
-        newNameInput.clear();
-
-        return this;
-    }
-
-    public MultibranchPipelineRenamePage setNewName(String name) {
-        newNameInput.sendKeys(name);
-        newNameInput.sendKeys(Keys.ENTER);
-
-        return this;
-    }
-
-    public MultibranchPipelineStatusPage clickSaveRenameButton() {
-        new Actions(getDriver()).doubleClick(saveRenameButton).perform();
 
         return new MultibranchPipelineStatusPage(getDriver());
     }
