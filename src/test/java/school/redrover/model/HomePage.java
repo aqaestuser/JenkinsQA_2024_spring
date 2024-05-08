@@ -88,6 +88,15 @@ public class HomePage extends BasePage {
     @FindBy(tagName = "h1")
     private WebElement heading;
 
+    @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
+    private List<WebElement> listNamesOfItems;
+
+    @FindBy(xpath = "//td//button[@class='jenkins-menu-dropdown-chevron']")
+    private List<WebElement> jenkinsMenuDropdownChevron;
+
+    @FindBy(xpath = "//a[contains(@href, '/move')]")
+    private WebElement moveOption;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -380,5 +389,17 @@ public class HomePage extends BasePage {
     public String getHeadingValue() {
 
         return heading.getText();
+    }
+    public HomePage createNewFolder(String folderName) {
+        clickNewItem()
+                .setItemName(folderName)
+                .selectFolderAndClickOk()
+                .clickSaveButton();
+        return this;
+    }
+
+    public MovePage chooseFolderToMove() {
+        getWait5().until(ExpectedConditions.visibilityOf(moveOption)).click();
+        return new MovePage(getDriver());
     }
 }
