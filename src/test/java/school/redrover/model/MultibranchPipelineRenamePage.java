@@ -1,5 +1,9 @@
 package school.redrover.model;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +13,11 @@ import school.redrover.model.base.BasePage;
 
 public class MultibranchPipelineRenamePage extends BasePage {
 
+    @FindBy(xpath = "//input[@checkdependson='newName']")
+    private WebElement newNameInput;
+
+    @FindBy(name = "Submit")
+    private WebElement renameButton;
     @FindBy (css ="input.jenkins-input.validated")
     private WebElement newNameInput;
 
@@ -19,6 +28,10 @@ public class MultibranchPipelineRenamePage extends BasePage {
         super(driver);
     }
 
+    public MultibranchPipelineStatusPage changeNameTo(String newName) {
+        newNameInput.clear();
+        newNameInput.sendKeys(newName);
+        renameButton.click();
     public MultibranchPipelineRenamePage clearNameInputField() {
         newNameInput.clear();
 
