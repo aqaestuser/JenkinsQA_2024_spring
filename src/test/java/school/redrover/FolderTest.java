@@ -129,7 +129,8 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton()
                 .clickOnRenameButton()
                 .setNewName(NEW_FOLDER_NAME)
-                .clickRename().getPageTopic();
+                .clickRename()
+                .getPageTopic();
 
         Assert.assertEquals(folderRenamedName, NEW_FOLDER_NAME);
     }
