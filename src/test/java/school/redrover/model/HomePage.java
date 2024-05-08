@@ -58,7 +58,7 @@ public class HomePage extends BasePage {
     @FindBy(css = "[class='tippy-box'] [href='/manage']")
     private WebElement manageFromDashboardBreadcrumbsMenu;
 
-    @FindBy(id="executors")
+    @FindBy(id = "executors")
     private WebElement buildExecutorStatus;
 
     @FindBy(xpath = "//td[text()='Idle']")
@@ -84,6 +84,9 @@ public class HomePage extends BasePage {
 
     @FindBy(className = "jenkins-dropdown__item")
     private List<WebElement> dropDownElements;
+
+    @FindBy(xpath = "//*[@class=' job-status-']/td[3]/a")
+    private WebElement createdElementInTable;
 
     @FindBy(tagName = "h1")
     private WebElement heading;
@@ -370,6 +373,12 @@ public class HomePage extends BasePage {
         buildHistoryButton.click();
 
         return new BuildHistoryPage(getDriver());
+    }
+
+    public FolderStatusPage clickFolderName() {
+        createdElementInTable.click();
+
+        return new FolderStatusPage(getDriver());
     }
 
     public HomePage clickVersion() {
