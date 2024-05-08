@@ -66,6 +66,12 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[contains(@href, 'workflow-stage')]")
     private WebElement fullStageViewButton;
 
+    @FindBy(css = ".tab.active a")
+    private WebElement activeViewName;
+
+    @FindBy(css = ".tab input:not(:checked)~a")
+    private WebElement passiveViewName;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -287,5 +293,27 @@ public class HomePage extends BasePage {
         renameFromDropdown.click();
 
         return new MultibranchPipelineRenamePage(getDriver());
+    }
+
+    public HomePage moveMouseToPassiveViewName() {
+        new Actions(getDriver())
+                .moveToElement(passiveViewName)
+                .pause(200)
+                .perform();
+        return this;
+    }
+
+    public HomePage mouseClick() {
+        new Actions(getDriver())
+                .click()
+                .perform();
+        return this;
+    }
+    public String getPassiveViewNameBackgroundColor() {
+        return passiveViewName.getCssValue("background-color");
+    }
+
+    public String getActiveViewNameBackgroundColor() {
+        return activeViewName.getCssValue("background-color");
     }
 }
