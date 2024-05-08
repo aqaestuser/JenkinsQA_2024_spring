@@ -225,6 +225,10 @@ public class HomePage extends BasePage {
         return !getItemList().contains(name);
     }
 
+    public boolean isItemExists(String name) {
+        return getItemList().contains(name);
+    }
+
     public MultibranchPipelineStatusPage clickMPName(String projectName) {
         getDriver().findElement(By.cssSelector(String.format("[href = 'job/%s/']", projectName))).click();
 
@@ -302,5 +306,11 @@ public class HomePage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(fullStageViewButton)).click();
 
         return new FullStageViewPage(getDriver());
+    }
+
+    public MultibranchPipelineRenamePage clickRenameFromDropdownMP() {
+        renameFromDropdown.click();
+
+        return new MultibranchPipelineRenamePage(getDriver());
     }
 }
