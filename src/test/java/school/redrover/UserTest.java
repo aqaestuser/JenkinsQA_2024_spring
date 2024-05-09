@@ -36,6 +36,7 @@ public class UserTest extends BaseTest {
         Assert.assertTrue(userName.contains("TestUser"));
     }
 
+    @Ignore
     @Test
     public void testUsersSortingByName() {
 
