@@ -10,11 +10,11 @@ import java.util.List;
 
 public class AboutJenkinsPage extends BasePage {
 
-    @FindBy(xpath = "//p[.='Version 2.440.2']")
+    @FindBy(xpath = "//p[@class='app-about-version']")
     public WebElement versionJenkins;
 
     @FindBy(xpath = "//div[@class='tabBar']")
-    public WebElement tabBar;
+    public WebElement jenkinsTabPane;
 
     public AboutJenkinsPage(WebDriver driver) {
         super(driver);
@@ -28,6 +28,6 @@ public class AboutJenkinsPage extends BasePage {
 
     public void assertExistJenkinsInformationFooter() {
         List<String> tabBarMenu = List.of("Mavenized dependencies", "Static resources", "License and dependency information for plugins");
-        tabBarMenu.stream().allMatch(x -> tabBar.getText().contains(x));
+        tabBarMenu.stream().allMatch(x -> jenkinsTabPane.getText().contains(x));
     }
 }
