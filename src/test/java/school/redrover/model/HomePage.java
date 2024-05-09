@@ -501,4 +501,10 @@ public class HomePage extends BasePage {
 
         return new PeoplePage(getDriver());
     }
+    public FolderStatusPage clickSpecificFolderName(String name) {
+        getDriver().findElement(By.cssSelector("td>[href^='job/" + name.replace(" ", "%20") + "']")).click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
 }

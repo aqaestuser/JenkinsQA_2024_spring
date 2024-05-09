@@ -16,8 +16,8 @@ public class FolderStatusPage extends BasePage {
     @FindBy(css = "[href*='confirm-rename']")
     private WebElement renameButton;
 
-    @FindBy(css = "h1")
-    private WebElement pageTopic;
+    @FindBy(tagName = "h1")
+    private WebElement pageHeading;
 
     @FindBy(css = ".empty-state-section")
     private WebElement emptyStateSection;
@@ -52,6 +52,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(css = "td [href*='job']:first-child")
     private WebElement nestedFolderName;
 
+    @FindBy(css = "[class*='dropdown'] [href$='rename']")
+    private WebElement dropdownRenameButton;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -66,8 +69,8 @@ public class FolderStatusPage extends BasePage {
         return new FolderRenamePage(getDriver());
     }
 
-    public String getPageTopic() {
-        return pageTopic.getText();
+    public String getPageHeading() {
+        return pageHeading.getText();
     }
 
     public Boolean isFolderEmpty() {
@@ -136,5 +139,11 @@ public class FolderStatusPage extends BasePage {
 
     public String getNestedFolderName() {
         return nestedFolderName.getText();
+    }
+
+    public FolderRenamePage clickDropdownRenameButton() {
+        dropdownRenameButton.click();
+
+        return new FolderRenamePage(getDriver());
     }
 }
