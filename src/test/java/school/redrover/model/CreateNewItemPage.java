@@ -47,6 +47,9 @@ public class CreateNewItemPage extends BasePage {
     @FindBy(xpath = "//div[@class='item-copy']//li[not(@style='display: none;')]")
     private List<WebElement> copyFormElements;
 
+    @FindBy(id = "itemname-required")
+    private WebElement itemNameHint;
+
     public CreateNewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -169,7 +172,6 @@ public class CreateNewItemPage extends BasePage {
         return new CreateItemPage(getDriver());
     }
 
-
     public List<String> getDropdownMenuContent() {
         List<WebElement> allJobFromThisLetter = getWait60().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("li[style='']")));
         List<String> allJobFromThisLetterName = new ArrayList<>();
@@ -179,6 +181,7 @@ public class CreateNewItemPage extends BasePage {
         }
         return allJobFromThisLetterName ;
     }
+
 
     public CreateNewItemPage selectFreeStyleProject() {
         freestyleItem.click();
@@ -190,6 +193,20 @@ public class CreateNewItemPage extends BasePage {
         }else{
             return true;
         }
+    }
+
+
+    public CreateNewItemPage clearItemNameField() {
+        nameText.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
+        return this;
+    }
+
+    public String getItemNameHintText() {
+        return itemNameHint.getText();
+    }
+
+    public String getItemNameHintColor() {
+        return itemNameHint.getCssValue("color");
     }
 
 }
