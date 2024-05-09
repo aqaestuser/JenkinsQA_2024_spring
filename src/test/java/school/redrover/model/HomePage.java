@@ -403,7 +403,8 @@ public class HomePage extends BasePage {
         clickNewItem()
                 .setItemName(folderName)
                 .selectFolderAndClickOk()
-                .clickSaveButton();
+                .clickSaveButton()
+                .clickLogo();
         return new HomePage(getDriver());
     }
 
