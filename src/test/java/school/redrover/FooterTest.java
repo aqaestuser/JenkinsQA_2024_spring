@@ -6,6 +6,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.AboutJenkinsPage;
 import school.redrover.model.HomePage;
+
+import school.redrover.model.HomePage;
+import school.redrover.model.MultibranchPipelineConfigPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
@@ -29,14 +32,11 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testLinkButtonsListInVersionDropDown() {
-        final List<String> expectedDropDownElementsValues = new ArrayList<>(List.of("About Jenkins", "Get involved", "Website"));
+        final List<String> expectedDropDownElementsValues = List.of("About Jenkins", "Get involved", "Website");
 
-        getDriver().findElement(By.cssSelector("[class$=jenkins_ver]")).click();
-        List<WebElement> dropDownElements = getDriver().findElements(By.className("jenkins-dropdown__item"));
-        List<String> actualDropDownElementsValues = new ArrayList<>();
-        for (WebElement element : dropDownElements) {
-            actualDropDownElementsValues.add(element.getDomProperty("innerText"));
-        }
+        List<String> actualDropDownElementsValues = new HomePage(getDriver())
+            .clickVersion()
+            .getVersionDropDownElementsValues();
 
         Assert.assertEquals(actualDropDownElementsValues, expectedDropDownElementsValues, "Allarm!");
     }

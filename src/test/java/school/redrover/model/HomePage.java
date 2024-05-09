@@ -11,6 +11,7 @@ import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -79,6 +80,50 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div/a[@href='https://www.jenkins.io/']")
     public WebElement websiteDropdownItem;
 
+    @FindBy(css =  "a.jenkins-table__link.model-link.inside")
+    private List<WebElement> allExistingJobs;
+
+    @FindBy(css = ".tab.active a")
+    private WebElement activeViewName;
+
+    @FindBy(css = ".tab input:not(:checked)~a")
+    private WebElement passiveViewName;
+
+    @FindBy(css = "[href$='builds']")
+    private WebElement buildHistoryButton;
+
+    @FindBy(css = "[class$=jenkins_ver]")
+    private WebElement version;
+
+    @FindBy(className = "jenkins-dropdown__item")
+    private List<WebElement> dropDownElements;
+
+    @FindBy(xpath = "//*[@class=' job-status-']/td[3]/a")
+    private WebElement createdElementInTable;
+
+    @FindBy(tagName = "h1")
+    private WebElement heading;
+
+    @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
+    private List<WebElement> listNamesOfItems;
+
+    @FindBy(xpath = "//td//button[@class='jenkins-menu-dropdown-chevron']")
+    private List<WebElement> jenkinsMenuDropdownChevron;
+
+    @FindBy(xpath = "//a[contains(@href, '/move')]")
+    private WebElement moveOption;
+
+    @FindBy(css = "[class$='am-button security-am']")
+    private WebElement warningIcon;
+
+    @FindBy(xpath = "//div[@role='alert']")
+    private WebElement warningTooltipLocator;
+
+    @FindBy(xpath = "//a[contains(text(),'Manage Jenkins')]")
+    private WebElement manageJenkinsTooltipLink;
+
+    @FindBy(xpath = "//button[@name='configure']")
+    private WebElement configureTooltipButton;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -309,6 +354,23 @@ public class HomePage extends BasePage {
         return new FullStageViewPage(getDriver());
     }
 
+    public List<String> allExistingJobsNames() {
+        return allExistingJobs
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public List<String> getJobsBeginningFromThisFirstLetters(String firstLetters) {
+        return allExistingJobs
+                .stream()
+                .map(WebElement::getText)
+                .toList()
+                .stream()
+                .filter(el-> el.substring(0,firstLetters.length()).equalsIgnoreCase(firstLetters))
+                .toList();
+    }
+
     public MultibranchPipelineRenamePage clickRenameFromDropdownMP() {
         renameFromDropdown.click();
 
@@ -331,4 +393,96 @@ public class HomePage extends BasePage {
         Assert.assertTrue(websiteDropdownItem.isDisplayed());
     }
 
+
+    public HomePage moveMouseToPassiveViewName() {
+        new Actions(getDriver())
+                .moveToElement(passiveViewName)
+                .pause(200)
+                .perform();
+        return this;
+    }
+
+    public HomePage mouseClick() {
+        new Actions(getDriver())
+                .click()
+                .perform();
+        return this;
+    }
+    public String getPassiveViewNameBackgroundColor() {
+        return passiveViewName.getCssValue("background-color");
+    }
+
+    public String getActiveViewNameBackgroundColor() {
+        return activeViewName.getCssValue("background-color");
+    }
+
+    public HomePage scheduleBuildForItem(String itemName) {
+        getDriver().findElement(By.cssSelector("td [title='Schedule a Build for " +
+                itemName.replace(" ", "%20") + "']")).click();
+
+        return this;
+    }
+
+    public BuildHistoryPage clickBuildHistory() {
+        buildHistoryButton.click();
+
+        return new BuildHistoryPage(getDriver());
+    }
+
+    public FolderStatusPage clickFolderName() {
+        createdElementInTable.click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public HomePage clickVersion() {
+        version.click();
+
+        return this;
+    }
+
+    public List<String> getVersionDropDownElementsValues(){
+        List<String> actualDropDownElementsValues = new ArrayList<>();
+        for (WebElement element : dropDownElements) {
+            actualDropDownElementsValues.add(element.getDomProperty("innerText"));
+        }
+        return actualDropDownElementsValues;
+    }
+
+    public String getHeadingValue() {
+
+        return heading.getText();
+    }
+    public HomePage createNewFolder(String folderName) {
+        clickNewItem()
+                .setItemName(folderName)
+                .selectFolderAndClickOk()
+                .clickSaveButton();
+        return this;
+    }
+
+    public MovePage chooseFolderToMove() {
+        getWait5().until(ExpectedConditions.visibilityOf(moveOption)).click();
+        return new MovePage(getDriver());
+    }
+
+    public HomePage clickWarningIcon() {
+        warningIcon.click();
+        return this;
+    }
+
+    public String getWarningTooltipText() {
+        WebElement warningTooltipText = getWait5().until(ExpectedConditions.visibilityOf(warningTooltipLocator));
+        return warningTooltipText.getText();
+    }
+
+    public ManageJenkinsPage clickManageJenkinsTooltipLink() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(manageJenkinsTooltipLink)).click();
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public SecurityPage clickConfigureTooltipButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(configureTooltipButton)).click();
+        return new SecurityPage(getDriver());
+    }
 }
