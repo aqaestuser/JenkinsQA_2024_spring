@@ -182,6 +182,20 @@ public class CreateNewItemPage extends BasePage {
         return allJobFromThisLetterName ;
     }
 
+
+    public CreateNewItemPage selectFreeStyleProject() {
+        freestyleItem.click();
+        return this;
+    }
+    public Boolean getOkButtoneState() {
+        if(okButton.getAttribute("disabled") != ""){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
     public CreateNewItemPage clearItemNameField() {
         nameText.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         return this;
@@ -194,4 +208,5 @@ public class CreateNewItemPage extends BasePage {
     public String getItemNameHintColor() {
         return itemNameHint.getCssValue("color");
     }
+
 }
