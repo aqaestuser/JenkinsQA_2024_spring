@@ -4,14 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.AboutJenkinsPage;
 import school.redrover.model.HomePage;
-
-import school.redrover.model.HomePage;
-import school.redrover.model.MultibranchPipelineConfigPage;
 import school.redrover.runner.BaseTest;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class FooterTest extends BaseTest {
