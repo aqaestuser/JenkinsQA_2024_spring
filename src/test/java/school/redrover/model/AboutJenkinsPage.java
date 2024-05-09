@@ -13,7 +13,7 @@ public class AboutJenkinsPage extends BasePage {
     public WebElement versionJenkins;
 
     @FindBy(xpath = "//div[@class='tabBar']")
-    public WebElement jenkinsTabPane;
+    public WebElement jenkinsTabPanel;
 
     public AboutJenkinsPage(WebDriver driver) {
         super(driver);
@@ -25,6 +25,6 @@ public class AboutJenkinsPage extends BasePage {
 
     public boolean isExistJenkinsInformationFooter() {
         List<String> tabBarMenu = List.of("Mavenized dependencies", "Static resources", "License and dependency information for plugins");
-        return tabBarMenu.stream().allMatch(x -> jenkinsTabPane.getText().contains(x));
+        return tabBarMenu.stream().allMatch(x -> jenkinsTabPanel.getText().contains(x));
     }
 }
