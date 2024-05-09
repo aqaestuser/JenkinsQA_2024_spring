@@ -108,7 +108,7 @@ public class MultibranchPipelineTest extends BaseTest {
             .selectMultibranchPipelineAndClickOk()
             .clickToggle()
             .clickSaveButton()
-            .clickDisableMultibranchPipeline();
+            .clickDisableEnableMultibranchPipeline();
 
         Assert.assertTrue(multibranchPipelineStatusPage.isMultibranchPipelineDisabledTextNotDisplayed(),"Disabled message is displayed!!!");
     }
@@ -466,7 +466,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testVerifyMpDisabledOnStatusPage() {
         String disabledMessage = new HomePage(getDriver())
             .clickMPName(MULTI_PIPELINE_NAME)
-            .clickDisableMultibranchPipeline()
+            .clickDisableEnableMultibranchPipeline()
             .getDisableMultibranchPipelineText();
 
         Assert.assertEquals(disabledMessage, "This Multibranch Pipeline is currently disabled");
@@ -510,4 +510,29 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[contains(text(),MULTIBRANCH_NAME)]")).isDisplayed(), MULTIBRANCH_NAME);
     }
+
+    @Test
+    public void testCreatingMultibranchPipeline(){
+        String multibranchPipelinePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(MULTI_PIPELINE_NAME)
+                .selectMultibranchPipelineAndClickOk()
+                .clickSaveButton()
+                .clickLogo()
+                .getMultibranchPipelineNameText();
+
+        Assert.assertEquals(multibranchPipelinePage,MULTI_PIPELINE_NAME);
+    }
+
+    @Test(dependsOnMethods = "testCreatingMultibranchPipeline")
+    public void testMultibranchPipelineEnable(){
+        String buttonName = new HomePage(getDriver())
+                .clickJobByName(MULTI_PIPELINE_NAME,
+                        new MultibranchPipelineStatusPage(getDriver()))
+                .getDisableMultibranchPipelineButtonText();
+
+        Assert.assertEquals(buttonName, "Disable Multibranch Pipeline");
+
+    }
+
 }

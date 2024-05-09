@@ -51,6 +51,8 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "a[href $= '/move']")
     private WebElement dropdownMove;
+    @FindBy(xpath = "//*[@href='job/MultibranchPipeline/']/span")
+    private WebElement multibranchPipelineName;
 
     @FindBy(css = "div#breadcrumbBar a[href = '/']")
     private WebElement dashboardBreadcrumbs;
@@ -394,6 +396,15 @@ public class HomePage extends BasePage {
         renameFromDropdown.click();
 
         return new MultibranchPipelineRenamePage(getDriver());
+    }
+
+    public <T> T clickJobByName(String name, T page) {
+        getDriver().findElement(By.xpath(
+                "//td/a[@href='job/" + name.replace(" ", "%20") + "/']")).click();
+        return page;
+    }
+    public String getMultibranchPipelineNameText(){
+        return multibranchPipelineName.getText();
     }
 
     public boolean isDisplayedAboutJenkinsDropdownItem() {
