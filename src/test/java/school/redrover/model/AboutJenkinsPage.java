@@ -3,7 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 
 import java.util.List;
@@ -20,14 +19,12 @@ public class AboutJenkinsPage extends BasePage {
         super(driver);
     }
 
-    public AboutJenkinsPage assertIsDisplayedVersionJenkins() {
-        Assert.assertTrue(versionJenkins.isDisplayed());
-
-        return this;
+    public boolean isDisplayedVersionJenkins() {
+        return versionJenkins.isDisplayed();
     }
 
-    public void assertExistJenkinsInformationFooter() {
+    public boolean isExistJenkinsInformationFooter() {
         List<String> tabBarMenu = List.of("Mavenized dependencies", "Static resources", "License and dependency information for plugins");
-        tabBarMenu.stream().allMatch(x -> jenkinsTabPane.getText().contains(x));
+        return tabBarMenu.stream().allMatch(x -> jenkinsTabPane.getText().contains(x));
     }
 }

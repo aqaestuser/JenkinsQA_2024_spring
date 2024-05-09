@@ -377,20 +377,16 @@ public class HomePage extends BasePage {
         return new MultibranchPipelineRenamePage(getDriver());
     }
 
-    public HomePage assertToBeClickableAboutJenkinsDropdownItem() {
-        Assert.assertTrue(getWait5().until(ExpectedConditions.elementToBeClickable(aboutJenkinsDropdownItem)).isDisplayed());
-
-        return this;
+    public boolean toBeClickableAboutJenkinsDropdownItem() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(aboutJenkinsDropdownItem)).isDisplayed();
     }
 
-    public HomePage assertIsDisplayedInvolvedDropdownItem() {
-        Assert.assertTrue(involvedDropdownItem.isDisplayed());
-
-        return this;
+    public boolean isDisplayedInvolvedDropdownItem() {
+        return involvedDropdownItem.isDisplayed();
     }
 
-    public void assertIsDisplayedWebsiteDropdownItem() {
-        Assert.assertTrue(websiteDropdownItem.isDisplayed());
+    public boolean isDisplayedWebsiteDropdownItem() {
+        return websiteDropdownItem.isDisplayed();
     }
 
 
