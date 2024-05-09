@@ -10,10 +10,17 @@ public class SearchResultPage extends BasePage {
     @FindBy(css = "[class='error']")
     private WebElement noMatchResult;
 
+    @FindBy(css = "[id*='page'] h1")
+    private WebElement matchLogResult;
+
     public SearchResultPage(WebDriver driver) {
         super(driver);
     }
     public String getNoMatchText() {
         return noMatchResult.getText();
+    }
+
+    public String getMatchLogResult() {
+        return matchLogResult.getText();
     }
 }

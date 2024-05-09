@@ -51,15 +51,34 @@ public class SearchBoxTest extends BaseTest {
     }
 
     @Test
-    public void testCaseSensitiveOnUppercaseInput() {
+    public void testSearchWithCaseSensitiveOn() {
         new HeaderBlock(getDriver()).goToConfigurePage()
                 .turnInsensitiveSearch(false)
                 .clickApplyButton();
 
-        final String searchResult = new HeaderBlock(getDriver())
+        final String searchResult1 = new HeaderBlock(getDriver())
                 .typeSearchQueryPressEnter(UPPER_CASE_INPUT)
                 .getNoMatchText();
+        final String searchResult2 = new HeaderBlock(getDriver())
+                .typeSearchQueryPressEnter(LOWER_CASE_INPUT)
+                .getMatchLogResult();
 
-        Assert.assertEquals(searchResult, "Nothing seems to match.");
+        Assert.assertFalse(searchResult1.matches(searchResult2));
+    }
+
+    @Test
+    public void testSearchWithCaseSensitiveOff() {
+        new HeaderBlock(getDriver()).goToConfigurePage()
+                .turnInsensitiveSearch(true)
+                .clickApplyButton();
+
+        final String searchResult1 = new HeaderBlock(getDriver())
+                .typeSearchQueryPressEnter(UPPER_CASE_INPUT)
+                .getMatchLogResult();
+        final String searchResult2 = new HeaderBlock(getDriver())
+                .typeSearchQueryPressEnter(LOWER_CASE_INPUT)
+                .getMatchLogResult();
+
+        Assert.assertTrue(searchResult1.matches(searchResult2));
     }
 }
