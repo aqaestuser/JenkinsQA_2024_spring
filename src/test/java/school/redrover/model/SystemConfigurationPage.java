@@ -12,9 +12,9 @@ public class SystemConfigurationPage extends BasePage {
     }
 
     @FindBy(tagName = "h1")
-    private WebElement pageTitle;
+    private WebElement pageHeading;
 
     public String getTitleText(){
-        return pageTitle.getText();
+        return pageHeading.getText();
     }
 }

@@ -9,13 +9,13 @@ import school.redrover.model.HeaderBlock;
 import school.redrover.runner.BaseTest;
 
 public class SearchBox3Test extends BaseTest {
-    public static final By SEARCH_BOX = By.xpath("//input[@id='search-box']");
+    private static final By SEARCH_BOX = By.xpath("//input[@id='search-box']");
     private static final By SYSTEM_PAGE = By.xpath("//h1[.='System']");
 
     @Test
     public void testSearchWithValidData() {
         String systemPageTitle = new HeaderBlock(getDriver())
-                .sendRequestToSearchBox("config")
+                .enterRequestIntoSearchBox("config")
                 .makeClickToSearchBox()
                 .getTitleText();
 

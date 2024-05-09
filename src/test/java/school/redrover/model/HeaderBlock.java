@@ -7,14 +7,13 @@ import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BasePage;
 
 public class HeaderBlock extends BasePage {
+    @FindBy(xpath = "//input[@id='search-box']")
+    private WebElement searchBox;
 
     public HeaderBlock(WebDriver driver) {
         super(driver);
     }
-    @FindBy(xpath = "//input[@id='search-box']")
-    private WebElement searchBox;
-
-    public HeaderBlock sendRequestToSearchBox(String requestData){
+     public HeaderBlock enterRequestIntoSearchBox(String requestData){
         searchBox.sendKeys(requestData);
         return this;
     }
@@ -23,7 +22,4 @@ public class HeaderBlock extends BasePage {
         searchBox.sendKeys(Keys.ENTER);
         return new SystemConfigurationPage (getDriver());
     }
-
-
-
 }
