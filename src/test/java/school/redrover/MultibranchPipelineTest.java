@@ -475,8 +475,8 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testVerifyMpDisabledOnStatusPage")
     public void testVerifyMpDisabledMessageColorOnStatusPage() {
         String disabledMessageColor = new HomePage(getDriver())
-            .clickMPName(MULTI_PIPELINE_NAME)
-            .getDisableMultibranchPipelineTextColor();
+                .clickMPName(MULTI_PIPELINE_NAME)
+                .getDisableMultibranchPipelineTextColor();
 
         Assert.assertEquals(disabledMessageColor, "rgba(254, 130, 10, 1)");
     }
@@ -487,7 +487,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
         WebElement dropdownArrow = getDriver().findElement(By.cssSelector("a[href^='/job'] > button"));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].dispatchEvent(new Event('mouseenter'));" +
-            "arguments[0].dispatchEvent(new Event('click'));", dropdownArrow);
+                "arguments[0].dispatchEvent(new Event('click'));", dropdownArrow);
 
         getDriver().findElement(By.cssSelector("[class*='dropdown'] [href$='doDelete']")).click();
         getDriver().findElement(By.cssSelector("[data-id='ok']")).click();
@@ -532,7 +532,5 @@ public class MultibranchPipelineTest extends BaseTest {
                 .getDisableMultibranchPipelineButtonText();
 
         Assert.assertEquals(buttonName, "Disable Multibranch Pipeline");
-
     }
-
 }
