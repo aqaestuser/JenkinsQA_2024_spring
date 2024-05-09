@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
@@ -313,4 +314,21 @@ public class HomePage extends BasePage {
 
         return new MultibranchPipelineRenamePage(getDriver());
     }
+
+    public HomePage assertToBeClickableAboutJenkinsDropdownItem() {
+        Assert.assertTrue(getWait5().until(ExpectedConditions.elementToBeClickable(aboutJenkinsDropdownItem)).isDisplayed());
+
+        return this;
+    }
+
+    public HomePage assertIsDisplayedInvolvedDropdownItem() {
+        Assert.assertTrue(involvedDropdownItem.isDisplayed());
+
+        return this;
+    }
+
+    public void assertIsDisplayedWebsiteDropdownItem() {
+        Assert.assertTrue(websiteDropdownItem.isDisplayed());
+    }
+
 }

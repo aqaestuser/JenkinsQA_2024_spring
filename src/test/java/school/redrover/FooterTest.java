@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.AboutJenkinsPage;
@@ -53,31 +52,23 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testJenkinsVersion() {
-        AboutJenkinsPage page = new HomePage(getDriver()).jenkinsFooterClick()
-                .selectAboutJenkins();
-
-        Assert.assertTrue(page.versionJenkins.isDisplayed());
+        new HomePage(getDriver()).jenkinsFooterClick()
+                .selectAboutJenkins()
+                .assertIsDisplayedVersionJenkins();
     }
 
     @Test
     public void testDropDownLink() {
-        HomePage page = new HomePage(getDriver()).jenkinsFooterClick();
-
-        Assert.assertTrue(getWait5().until(ExpectedConditions.elementToBeClickable(page.aboutJenkinsDropdownItem)).isDisplayed());
-
-        Assert.assertTrue(page.involvedDropdownItem.isDisplayed());
-        Assert.assertTrue(page.websiteDropdownItem.isDisplayed());
+        new HomePage(getDriver()).jenkinsFooterClick()
+                .assertToBeClickableAboutJenkinsDropdownItem()
+                .assertIsDisplayedInvolvedDropdownItem()
+                .assertIsDisplayedWebsiteDropdownItem();
     }
 
     @Test
     public void testJenkinsInformationFooter() {
-        List<String> tabBarMenu = List.of("Mavenized dependencies", "Static resources", "License and dependency information for plugins");
-
-        AboutJenkinsPage page = new HomePage(getDriver()).jenkinsFooterClick()
-                .selectAboutJenkins();
-
-        Assert.assertTrue(page.tabBar.getText().contains(tabBarMenu.get(0)), "Expected: " + tabBarMenu.get(0));
-        Assert.assertTrue(page.tabBar.getText().contains(tabBarMenu.get(1)), "Expected: " + tabBarMenu.get(1));
-        Assert.assertTrue(page.tabBar.getText().contains(tabBarMenu.get(2)), "Expected: " + tabBarMenu.get(2));
+        new HomePage(getDriver()).jenkinsFooterClick()
+                .selectAboutJenkins()
+                .assertExistJenkinsInformationFooter();
     }
 }
