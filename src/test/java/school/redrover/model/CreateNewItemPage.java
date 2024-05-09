@@ -180,4 +180,16 @@ public class CreateNewItemPage extends BasePage {
         return allJobFromThisLetterName ;
     }
 
+    public CreateNewItemPage selectFreeStyleProject() {
+        freestyleItem.click();
+        return this;
+    }
+    public Boolean getOkButtoneState() {
+        if(okButton.getAttribute("disabled") != ""){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 }
