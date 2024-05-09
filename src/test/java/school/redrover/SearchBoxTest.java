@@ -6,12 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.HeaderBlock;
 import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchBoxTest extends BaseTest {
+    private final static String UPPER_CASE_INPUT = "Log";
+    private final static String LOWER_CASE_INPUT = "log";
 
     private void openDashboard() {
         getDriver().findElement(By.id("jenkins-head-icon")).click();
@@ -45,5 +48,18 @@ public class SearchBoxTest extends BaseTest {
         Assert.assertEquals(actualElement.getText(), expected);
         Assert.assertTrue(getDriver().getCurrentUrl().contains(expected));
         Assert.assertTrue(getDriver().getTitle().contains(expected));
+    }
+
+    @Test
+    public void testCaseSensitiveOnUppercaseInput() {
+        new HeaderBlock(getDriver()).goToConfigurePage()
+                .turnInsensitiveSearch(false)
+                .clickApplyButton();
+
+        final String searchResult = new HeaderBlock(getDriver())
+                .typeSearchQueryPressEnter(UPPER_CASE_INPUT)
+                .getNoMatchText();
+
+        Assert.assertEquals(searchResult, "Nothing seems to match.");
     }
 }
