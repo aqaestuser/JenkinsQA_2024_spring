@@ -100,6 +100,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[contains(@href, '/move')]")
     private WebElement moveOption;
 
+    @FindBy(xpath = "//*[@id='tippy-1']/div/div/div/a[1]")
+    private WebElement about;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -410,5 +413,11 @@ public class HomePage extends BasePage {
     public MovePage chooseFolderToMove() {
         getWait5().until(ExpectedConditions.visibilityOf(moveOption)).click();
         return new MovePage(getDriver());
+    }
+
+    public AboutPage clickAbout() {
+        about.click();
+
+        return new AboutPage(getDriver());
     }
 }
