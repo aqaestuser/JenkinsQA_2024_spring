@@ -377,7 +377,7 @@ public class HomePage extends BasePage {
         return new MultibranchPipelineRenamePage(getDriver());
     }
 
-    public boolean toBeClickableAboutJenkinsDropdownItem() {
+    public boolean isDisplayedAboutJenkinsDropdownItem() {
         return getWait5().until(ExpectedConditions.elementToBeClickable(aboutJenkinsDropdownItem)).isDisplayed();
     }
 

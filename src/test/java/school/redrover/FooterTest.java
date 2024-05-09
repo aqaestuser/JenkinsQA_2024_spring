@@ -60,7 +60,7 @@ public class FooterTest extends BaseTest {
         HomePage page = new HomePage(getDriver())
                 .jenkinsFooterClick();
 
-        Assert.assertTrue(page.toBeClickableAboutJenkinsDropdownItem());
+        Assert.assertTrue(page.isDisplayedAboutJenkinsDropdownItem());
         Assert.assertTrue(page.isDisplayedInvolvedDropdownItem());
         Assert.assertTrue(page.isDisplayedWebsiteDropdownItem());
     }
