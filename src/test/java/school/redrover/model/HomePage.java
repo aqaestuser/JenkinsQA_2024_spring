@@ -91,14 +91,14 @@ public class HomePage extends BasePage {
     @FindBy(css = "[href$='builds']")
     private WebElement buildHistoryButton;
 
+    @FindBy(xpath = "//*[@class=' job-status-']/td[3]/a")
+    private WebElement createdElementInTable;
+
     @FindBy(css = "[class$=jenkins_ver]")
     private WebElement version;
 
     @FindBy(className = "jenkins-dropdown__item")
     private List<WebElement> dropDownElements;
-
-    @FindBy(xpath = "//*[@class=' job-status-']/td[3]/a")
-    private WebElement createdElementInTable;
 
     @FindBy(tagName = "h1")
     private WebElement heading;
@@ -111,6 +111,9 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//a[contains(@href, '/move')]")
     private WebElement moveOption;
+
+    @FindBy (xpath = "//*[@href='newJob']")
+    private WebElement createJob;
 
     @FindBy(css = "[class$='am-button security-am']")
     private WebElement warningIcon;
@@ -512,4 +515,11 @@ public class HomePage extends BasePage {
 
         return new FolderRenamePage(getDriver());
     }
+
+    public  CreateNewItemPage clickCreateJob() {
+        createJob.click();
+
+        return new CreateNewItemPage(getDriver());
+    }
+
 }
