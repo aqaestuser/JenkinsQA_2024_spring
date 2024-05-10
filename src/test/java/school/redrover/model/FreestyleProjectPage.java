@@ -17,6 +17,15 @@ public class FreestyleProjectPage extends BaseProjectPage {
     @FindBy (css = "#description > div:first-child")
     private WebElement projectDescription;
 
+    @FindBy(id = "description-link")
+    private WebElement changeDescriptionButton;
+
+    @FindBy(name = "description")
+    private WebElement descriptionInput;
+
+    @FindBy(name = "Submit")
+    private WebElement saveButton;
+
     @FindBy(xpath = "//a[contains(@href, 'confirm-rename')]")
     private WebElement renameButton;
 
@@ -33,6 +42,30 @@ public class FreestyleProjectPage extends BaseProjectPage {
     public String checkFullProjectName() {
 
         return fullProjectName.getText();
+    }
+
+    public FreestyleProjectPage clickChangeDescription() {
+        changeDescriptionButton.click();
+
+        return this;
+    }
+
+    public FreestyleProjectPage clearOnDescriptionInput() {
+        descriptionInput.clear();
+
+        return this;
+    }
+
+    public FreestyleProjectPage setDescription(String name) {
+        descriptionInput.sendKeys(name);
+
+        return this;
+    }
+
+    public FreestyleProjectPage clickSaveButton() {
+        saveButton.click();
+
+        return this;
     }
 
     public String getProjectName() {

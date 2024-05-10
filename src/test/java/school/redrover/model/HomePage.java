@@ -28,6 +28,9 @@ public class HomePage extends BasePage {
     @FindBy(css = "td > a[href^='job']")
     private WebElement pipelineItem;
 
+    @FindBy(css = "td > a[href^='job']")
+    private WebElement freestyleItem;
+
     @FindBy(css = "[href='/manage']")
     private WebElement manageJenkinsLink;
 
@@ -207,6 +210,12 @@ public class HomePage extends BasePage {
         pipelineItem.click();
 
         return new PipelineProjectPage(getDriver());
+    }
+
+    public FreestyleProjectPage clickCreatedFreestyleName() {
+        freestyleItem.click();
+
+        return new FreestyleProjectPage(getDriver());
     }
 
     public ViewAllPage clickMyViewsFromDropdown() {

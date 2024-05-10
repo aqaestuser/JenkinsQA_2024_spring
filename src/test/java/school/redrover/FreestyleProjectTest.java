@@ -347,4 +347,22 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(itemList.contains(FREESTYLE_PROJECT_NAME));
     }
+
+    @Test
+    public void testEditDescriptionFreestyleProject() {
+        String addedToDescription = "Create one more build apps";
+
+        FreestyleProjectPage freestyleTest = createFreestyleProjectWithDescription();
+
+        String editDescription = freestyleTest
+                .clickLogo()
+                .clickCreatedFreestyleName()
+                .clickChangeDescription()
+                .clearOnDescriptionInput()
+                .setDescription(addedToDescription)
+                .clickSaveButton()
+                .getProjectDescriptionText();
+
+        Assert.assertEquals(editDescription, addedToDescription);
+    }
 }
