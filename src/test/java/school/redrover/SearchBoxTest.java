@@ -52,7 +52,7 @@ public class SearchBoxTest extends BaseTest {
 
     @Test
     public void testSearchWithCaseSensitiveOn() {
-        new HeaderBlock(getDriver()).goToConfigurePage()
+        new HeaderBlock(getDriver()).goToAdminConfigurePage()
                 .turnInsensitiveSearch(false)
                 .clickApplyButton();
 
@@ -68,7 +68,7 @@ public class SearchBoxTest extends BaseTest {
 
     @Test
     public void testSearchWithCaseSensitiveOff() {
-        new HeaderBlock(getDriver()).goToConfigurePage()
+        new HeaderBlock(getDriver()).goToAdminConfigurePage()
                 .turnInsensitiveSearch(true)
                 .clickApplyButton();
 

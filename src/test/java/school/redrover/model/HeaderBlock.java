@@ -28,7 +28,7 @@ public class HeaderBlock extends BasePage {
         return new SystemConfigurationPage (getDriver());
     }
 
-    public AdminConfigurePage goToConfigurePage() {
+    public AdminConfigurePage goToAdminConfigurePage() {
         new Actions(getDriver()).moveToElement(adminDropdownChevron)
                 .click()
                 .perform();
