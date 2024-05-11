@@ -150,7 +150,7 @@ public class PeopleTest extends BaseTest {
     }
 
     @Test
-    public void testTableSizeChangeToSmall() {
+    public void testIconSizeChangeToSmall() {
         final Dimension actualIconSize = new HomePage(getDriver())
                 .clickPeopleButton()
                 .clickSmallIconButton()
@@ -160,7 +160,7 @@ public class PeopleTest extends BaseTest {
     }
 
     @Test
-    public void testTableSizeChangeToMedium() {
+    public void testIconSizeChangeToMedium() {
         final Dimension actualIconSize = new HomePage(getDriver())
                 .clickPeopleButton()
                 .clickMediumIconButton()
@@ -170,7 +170,7 @@ public class PeopleTest extends BaseTest {
     }
 
     @Test
-    public void testTableSizeChangeToLarge() {
+    public void testIconSizeChangeToLarge() {
         final Dimension actualIconSize = new HomePage(getDriver())
                 .clickPeopleButton()
                 .clickLargeIconButton()
