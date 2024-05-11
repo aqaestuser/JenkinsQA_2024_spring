@@ -111,6 +111,9 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//a[contains(@href, '/move')]")
     private WebElement moveOption;
+  
+    @FindBy(xpath = "//*[@id='tippy-1']/div/div/div/a[1]")
+    private WebElement about;
 
     @FindBy (xpath = "//*[@href='newJob']")
     private WebElement createJob;
@@ -495,6 +498,13 @@ public class HomePage extends BasePage {
         return new MovePage(getDriver());
     }
 
+
+    public AboutPage clickAbout() {
+        about.click();
+
+        return new AboutPage(getDriver());
+    } 
+  
     public HomePage clickWarningIcon() {
         warningIcon.click();
         return this;
@@ -543,5 +553,6 @@ public class HomePage extends BasePage {
         dropdownPipelineSyntax.click();
 
         return new PipelineSyntaxPage(getDriver());
+
     }
 }
