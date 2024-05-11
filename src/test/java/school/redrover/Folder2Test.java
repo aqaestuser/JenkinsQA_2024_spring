@@ -27,7 +27,7 @@ public class Folder2Test extends BaseTest {
     public void testCreateFreestyleProjectInFolder(){
         final String freestyleName = "InternalFreestyleProject";
 
-        getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
+        getDriver().findElement(By.xpath( )).click();
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys(freestyleName);
         getDriver().findElement(By.cssSelector("[class$='_FreeStyleProject']")).click();
