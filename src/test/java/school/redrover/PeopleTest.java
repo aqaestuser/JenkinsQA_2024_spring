@@ -1,9 +1,11 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
 
 import java.util.*;
@@ -148,6 +150,36 @@ public class PeopleTest extends BaseTest {
         for (int i = 0; i < fourthColumnData.size() && i < expectedFourthColumnData.size(); i++) {
             Assert.assertEquals(fourthColumnData.get(i), expectedFourthColumnData.get(i));
         }
+    }
+
+    @Test
+    public void testIconSizeSmall() {
+        final Dimension actualIconSize = new HomePage(getDriver())
+                .clickPeopleButton()
+                .clickSmallIconButton()
+                .getUserIconSize();
+
+        Assert.assertEquals(actualIconSize, new Dimension(16, 16));
+    }
+
+    @Test
+    public void testIconSizeMedium() {
+        final Dimension actualIconSize = new HomePage(getDriver())
+                .clickPeopleButton()
+                .clickMediumIconButton()
+                .getUserIconSize();
+
+        Assert.assertEquals(actualIconSize, new Dimension(20, 20));
+    }
+
+    @Test
+    public void testIconSizeLarge() {
+        final Dimension actualIconSize = new HomePage(getDriver())
+                .clickPeopleButton()
+                .clickLargeIconButton()
+                .getUserIconSize();
+
+        Assert.assertEquals(actualIconSize, new Dimension(24, 24));
     }
 }
 
