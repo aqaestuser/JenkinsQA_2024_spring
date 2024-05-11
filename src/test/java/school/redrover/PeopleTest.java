@@ -7,9 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
-
 import java.util.*;
-
 import static school.redrover.runner.TestUtils.goToMainPage;
 
 public class PeopleTest extends BaseTest {
@@ -42,7 +40,6 @@ public class PeopleTest extends BaseTest {
             goToMainPage(getDriver());
         }
     }
-
 
     @Test
     public void testSortPeople() {
@@ -77,12 +74,12 @@ public class PeopleTest extends BaseTest {
                 expectedSecColumnData.add(cellText);
             }
         }
+
         String[] nameArray = expectedSecColumnData.toArray(String[]::new);
 
         Arrays.sort(nameArray, Comparator.reverseOrder());
 
         getDriver().findElement(By.xpath("//a[normalize-space()=\"Name\"]")).click();
-
 
         List<String> secColumnData = new ArrayList<>();
         for (WebElement row : rows) {
@@ -92,6 +89,7 @@ public class PeopleTest extends BaseTest {
                 secColumnData.add(cellText);
             }
         }
+
         String[] nNameArray = secColumnData.toArray(String[]::new);
 
         for (int i = 0; i < nNameArray.length && i < nameArray.length; i++) {
@@ -137,7 +135,6 @@ public class PeopleTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[normalize-space()=\"On\"]")).click();
 
-
         List<String> fourthColumnData = new ArrayList<>();
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
@@ -153,7 +150,7 @@ public class PeopleTest extends BaseTest {
     }
 
     @Test
-    public void testIconSizeSmall() {
+    public void testTableSizeChangeToSmall() {
         final Dimension actualIconSize = new HomePage(getDriver())
                 .clickPeopleButton()
                 .clickSmallIconButton()
@@ -163,7 +160,7 @@ public class PeopleTest extends BaseTest {
     }
 
     @Test
-    public void testIconSizeMedium() {
+    public void testTableSizeChangeToMedium() {
         final Dimension actualIconSize = new HomePage(getDriver())
                 .clickPeopleButton()
                 .clickMediumIconButton()
@@ -173,7 +170,7 @@ public class PeopleTest extends BaseTest {
     }
 
     @Test
-    public void testIconSizeLarge() {
+    public void testTableSizeChangeToLarge() {
         final Dimension actualIconSize = new HomePage(getDriver())
                 .clickPeopleButton()
                 .clickLargeIconButton()
@@ -182,5 +179,3 @@ public class PeopleTest extends BaseTest {
         Assert.assertEquals(actualIconSize, new Dimension(24, 24));
     }
 }
-
-
