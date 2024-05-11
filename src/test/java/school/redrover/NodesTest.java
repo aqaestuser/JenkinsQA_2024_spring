@@ -253,7 +253,7 @@ public class NodesTest extends BaseTest {
     @Test
     public void testCreateNewNodeWithInvalidData() {
 
-        final String actualResult = new HomePage(getDriver())
+        String actualResult = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickNodes()
                 .clickNewNodeButton()
