@@ -1,11 +1,8 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BasePage;
 
 public class FreestylePage extends BasePage {
@@ -19,11 +16,17 @@ public class FreestylePage extends BasePage {
     @FindBy(xpath = "//a[contains(@href, 'confirm-rename')]")
     private WebElement renameButton;
 
-    @FindBy(xpath = "//div[@id = 'tasks']/div[6]/span")
-    private WebElement deleteButton;
+    @FindBy(id = "description-link")
+    private WebElement addDescription;
 
-    @FindBy(xpath = "//button[@data-id='ok']")
-    private WebElement yesButton;
+    @FindBy(xpath = "//textarea")
+    private WebElement description;
+
+    @FindBy(xpath = "//button[@formnovalidate]")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//div[@id='description']/div")
+    private WebElement textDescription;
 
     public FreestylePage(WebDriver driver) {
         super(driver);
@@ -45,14 +48,19 @@ public class FreestylePage extends BasePage {
 
         return new FreestyleRenamePage(getDriver());
     }
-
-    public FreestylePage deleteFreestyleProject (){
-        getWait10().until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
+    public FreestylePage clickAddDescription() {
+        addDescription.click();
         return this;
     }
-
-    public HomePage confirmDeleteFreestyleProject(){
-        yesButton.click();
-        return new HomePage(getDriver());
+    public FreestylePage setDescription(String text) {
+        description.sendKeys(text);
+        return this;
+    }
+    public FreestylePage clickSaveButton() {
+        saveButton.click();
+        return this;
+    }
+    public String getDescriptionText() {
+        return textDescription.getText();
     }
 }
