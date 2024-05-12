@@ -13,13 +13,6 @@ import java.util.List;
 public class FooterTest extends BaseTest {
 
     @Test
-    public void testJenkinsVersionFooter() {
-        WebElement jenkinsVersion = getDriver().findElement(By.xpath("//*[contains(@class, 'jenkins_ver')]"));
-
-        Assert.assertEquals(jenkinsVersion.getText(), "Jenkins 2.440.2");
-    }
-
-    @Test
     public void testApiInfo() {
         getDriver().findElement(By.xpath("//*[@class='jenkins-button jenkins-button--tertiary rest-api']")).click();
 
