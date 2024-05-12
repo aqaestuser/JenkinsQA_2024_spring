@@ -30,7 +30,6 @@ public class PipelineTest extends BaseTest {
     private static final String SUCCEED_BUILD_EXPECTED = "Finished: SUCCESS";
     private static final String displayNameText = "This is project's Display name text for Advanced Project Options";
     List<String> nameProjects = List.of("PPProject", "PPProject2");
-    private static final By BUILD_1 = By.cssSelector("[class$='-name'][href$='1/']");
     private static final By BUILD_2 = By.cssSelector("[href='/job/Pipeline/2/console']");
     private static final By CONSOLE_OUTPUT = By.cssSelector("[class$='output']");
     private static final By SAVE_BUTTON_CONFIGURATION = By.xpath("//button[@formnovalidate='formNoValidate']");
@@ -759,17 +758,18 @@ public class PipelineTest extends BaseTest {
                 By.xpath("//div[@id='pipeline-box']/h2"))).getText(), expectedText);
     }
 
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "testCreatePipeline")
     public void testRunByBuildNowButton() {
-        createNewPipeline(PIPELINE_NAME);
+        String consoleOutput = new HomePage(getDriver())
+                .clickCreatedPipelineName()
+                .clickBuild()
+                .waitForBuildScheduledPopUp()
+                .clickLogo()
+                .clickBuildHistory()
+                .clickBuild1Console()
+                .getConsoleOutputMessage();
 
-        getDriver().findElement(By.linkText("Build Now")).click();
-        waitForPopUp();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(BUILD_1)).click();
-        goToConsoleOutput();
-
-        Assert.assertTrue(getDriver().findElement(CONSOLE_OUTPUT).getText().contains(SUCCEED_BUILD_EXPECTED));
+        Assert.assertTrue(consoleOutput.contains(SUCCEED_BUILD_EXPECTED));
     }
 
     @Ignore

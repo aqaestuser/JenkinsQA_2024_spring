@@ -96,8 +96,7 @@ public class AppearanceTest extends BaseTest {
 
         if (!appearancePage
                 .getCurrentThemeAttribute()
-                .equals("none"))
-        {
+                .equals("none")) {
             goToManageAppearance();
             appearancePage
                     .clickDefaultThemeButton()
