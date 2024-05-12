@@ -14,7 +14,7 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testJenkinsVersionFooter() {
-        WebElement jenkinsVersion = getDriver().findElement(By.xpath("//*[@class='jenkins-button jenkins-button--tertiary jenkins_ver']"));
+        WebElement jenkinsVersion = getDriver().findElement(By.xpath("//*[contains(@class, 'jenkins_ver')]"));
 
         Assert.assertEquals(jenkinsVersion.getText(), "Jenkins 2.440.2");
     }
@@ -49,7 +49,7 @@ public class FooterTest extends BaseTest {
     @Test
     public void testJenkinsVersion() {
         AboutJenkinsPage page = new HomePage(getDriver())
-                .jenkinsFooterClick()
+                .clickVersion()
                 .selectAboutJenkins();
 
         Assert.assertTrue(page.isDisplayedVersionJenkins());
@@ -58,7 +58,7 @@ public class FooterTest extends BaseTest {
     @Test
     public void testDropDownLink() {
         HomePage page = new HomePage(getDriver())
-                .jenkinsFooterClick();
+                .clickVersion();
 
         Assert.assertTrue(page.isDisplayedAboutJenkinsDropdownItem());
         Assert.assertTrue(page.isDisplayedInvolvedDropdownItem());
@@ -68,7 +68,7 @@ public class FooterTest extends BaseTest {
     @Test
     public void testJenkinsInformationFooter() {
         boolean isExistJenkinsInformationFooter = new HomePage(getDriver())
-                .jenkinsFooterClick()
+                .clickVersion()
                 .selectAboutJenkins()
                 .isExistJenkinsInformationFooter();
 

@@ -71,9 +71,6 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[contains(@href, 'workflow-stage')]")
     private WebElement fullStageViewButton;
 
-    @FindBy(css = "[class$='jenkins_ver']")
-    private WebElement jenkinsFooter;
-
     @FindBy(xpath = "//div/a[@href='/manage/about']")
     private WebElement aboutJenkinsDropdownItem;
 
@@ -376,12 +373,6 @@ public class HomePage extends BasePage {
 
     public int getBuildExecutorListSize() {
         return buildExecutorStatusList.size();
-    }
-
-    public HomePage jenkinsFooterClick() {
-        jenkinsFooter.click();
-
-        return this;
     }
 
     public AboutJenkinsPage selectAboutJenkins() {
