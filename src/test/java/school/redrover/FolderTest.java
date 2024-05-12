@@ -19,6 +19,7 @@ public class FolderTest extends BaseTest {
     private static final String FOLDER_TO_MOVE = "Folder_to_move_into_the_first";
     private static final String PIPELINE_NAME = "Pipeline Sv";
     private static final String FOLDER_DESCRIPTION_FIRST = "Some description of the folder.";
+    private static final String FOLDER_DESCRIPTION_SECOND = "NEW description of the folder.";
 
     public void create() {
         HomePage homePage = new HomePage(getDriver());
@@ -52,6 +53,18 @@ public class FolderTest extends BaseTest {
                 .getDescriptionText();
 
         Assert.assertEquals(textInDescription, FOLDER_DESCRIPTION_FIRST);
+    }
+
+    @Test(dependsOnMethods = {"testCreateViaCreateAJob", "testAddDescription"})
+    public void testChangeDescription() {
+        String textInDescription = new FolderProjectPage(getDriver())
+                .clickAddOrEditDescription()
+                .clearDescription()
+                .setDescription(FOLDER_DESCRIPTION_SECOND)
+                .clickSaveButton()
+                .getDescriptionText();
+
+        Assert.assertEquals(textInDescription, FOLDER_DESCRIPTION_SECOND);
     }
 
     @Test
