@@ -136,11 +136,26 @@ public class FolderTest extends BaseTest {
                 .hoverOverBreadcrumbsName()
                 .clickBreadcrumbsDropdownArrow()
                 .clickDropdownMoveButton()
-                .chooseDestinationFromListAndSave(FOLDER_NAME)
+                .chooseDestinationFromListAndMove(FOLDER_NAME)
                 .clickMainFolderName(FOLDER_NAME)
                 .getNestedFolderName();
 
         Assert.assertEquals(nestedFolder, FOLDER_TO_MOVE, FOLDER_TO_MOVE + " is not in " + FOLDER_NAME);
+    }
+
+    @Test
+    public void testMoveFolderToFolderViaChevron() {
+        List<String> folderNameList = new HomePage(getDriver())
+                .createNewFolder(FOLDER_TO_MOVE)
+                .createNewFolder(FOLDER_NAME)
+                .openItemDropdown(FOLDER_TO_MOVE)
+                .chooseFolderToMove()
+                .chooseDestinationFromListAndMove(FOLDER_NAME)
+                .clickLogo()
+                .clickFolder(FOLDER_NAME)
+                .getItemListInsideFolder();
+
+        Assert.assertEquals(folderNameList.get(0), FOLDER_TO_MOVE);
     }
 
     @Test
