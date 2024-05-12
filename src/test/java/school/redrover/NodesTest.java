@@ -231,26 +231,6 @@ public class NodesTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewNode() {
-
-        final String expectedResult = "Node-1";
-
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//a[@href='computer']")).click();
-        getDriver().findElement(By.xpath("//a[@href='new']")).click();
-
-        getDriver().findElement(By.id("name")).sendKeys("Node-1");
-        getDriver().findElement(By.xpath("//label[@for='hudson.slaves.DumbSlave']")).click();
-        getDriver().findElement(By.name("Submit")).click();
-
-        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate' and @name='Submit']")).click();
-
-        String actualResult = getDriver().findElement(By.xpath("//tr[@id='node_Node-1']//a[text()='Node-1']")).getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-    }
-
-    @Test
     public void testCreateNewNodeWithInvalidData() {
 
         String actualResult = new HomePage(getDriver())
@@ -267,19 +247,20 @@ public class NodesTest extends BaseTest {
 
     @Test
     public void testCreateNodeFromManageJenkins() {
+
         String nodeName = "NewNode";
-        getDriver().findElement(By.xpath("//*[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//dt[text() ='Nodes']")).click();
-        getDriver().findElement(By.xpath("//a[@href='new']")).click();
-        getDriver().findElement(By.xpath("//input[@ id='name']")).sendKeys(nodeName);
-        getDriver().findElement(By.xpath("//label[@for='hudson.slaves.DumbSlave' and contains(@class, 'jenkins-radio__label')]")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok' and contains(@class, 'jenkins-button--primary')]")).click();
-        getDriver().findElement(By.xpath("//button[normalize-space(text())='Save']")).click();
 
-        String actualResult = getDriver().findElement(By.xpath("//a[normalize-space(text())='" + nodeName + "']")).getText();
-        String expectedResult = "NewNode";
+        List<String> nodesList = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickNodes()
+                .clickNewNodeButton()
+                .setNodeName(nodeName)
+                .selectPermanentAgentRadioButton()
+                .clickOkButton()
+                .clickSaveButton()
+                .getNodesinTableList();
 
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertTrue(nodesList.contains(nodeName));
     }
 
     @Test
