@@ -32,9 +32,9 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testRestAPIButtonTitle() {
-        getDriver().findElement(By.xpath("//a[@href='api/']")).click();
-
-        String titleText = getDriver().getTitle();
+        String titleText = new HomePage(getDriver())
+                .clickApiLink()
+                .getApiPageTitleText();
 
         Assert.assertEquals(titleText, "Remote API [Jenkins]");
     }

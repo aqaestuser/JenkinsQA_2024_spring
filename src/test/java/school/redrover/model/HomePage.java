@@ -140,6 +140,9 @@ public class HomePage extends BasePage {
     @FindBy(css = "[href$='pipeline-syntax']")
     private WebElement dropdownPipelineSyntax;
 
+    @FindBy(xpath = "//a[@href='api/']")
+    WebElement apiLink;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -566,5 +569,10 @@ public class HomePage extends BasePage {
 
         return new PipelineSyntaxPage(getDriver());
 
+    }
+
+    public ApiPage clickApiLink() {
+        apiLink.click();
+        return new ApiPage(getDriver());
     }
 }
