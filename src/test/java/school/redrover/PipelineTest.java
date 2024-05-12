@@ -30,8 +30,6 @@ public class PipelineTest extends BaseTest {
     private static final String SUCCEED_BUILD_EXPECTED = "Finished: SUCCESS";
     private static final String displayNameText = "This is project's Display name text for Advanced Project Options";
     List<String> nameProjects = List.of("PPProject", "PPProject2");
-    private static final By BUILD_2 = By.cssSelector("[href='/job/Pipeline/2/console']");
-    private static final By CONSOLE_OUTPUT = By.cssSelector("[class$='output']");
     private static final By SAVE_BUTTON_CONFIGURATION = By.xpath("//button[@formnovalidate='formNoValidate']");
     private static final By TOGGLE_SWITCH_ENABLE_DISABLE = By.xpath("//label[@data-title='Disabled']");
     private static final By ADVANCED_PROJECT_OPTIONS_MENU = By.xpath("//button[@data-section-id='advanced-project-options']");
@@ -101,14 +99,6 @@ public class PipelineTest extends BaseTest {
 
     public void goHomePage() {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']"))).click();
-    }
-
-    private void goToConsoleOutput() {
-        getDriver().findElement(By.cssSelector("[href$=console]")).click();
-    }
-
-    private void waitForPopUp() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[aria-describedby^='tippy']")));
     }
 
     private Actions actions;
@@ -760,6 +750,7 @@ public class PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreatePipeline")
     public void testRunByBuildNowButton() {
+
         String consoleOutput = new HomePage(getDriver())
                 .clickCreatedPipelineName()
                 .clickBuild()
@@ -772,19 +763,17 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(consoleOutput.contains(SUCCEED_BUILD_EXPECTED));
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testRunByBuildNowButton")
+    @Test(dependsOnMethods = "testCreatePipeline")
     public void testRunBuildByTriangleButton() {
-        getDriver().findElement(By.cssSelector("[title^='Schedule a Build']")).click();
-        waitForPopUp();
-        getDriver().findElement(By.cssSelector("[href='job/Pipeline/']")).click();
 
-        getActions().moveToElement(getDriver().findElement(BUILD_2)).perform();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[aria-describedby='tippy-17']")));
-        getDriver().findElement(BUILD_2).click();
-        goToConsoleOutput();
+        String consoleOutput = new HomePage(getDriver())
+                .scheduleBuildForItem(PIPELINE_NAME)
+                .waitForBuildSchedulePopUp()
+                .clickBuildHistory()
+                .clickBuild1Console()
+                .getConsoleOutputMessage();
 
-        Assert.assertTrue(getDriver().findElement(CONSOLE_OUTPUT).getText().contains(SUCCEED_BUILD_EXPECTED));
+        Assert.assertTrue(consoleOutput.contains(SUCCEED_BUILD_EXPECTED));
     }
 
     @Test
