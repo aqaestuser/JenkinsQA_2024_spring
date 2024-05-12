@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.HomePage;
-import school.redrover.model.NodeBuiltInStatusPage;
-import school.redrover.model.NodeManagePage;
-import school.redrover.model.NodesTablePage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -19,15 +15,17 @@ public class NodesTest extends BaseTest {
 
     private static final String NODE_NAME = "FirstNode";
 
-    public void createNewNode(String nodeName) {
+    public NodesTablePage createNewNode(String nodeName) {
 
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        getDriver().findElement(By.xpath("//a[@href='computer']")).click();
-        getDriver().findElement(By.xpath("//a[@href='new']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(nodeName);
-        getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label']")).click();
-        getDriver().findElement(By.id("ok")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickNodes()
+                .clickNewNodeButton()
+                .setNodeName(nodeName)
+                .selectPermanentAgentRadioButton()
+                .clickOkButton()
+                .clickSaveButton();
+        return new NodesTablePage(getDriver());
     }
 
     @Test
@@ -248,19 +246,17 @@ public class NodesTest extends BaseTest {
     @Test
     public void testCreateNodeFromManageJenkins() {
 
-        String nodeName = "NewNode";
-
         List<String> nodesList = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickNodes()
                 .clickNewNodeButton()
-                .setNodeName(nodeName)
+                .setNodeName(NODE_NAME)
                 .selectPermanentAgentRadioButton()
                 .clickOkButton()
                 .clickSaveButton()
                 .getNodesinTableList();
 
-        Assert.assertTrue(nodesList.contains(nodeName));
+        Assert.assertTrue(nodesList.contains(NODE_NAME));
     }
 
     @Test
@@ -309,18 +305,15 @@ public class NodesTest extends BaseTest {
     @Test
     public void testDeleteExistingNode() {
 
-        final String searchNode = "TestNode";
+        createNewNode(NODE_NAME)
+                .clickNode(NODE_NAME)
+                .clickDeleteAgent()
+                .clickYesButton();
 
-        createNewNode(searchNode);
+        String searchResult = new HeaderBlock(getDriver())
+                .typeSearchQueryPressEnter(NODE_NAME)
+                .getNoMatchText();
 
-        getDriver().findElement(By.linkText(searchNode)).click();
-        getDriver().findElement(By.xpath("//a[.='Delete Agent']")).click();
-        getDriver().findElement(By.xpath("//button[@data-id='ok']")).click();
-
-        WebElement searchBox = getDriver().findElement(By.id("search-box"));
-        searchBox.sendKeys(searchNode);
-        searchBox.sendKeys(Keys.ENTER);
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='error']")).getText(), "Nothing seems to match.");
+        Assert.assertEquals(searchResult, "Nothing seems to match.");
     }
 }
