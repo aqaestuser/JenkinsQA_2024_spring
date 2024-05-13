@@ -3,10 +3,12 @@ package school.redrover;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.DeleteDialog;
 import school.redrover.model.FolderProjectPage;
 import school.redrover.model.HomePage;
 import school.redrover.model.PipelineProjectPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
@@ -169,6 +171,20 @@ public class FolderTest extends BaseTest {
                 .clickFolder(FOLDER_NAME);
 
         Assert.assertTrue(folderProjectPage.isItemExistsInsideFolder(MULTI_CONFIGURATION_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectInFolder")
+    public void testDeleteFolderViaDropdown() {
+
+        TestUtils.goToMainPage(getDriver());
+
+        HomePage homePage = new HomePage(getDriver());
+
+        homePage.openItemDropdown(FOLDER_NAME)
+                .clickDeleteInDropdown(new DeleteDialog(getDriver()))
+                .clickYes(homePage);
+
+        Assert.assertTrue(homePage.isItemDeleted(FOLDER_NAME));
     }
 
     @Test
