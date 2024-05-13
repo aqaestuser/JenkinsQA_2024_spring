@@ -12,12 +12,12 @@ public class OKButtonUnavailableTest extends BaseTest {
     @Test
     public void testOKButtonIsUnavailable() {
 
-        new HomePage(getDriver())
+        Boolean okButtonIsUnavailable = new HomePage(getDriver())
                 .clickNewItem()
                 .clearItemNameField()
                 .setItemName("")
-                .clickOkButton();
+                .okButtonIsEnabled();
 
-        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+        Assert.assertFalse(okButtonIsUnavailable);
     }
 }
