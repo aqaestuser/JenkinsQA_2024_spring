@@ -65,6 +65,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//td[text()='Idle']")
     private List<WebElement> buildExecutorStatusList;
 
+    @FindBy(css = "[aria-describedby*='tippy']")
+    private WebElement builSchedulePopUp;
+
     @FindBy(xpath = "//a[contains(@href, 'workflow-stage')]")
     private WebElement fullStageViewButton;
 
@@ -458,6 +461,11 @@ public class HomePage extends BasePage {
         buildHistoryButton.click();
 
         return new BuildHistoryPage(getDriver());
+    }
+
+    public HomePage waitForBuildSchedulePopUp() {
+        getWait2().until(ExpectedConditions.visibilityOf(builSchedulePopUp));
+        return this;
     }
 
     public FolderProjectPage clickFolderName() {
