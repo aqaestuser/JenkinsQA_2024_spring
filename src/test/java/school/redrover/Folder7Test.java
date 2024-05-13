@@ -6,10 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.DeleteDialog;
 import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.List;
 
 public class Folder7Test extends BaseTest {
@@ -64,29 +66,6 @@ public class Folder7Test extends BaseTest {
 
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateFolderUsingName")
-    public void testDeleteFolderViaDropdown() {
-
-        TestUtils.goToMainPage(getDriver());
-
-        WebElement dropdownChevron = getDriver().findElement(By.xpath(
-                "//tr//button[@class='jenkins-menu-dropdown-chevron']"));
-        ((JavascriptExecutor) getDriver()).executeScript(
-                "arguments[0].dispatchEvent(new Event('mouseenter'));", dropdownChevron);
-        ((JavascriptExecutor) getDriver()).executeScript(
-                "arguments[0].dispatchEvent(new Event('click'));", dropdownChevron);
-
-        getDriver().findElement(By.xpath(
-                "//*[@id='tippy-5']//button")).click();
-
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']"))
-                .click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath(
-                "//h1[text()='Welcome to Jenkins!']")).getText(), "Welcome to Jenkins!");
-    }
-
     @Test(dependsOnMethods = "testCreateNewFolder")
     public void testCreateFreestyleProjectInsideFolder() {
 
@@ -101,5 +80,19 @@ public class Folder7Test extends BaseTest {
                 .getProjectName();
 
         Assert.assertEquals(name, freeStyleProjectName);
+    }
+
+    @Test(dependsOnMethods = {"testCreateNewFolder", "testCreateFreestyleProjectInsideFolder"})
+    public void testDeleteFolderViaDropdown() {
+
+        TestUtils.goToMainPage(getDriver());
+
+        HomePage homePage = new HomePage(getDriver());
+
+        homePage.openItemDropdown(NAME)
+                .clickDeleteInDropdown(new DeleteDialog(getDriver()))
+                .clickYes(homePage);
+
+        Assert.assertTrue(homePage.isItemDeleted(NAME));
     }
 }
