@@ -141,7 +141,7 @@ public class HomePage extends BasePage {
     private WebElement dropdownPipelineSyntax;
 
     @FindBy(xpath = "//a[@href='api/']")
-    WebElement apiLink;
+    private WebElement apiLink;
 
     @FindBy(xpath = "//div[@class='tabBar']/div")
     private List<WebElement> viewNameList;
