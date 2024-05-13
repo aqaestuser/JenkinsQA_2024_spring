@@ -752,12 +752,13 @@ public class PipelineTest extends BaseTest {
     public void testRunByBuildNowButton() {
 
         String consoleOutput = new HomePage(getDriver())
-                .clickCreatedPipelineName()
+                .clickJobByName(PIPELINE_NAME,
+                        new PipelineProjectPage(getDriver()))
                 .clickBuild()
                 .waitForBuildScheduledPopUp()
                 .clickLogo()
                 .clickBuildHistory()
-                .clickBuild1Console()
+                .clickBuild1Console(1)
                 .getConsoleOutputMessage();
 
         Assert.assertTrue(consoleOutput.contains(SUCCEED_BUILD_EXPECTED));
@@ -770,7 +771,7 @@ public class PipelineTest extends BaseTest {
                 .scheduleBuildForItem(PIPELINE_NAME)
                 .waitForBuildSchedulePopUp()
                 .clickBuildHistory()
-                .clickBuild1Console()
+                .clickBuild1Console(1)
                 .getConsoleOutputMessage();
 
         Assert.assertTrue(consoleOutput.contains(SUCCEED_BUILD_EXPECTED));

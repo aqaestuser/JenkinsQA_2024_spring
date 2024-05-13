@@ -21,7 +21,7 @@ public class BuildHistoryPage extends BasePage {
     private List<WebElement> buildsList;
 
     @FindBy(css = "[class*='_button'] [href$='/1/console']")
-    private WebElement build1Console;
+    private WebElement buildConsole;
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
@@ -60,8 +60,8 @@ public class BuildHistoryPage extends BasePage {
         return !getBuildsList().contains(name);
     }
 
-    public BuildConsoleOutputPage clickBuild1Console() {
-        build1Console.click();
+    public BuildConsoleOutputPage clickBuild1Console(int buildNumber) {
+        buildConsole.click();
 
         return new BuildConsoleOutputPage(getDriver());
     }
