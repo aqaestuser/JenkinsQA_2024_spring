@@ -4,7 +4,11 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.*;
 import org.testng.annotations.*;
+import school.redrover.model.FolderProjectPage;
+import school.redrover.model.HomePage;
 import school.redrover.runner.*;
+
+import java.util.List;
 
 public class Folder2Test extends BaseTest {
 
@@ -25,18 +29,17 @@ public class Folder2Test extends BaseTest {
 
     @Test(dependsOnMethods = "testCreate")
     public void testCreateFreestyleProjectInFolder(){
-        final String freestyleName = "InternalFreestyleProject";
+        final String FREESTYLE_NAME = "InternalFreestyleProject";
 
-        getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys(freestyleName);
-        getDriver().findElement(By.cssSelector("[class$='_FreeStyleProject']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/']")).click();
+        FolderProjectPage folderProjectPage = new HomePage(getDriver())
+                .clickFolder(folderName)
+                .clickNewItemInsideFolder()
+                .setItemName(FREESTYLE_NAME)
+                .selectFreestyleAndClickOk()
+                .clickLogo()
+                .clickFolder(folderName);
 
-        String actualFreestyleName = getDriver().findElement(By.xpath("//table//a[@href='job/InternalFreestyleProject/']")).getText();
-
-        Assert.assertEquals(actualFreestyleName, freestyleName);
+        Assert.assertTrue(folderProjectPage.isItemExistsInsideFolder(FREESTYLE_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProjectInFolder")
