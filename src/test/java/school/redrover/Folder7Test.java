@@ -10,6 +10,8 @@ import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.List;
+
 public class Folder7Test extends BaseTest {
 
     private final String NAME = "19April";
@@ -47,31 +49,19 @@ public class Folder7Test extends BaseTest {
     }
 
     @Test
-    public void testCreateFolderUsingName() {
-
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(OLD_NAME);
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']/ul/li[1]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreateFolderUsingName")
     public void testRenameFolder() {
 
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-        getDriver().findElement(By.xpath("//*[span='" + OLD_NAME + "']")).click();
-        getDriver().findElement(By.linkText("Rename")).click();
+        List<String> folderList = new HomePage(getDriver())
+                .createNewFolder(OLD_NAME)
+                .clickFolder(OLD_NAME)
+                .clickOnRenameButton()
+                .setNewName(NEW_NAME)
+                .clickRename()
+                .clickLogo()
+                .getItemList();
 
-        getDriver().findElement(By.xpath("//*[@class='setting-main']/input")).clear();
-        getDriver().findElement(By.xpath("//*[@class='setting-main']/input")).sendKeys(
-                NEW_NAME);
-        getDriver().findElement(By.name("Submit")).click();
+        Assert.assertListContainsObject(folderList, NEW_NAME, "Folder is not renamed!");
 
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.linkText(NEW_NAME)).getText(), "Renamed Folder");
     }
 
     @Ignore
