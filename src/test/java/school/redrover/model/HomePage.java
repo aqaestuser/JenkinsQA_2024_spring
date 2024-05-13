@@ -140,6 +140,9 @@ public class HomePage extends BasePage {
     @FindBy(css = "[href$='pipeline-syntax']")
     private WebElement dropdownPipelineSyntax;
 
+    @FindBy(xpath = "//div[@class='tabBar']/div")
+    private List<WebElement> viewNameList;
+
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
     private WebElement createdItemNameInList;
 
@@ -565,8 +568,13 @@ public class HomePage extends BasePage {
         return new FreestyleProjectPage(getDriver());
     }
 
-    public String getWelcomeJenkinsHeader() {
+    public int getSizeViewNameList() {
 
-        return welcomeJenkinsHeader.getText();
+        return viewNameList.size();
     }
-}
+
+        public String getWelcomeJenkinsHeader () {
+
+            return welcomeJenkinsHeader.getText();
+        }
+    }
