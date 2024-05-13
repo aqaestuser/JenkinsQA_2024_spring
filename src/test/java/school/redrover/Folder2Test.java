@@ -28,21 +28,21 @@ public class Folder2Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreate")
-    public void testCreateFreestyleProjectInFolder(){
-        final String FREESTYLE_NAME = "InternalFreestyleProject";
+    public void testCreateMultiConfigurationProjectInFolder(){
+        final String MULTI_CONFIGURATION_NAME = "MultiConfigurationProject_1";
 
         FolderProjectPage folderProjectPage = new HomePage(getDriver())
                 .clickFolder(folderName)
                 .clickNewItemInsideFolder()
-                .setItemName(FREESTYLE_NAME)
+                .setItemName(MULTI_CONFIGURATION_NAME)
                 .selectFreestyleAndClickOk()
                 .clickLogo()
                 .clickFolder(folderName);
 
-        Assert.assertTrue(folderProjectPage.isItemExistsInsideFolder(FREESTYLE_NAME));
+        Assert.assertTrue(folderProjectPage.isItemExistsInsideFolder(MULTI_CONFIGURATION_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateFreestyleProjectInFolder")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectInFolder")
     public void testRenameFolder(){
         final String newFolderName = "NewProjectFolder";
 
