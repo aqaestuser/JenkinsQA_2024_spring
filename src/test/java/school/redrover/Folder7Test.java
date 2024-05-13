@@ -14,9 +14,9 @@ import java.util.List;
 
 public class Folder7Test extends BaseTest {
 
-    private final String NAME = "19April";
-    final String OLD_NAME = "Random Folder";
-    final String NEW_NAME = "Renamed Folder";
+    private static final String NAME = "19April";
+    private static final String OLD_NAME = "Random Folder";
+    private static final String NEW_NAME = "Renamed Folder";
 
     @Test
     public void testCreateNewFolder() {
