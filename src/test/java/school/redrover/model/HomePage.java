@@ -41,9 +41,6 @@ public class HomePage extends BasePage {
     @FindBy(css = "[href*='rename']")
     private WebElement renameFromDropdown;
 
-    @FindBy(css = "div.jenkins-dropdown")
-    private WebElement dropdownMenu;
-
     @FindBy(xpath = "//a[@class='sortheader' and text()='Name']")
     private WebElement columnNameTitle;
 
@@ -67,6 +64,9 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//td[text()='Idle']")
     private List<WebElement> buildExecutorStatusList;
+
+    @FindBy(css = "[aria-describedby*='tippy']")
+    private WebElement builSchedulePopUp;
 
     @FindBy(xpath = "//a[contains(@href, 'workflow-stage')]")
     private WebElement fullStageViewButton;
@@ -142,6 +142,15 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//a[@href='api/']")
     WebElement apiLink;
+
+    @FindBy(xpath = "//div[@class='tabBar']/div")
+    private List<WebElement> viewNameList;
+
+    @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
+    private WebElement createdItemNameInList;
+
+    @FindBy(xpath = "//h1[contains(text(),'Welcome to Jenkins')]")
+    private WebElement welcomeJenkinsHeader;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -250,12 +259,6 @@ public class HomePage extends BasePage {
         return new ViewPage(getDriver());
     }
 
-    public FolderProjectPage clickOnCreatedFolder(String name) {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_" + name + "']/td/a"))).click();
-
-        return new FolderProjectPage(getDriver());
-    }
-
     public HomePage openItemDropdownWithSelenium(String projectName) {
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(
@@ -354,12 +357,6 @@ public class HomePage extends BasePage {
         return this;
     }
 
-    public CreateNewItemPage clickNewJobFromDashboardBreadcrumbsMenu() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.tippy-box a[href $= 'newJob']"))).click();
-
-        return new CreateNewItemPage(getDriver());
-    }
-
     public ManageJenkinsPage clickManageFromDashboardBreadcrumbsMenu() {
         manageFromDashboardBreadcrumbsMenu.click();
 
@@ -388,13 +385,6 @@ public class HomePage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(fullStageViewButton)).click();
 
         return new FullStageViewPage(getDriver());
-    }
-
-    public List<String> allExistingJobsNames() {
-        return allExistingJobs
-                .stream()
-                .map(WebElement::getText)
-                .toList();
     }
 
     public List<String> getJobsBeginningFromThisFirstLetters(String firstLetters) {
@@ -431,7 +421,6 @@ public class HomePage extends BasePage {
         return websiteDropdownItem.isDisplayed();
     }
 
-
     public HomePage moveMouseToPassiveViewName() {
         new Actions(getDriver())
                 .moveToElement(passiveViewName)
@@ -466,6 +455,11 @@ public class HomePage extends BasePage {
         buildHistoryButton.click();
 
         return new BuildHistoryPage(getDriver());
+    }
+
+    public HomePage waitForBuildSchedulePopUp() {
+        getWait2().until(ExpectedConditions.visibilityOf(builSchedulePopUp));
+        return this;
     }
 
     public FolderProjectPage clickFolderName() {
@@ -511,7 +505,6 @@ public class HomePage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOf(moveOption)).click();
         return new MovePage(getDriver());
     }
-
 
     public AboutPage clickAbout() {
         about.click();
@@ -568,11 +561,27 @@ public class HomePage extends BasePage {
         dropdownPipelineSyntax.click();
 
         return new PipelineSyntaxPage(getDriver());
+    }
 
+    public FreestyleProjectPage clickCreatedItemName() {
+
+        createdItemNameInList.click();
+
+        return new FreestyleProjectPage(getDriver());
+    }
+
+    public int getSizeViewNameList() {
+
+        return viewNameList.size();
     }
 
     public ApiPage clickApiLink() {
         apiLink.click();
         return new ApiPage(getDriver());
     }
-}
+
+        public String getWelcomeJenkinsHeader () {
+
+            return welcomeJenkinsHeader.getText();
+        }
+    }
