@@ -16,6 +16,9 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
     @FindBy(xpath = "//a[contains(@href,'pipeline-syntax')]")
     private WebElement pipelineSyntaxButton;
 
+    @FindBy(xpath = "//a[contains(.,'Rename')]")
+    private WebElement renameButton;
+
     public OrganizationFolderProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -35,4 +38,11 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
 
         return new PipelineSyntaxPage(getDriver());
     }
+
+    public OrganizationFolderRenamePage clickOnRenameButton() {
+        renameButton.click();
+
+        return new OrganizationFolderRenamePage(getDriver());
+    }
+
 }
