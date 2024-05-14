@@ -47,6 +47,9 @@ public class PipelineProjectPage extends BaseProjectPage {
     @FindBy(xpath = "//td[contains(@class, 'progress-bar')]")
     private WebElement buildProgressBar;
 
+    @FindBy(css = "[aria-describedby^='tippy'")
+    private WebElement buildScheduledPopUp;
+
     @FindBy(xpath = "//div[@id = 'buildHistory']//tr[@class != 'build-search-row']")
     private List<WebElement> listOfBuilds;
 
@@ -95,6 +98,9 @@ public class PipelineProjectPage extends BaseProjectPage {
 
     @FindBy(css = "form > button")
     private WebElement disablebutton;
+
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement enableButton;
 
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
@@ -193,6 +199,12 @@ public class PipelineProjectPage extends BaseProjectPage {
 
     public PipelineProjectPage clickBuild() {
         getWait5().until(ExpectedConditions.elementToBeClickable(buildButton)).click();
+
+        return this;
+    }
+
+    public PipelineProjectPage waitForBuildScheduledPopUp() {
+        getWait2().until(ExpectedConditions.visibilityOf(buildScheduledPopUp));
 
         return this;
     }
@@ -314,6 +326,12 @@ public class PipelineProjectPage extends BaseProjectPage {
 
     public PipelineProjectPage clickDisableButton() {
         disablebutton.click();
+
+        return this;
+    }
+
+    public PipelineProjectPage clickEnableButton() {
+        enableButton.click();
 
         return this;
     }

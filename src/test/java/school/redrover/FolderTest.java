@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.DeleteDialog;
 import school.redrover.model.FolderProjectPage;
 import school.redrover.model.HomePage;
 import school.redrover.model.PipelineProjectPage;
@@ -24,6 +25,8 @@ public class FolderTest extends BaseTest {
     private static final String FOLDER_TO_MOVE_2 = "Folder_to_move_into_the_first_2";
 
     private static final String PIPELINE_NAME = "Pipeline Sv";
+
+    private static final String IVAN_S_FREE_STYLE_PROJECT = "Ivan's Freestyle";
 
     private static final String FOLDER_DESCRIPTION_FIRST = "Some description of the folder.";
 
@@ -154,6 +157,34 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(nestedFolder, FOLDER_TO_MOVE, FOLDER_TO_MOVE + " is not in " + FOLDER_NAME);
     }
 
+    @Test(dependsOnMethods = "testFolderMovedIntoAnotherFolderViaBreadcrumbs")
+    public void testCreateMultiConfigurationProjectInFolder(){
+        final String MULTI_CONFIGURATION_NAME = "MultiConfigurationProject_1";
+
+        FolderProjectPage folderProjectPage = new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME)
+                .clickNewItemInsideFolder()
+                .setItemName(MULTI_CONFIGURATION_NAME)
+                .selectFreestyleAndClickOk()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME);
+
+        Assert.assertTrue(folderProjectPage.isItemExistsInsideFolder(MULTI_CONFIGURATION_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectInFolder")
+    public void testDeleteFolderViaDropdown() {
+
+        boolean isFolderDeleted = new FolderProjectPage(getDriver())
+                .clickLogo()
+                .openItemDropdown(FOLDER_NAME)
+                .clickDeleteInDropdown(new DeleteDialog(getDriver()))
+                .clickYes(new HomePage(getDriver()))
+                .isItemDeleted(FOLDER_NAME);
+
+        Assert.assertTrue(isFolderDeleted);
+    }
+
     @Test
     public void testMoveFolderToFolderViaChevron() {
         List<String> folderNameList = new HomePage(getDriver())
@@ -196,6 +227,32 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCheckNewFolderIsEmpty")
+    public void testNewlyCreatedFolderIsEmptyAJ() {
+        final String folderName = "NewProjectFolder";
+        final String thisFolderIsEmptyMessage = "This folder is empty";
+        final String createAJobLinkText = "Create a job";
+
+        String actualFolderName = new HomePage(getDriver())
+                .createNewFolder(folderName)
+                .clickFolder(folderName)
+                .getPageHeading();
+
+        String actualEmptyStateMessage = new FolderProjectPage(getDriver())
+                .getMessageFromEmptyFolder();
+
+        String actualCreateJobLinkText = new FolderProjectPage(getDriver())
+                .getTextWhereClickForCreateJob();
+
+        Boolean isLinkForCreateJobDisplayed = new FolderProjectPage(getDriver())
+                .isLinkForCreateJobDisplayed();
+
+        Assert.assertEquals(actualFolderName, folderName);
+        Assert.assertEquals(actualEmptyStateMessage, thisFolderIsEmptyMessage);
+        Assert.assertEquals(actualCreateJobLinkText, createAJobLinkText);
+        Assert.assertTrue(isLinkForCreateJobDisplayed, "newJobLink is NOT displayed");
+    }
+
+    @Test(dependsOnMethods = "testNewlyCreatedFolderIsEmptyAJ")
     public void testCreateJobPipelineInFolder() {
         String expectedText = String.format("Full project name: %s/%s", FOLDER_NAME, PIPELINE_NAME);
 
@@ -239,6 +296,21 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateTwoInnerFolder")
+    public void testCreateFreeStyleProjectInsideRootFolder() {
+        List<String> insideFilderItemList = new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME)
+                .clickNewItemInsideFolder()
+                .setItemName(IVAN_S_FREE_STYLE_PROJECT)
+                .selectFreestyleAndClickOk()
+                .clickSaveButton()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME)
+                .getItemListInsideFolder();
+
+        Assert.assertListContainsObject(insideFilderItemList, IVAN_S_FREE_STYLE_PROJECT, "FreeStyle Project was not created");
+    }
+
+    @Test(dependsOnMethods = "testCreateFreeStyleProjectInsideRootFolder")
     public void testDeleteFolder() {
         List<String> jobList =new HomePage(getDriver())
                 .clickFolder(FOLDER_NAME)
@@ -246,6 +318,6 @@ public class FolderTest extends BaseTest {
                 .clickYesForDeleteFolder()
                 .getItemList();
 
-        Assert.assertTrue(jobList.isEmpty());
+        Assert.assertListNotContainsObject(jobList, FOLDER_NAME, FOLDER_NAME + " not removed!");
     }
 }
