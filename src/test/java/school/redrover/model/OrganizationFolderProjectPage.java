@@ -19,6 +19,18 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
     @FindBy(xpath = "//a[contains(.,'Rename')]")
     private WebElement renameButton;
 
+    @FindBy(xpath = "//*[@id='description-link']")
+    private WebElement descriptionLink;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement textareaDescription;
+
+    @FindBy(xpath = "//*[@name='Submit']")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//*[@id='description']/div")
+    private WebElement description;
+
     public OrganizationFolderProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -39,10 +51,29 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
         return new PipelineSyntaxPage(getDriver());
     }
 
+
     public OrganizationFolderRenamePage clickOnRenameButton() {
         renameButton.click();
 
         return new OrganizationFolderRenamePage(getDriver());
     }
 
+    public OrganizationFolderProjectPage clickAddOrEditDescription() {
+        descriptionLink.click();
+        return this;
+    }
+
+    public OrganizationFolderProjectPage setDescription(String text) {
+        textareaDescription.sendKeys(text);
+        return this;
+    }
+
+    public OrganizationFolderProjectPage clickSaveButton() {
+        saveButton.click();
+        return this;
+    }
+
+    public String getDescriptionText() {
+        return description.getText();
+    }
 }
