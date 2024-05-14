@@ -39,6 +39,9 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
     @FindBy(css = "#breadcrumbBar li:last-child")
     private WebElement breadcrumbs;
 
+    @FindBy(xpath = "//*[span = 'Delete Multi-configuration project']")
+    private WebElement menuDelete;
+
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -96,5 +99,10 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
 
     public boolean isProjectInsideFolder(String projectName, String folderName) {
         return breadcrumbs.getAttribute("data-href").contains(folderName + "/job/" + projectName);
+    }
+
+    public DeleteDialog clickDeleteInMenu(DeleteDialog dialog) {
+        menuDelete.click();
+        return dialog;
     }
 }
