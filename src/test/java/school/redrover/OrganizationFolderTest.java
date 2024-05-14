@@ -119,4 +119,22 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickConfigure()
                 .isSidebarVisible());
     }
+
+    @Test
+    public void testRenameOrganizationFolder() {
+        final String newOrganizationFolderName = "New Organization Folder";
+
+        List<String> itemList = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(ORGANIZATION_FOLDER_NAME)
+                .selectOrganizationFolderAndClickOk()
+                .clickSaveButton()
+                .clickOnRenameButton()
+                .setNewName(newOrganizationFolderName)
+                .clickRename()
+                .clickLogo()
+                .getItemList();
+
+        Assert.assertTrue(itemList.contains(newOrganizationFolderName));
+    }
 }
