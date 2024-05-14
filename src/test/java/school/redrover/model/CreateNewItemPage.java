@@ -198,4 +198,9 @@ public class CreateNewItemPage extends BasePage {
     }
 
     public Boolean okButtonIsEnabled() { return okButton.isEnabled(); }
+
+    public CreateNewItemPage clickItemNameField() {
+        nameText.click();
+        return this;
+    }
 }
