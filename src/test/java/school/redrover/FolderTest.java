@@ -176,15 +176,14 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectInFolder")
     public void testDeleteFolderViaDropdown() {
 
-        TestUtils.goToMainPage(getDriver());
-
-        HomePage homePage = new HomePage(getDriver());
-
-        homePage.openItemDropdown(FOLDER_NAME)
+        boolean isFolderDeleted = new FolderProjectPage(getDriver())
+                .clickLogo()
+                .openItemDropdown(FOLDER_NAME)
                 .clickDeleteInDropdown(new DeleteDialog(getDriver()))
-                .clickYes(homePage);
+                .clickYes(new HomePage(getDriver()))
+                .isItemDeleted(FOLDER_NAME);
 
-        Assert.assertTrue(homePage.isItemDeleted(FOLDER_NAME));
+        Assert.assertTrue(isFolderDeleted);
     }
 
     @Test
