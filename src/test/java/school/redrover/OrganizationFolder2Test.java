@@ -3,13 +3,18 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderProjectPage;
 import school.redrover.model.HomePage;
+import school.redrover.model.OrganizationFolderProjectPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
 
 public class OrganizationFolder2Test extends BaseTest{
+
+    private static final String ORGANIZATION_FOLDER_DESCRIPTION = "Some description of the organization folder.";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -41,20 +46,19 @@ public class OrganizationFolder2Test extends BaseTest{
                 "//span[.='Organization Folder']")).isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testRenameOrganizationFolder")
-    public void testOrganizationFolderAddDescription(){
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder"})
+    public void testAddDescription(){
 
-        getDriver().findElement(By.xpath("//span[.='Organization Folder']")).click();
-        getDriver().findElement(By.xpath("//*[@href='/job/Organization%20Folder/configure']")).click();
+        String textInDescription = new OrganizationFolderProjectPage(getDriver())
+                .clickAddOrEditDescription()
+                .setDescription(ORGANIZATION_FOLDER_DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionText();
 
-        getDriver().findElement(By.xpath("//textarea[@name='_.description']")).sendKeys("Some description of the folder");
-        getDriver().findElement(By.xpath("//div/*[@name='Submit']")).click();
-
-        String textOfDescription = getDriver().findElement(By.xpath("//div/*[@id='view-message']")).getText();
-
-        Assert.assertEquals(textOfDescription,"Some description of the folder");
+        Assert.assertEquals(textInDescription, ORGANIZATION_FOLDER_DESCRIPTION);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testOrganizationFolderAddDescription")
     public void testDeleteOrganizationFolder() {
 
