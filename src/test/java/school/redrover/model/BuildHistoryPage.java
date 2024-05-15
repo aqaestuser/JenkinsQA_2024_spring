@@ -23,7 +23,7 @@ public class BuildHistoryPage extends BasePage {
     @FindBy(css = "[class*='_button'] [href$='/1/console']")
     private WebElement buildConsole;
 
-    @FindBy(css = "div.label-event-blue")
+    @FindBy(xpath = "//div[@class='label-event-blue  event-blue  timeline-event-label']")
     private WebElement buildNameOnTimeline;
 
     public BuildHistoryPage(WebDriver driver) {
