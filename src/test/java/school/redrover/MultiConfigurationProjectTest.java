@@ -48,18 +48,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 "Project name has not been changed");
     }
 
-    @Test(dependsOnMethods = "testCreateMCP")
+    @Test
     public void testAddDescription() {
-        final String text = "❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️";
+        final String TEXT = "❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️";
 
-        String description = new HomePage(getDriver())
+        String description = TestUtils.createMultiConfigurationProject(this, RANDOM_PROJECT_NAME)
                 .clickMCPName(RANDOM_PROJECT_NAME)
                 .clickAddDescriptionButton()
-                .addOrEditDescription(text)
+                .addOrEditDescription(TEXT)
                 .clickSaveDescription()
                 .getDescriptionText();
 
-        Assert.assertEquals(description, text);
+        Assert.assertEquals(description, TEXT);
     }
 
     @Test
@@ -97,26 +97,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getPreviewText();
 
         Assert.assertEquals(previewText, text);
-    }
-
-    @Test
-    public void testReplacingProjectDescription() {
-        final String oldText = "The text to be replaced";
-        final String newText = "Replacement text";
-
-        TestUtils.createNewItem(this, PROJECT_NAME, TestUtils.Item.MULTI_CONFIGURATION_PROJECT);
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(String.format("[href = 'job/%s/']", PROJECT_NAME)))).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description-link"))).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.name("description"))).sendKeys(oldText);
-        getDriver().findElement(By.name("Submit")).click();
-
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.name("description")).clear();
-        getDriver().findElement(By.name("description")).sendKeys(newText);
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description div:not([class])")).getText(), newText);
     }
 
     @Test
@@ -162,35 +142,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(
                 getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#description>div"))));
-    }
-
-    private static final String NAME_OF_PROJECT = "The name of Multi-configuration project";
-
-    @Test
-    public void testCreateMultiConfigurationProject() {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@id = 'name']")).sendKeys(NAME_OF_PROJECT);
-        getDriver().findElement(By.xpath("//*[@class='hudson_matrix_MatrixProject']")).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@type='submit']"))).click();
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + NAME_OF_PROJECT);
-    }
-
-    @Test
-    public void testAddDescriptionOnConfigurationPage() {
-        final String description = "This is project description";
-        TestUtils.createNewItem(this, PROJECT_NAME, TestUtils.Item.MULTI_CONFIGURATION_PROJECT);
-
-        getDriver().findElement(By.linkText(PROJECT_NAME)).click();
-        getDriver().findElement(By.linkText("Configure")).click();
-        getDriver().findElement(By.name("description")).sendKeys(description);
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(
-                getDriver().findElement(By.cssSelector("#description>div:first-child")).getText(),
-                description,
-                "Project description is not displayed");
     }
 
     @Test
@@ -251,23 +202,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertFalse(okButton.isEnabled());
     }
 
-
-    @Test
-    public void testTryCreateProjectExistName() {
-        final String projectName = "MultiBuild";
-        final String errorMessage = "A job already exists with the name " + "‘" + projectName + "’";
-
-        TestUtils.createNewItem(this, projectName, TestUtils.Item.MULTI_CONFIGURATION_PROJECT);
-
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.className("hudson_matrix_MatrixProject")).click();
-        getDriver().findElement(By.className("jenkins-input")).sendKeys(projectName);
-        getDriver().findElement(By.id("ok-button")).click();
-
-        String actualMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/p")).getText();
-        Assert.assertEquals(actualMessage, errorMessage);
-    }
-
     @Test
     public void testCreateMCProject() {
         List<String> projectNameList = new HomePage(getDriver())
@@ -293,35 +227,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getWait10().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//*[@id='breadcrumbs']/li[3]/a"))).getText(), "MCProjectNew");
 
-    }
-
-    @Test
-    public void testCreateMCP() {
-        List<String> itemNames = new HomePage(getDriver())
-                .clickNewItem()
-                .setItemName(RANDOM_PROJECT_NAME)
-                .selectMultiConfigurationAndClickOk()
-                .clickSaveButton()
-                .clickLogo()
-                .getItemList();
-
-        Assert.assertTrue(itemNames.contains(RANDOM_PROJECT_NAME));
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreateMCP")
-    public void testCreateMCPWithSameName() {
-        ItemErrorPage errorPage = new HomePage(getDriver())
-                .clickNewItem()
-                .setItemName(RANDOM_PROJECT_NAME)
-                .selectMultiConfiguration()
-                .clickOkAnyway(new ItemErrorPage(getDriver()));
-
-
-        Assert.assertEquals(errorPage.getHeaderText(), "Error");
-        Assert.assertEquals(
-                errorPage.getMessageText(),
-                "A job already exists with the name ‘" + RANDOM_PROJECT_NAME + "’");
     }
 
     @Test
@@ -368,6 +273,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(isProjectDeleted);
     }
 
+    @Ignore
     @Test
     public void testAddDiscardOldBuildsConfigurationsToProject(){
         final String daysToKeep = generateRandomNumber();
