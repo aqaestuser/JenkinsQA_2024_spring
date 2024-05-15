@@ -23,6 +23,9 @@ public class BuildHistoryPage extends BasePage {
     @FindBy(css = "[class*='_button'] [href$='/1/console']")
     private WebElement buildConsole;
 
+    @FindBy(css = "div.label-event-blue")
+    private WebElement buildNameOnTimeline;
+
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
     }
@@ -66,4 +69,8 @@ public class BuildHistoryPage extends BasePage {
         return new BuildConsoleOutputPage(getDriver());
     }
 
+    public boolean clickBuildOnTimeline(){
+       return buildNameOnTimeline.isDisplayed();
+
+    }
 }
