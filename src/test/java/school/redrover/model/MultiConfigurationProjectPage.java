@@ -42,6 +42,9 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
     @FindBy(xpath = "//*[span = 'Delete Multi-configuration project']")
     private WebElement menuDelete;
 
+    @FindBy(xpath = "//*[contains(@href, 'rename')]")
+    private WebElement menuRename;
+
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -104,5 +107,10 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
     public DeleteDialog clickDeleteInMenu(DeleteDialog dialog) {
         menuDelete.click();
         return dialog;
+    }
+
+    public MultiConfigurationConfirmRenamePage clickRenameInMenu() {
+        menuRename.click();
+        return new MultiConfigurationConfirmRenamePage(getDriver());
     }
 }

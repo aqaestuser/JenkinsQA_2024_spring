@@ -217,16 +217,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMCProject")
     public void testRenameMCProject() {
-        getDriver().findElement(By.xpath("//*[@id='job_MCProject']/td[3]/a/span")).click();
-        getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a")).click();
-        getDriver().findElement(By.xpath("//*[@id='main-panel']/form/div[1]/div[1]/div[2]/input")).clear();
-        getDriver().findElement(By.xpath("//*[@id='main-panel']/form/div[1]/div[1]/div[2]/input")).sendKeys("MCProjectNew");
-        getDriver().findElement(By.name("Submit")).click();
 
+        HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertEquals(getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//*[@id='breadcrumbs']/li[3]/a"))).getText(), "MCProjectNew");
+        homePage
+                .clickJobByName(PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickRenameInMenu()
+                .changeProjectNameWithClear(RANDOM_PROJECT_NAME)
+                .clickRenameButton().clickLogo();
 
+        Assert.assertTrue(homePage.isItemExists(RANDOM_PROJECT_NAME) && !homePage.isItemExists(PROJECT_NAME));
     }
 
     @Test
