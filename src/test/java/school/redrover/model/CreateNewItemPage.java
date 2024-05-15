@@ -134,7 +134,7 @@ public class CreateNewItemPage extends BasePage {
         return projectConfigPage;
     }
 
-    public String getErrorMessageInvalidCharacter() {
+    public String getErrorMessageInvalidCharacterOrDuplicateName() {
         return errorMessageInvalidCharacter.getText();
     }
 

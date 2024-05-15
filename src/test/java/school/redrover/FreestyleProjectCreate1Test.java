@@ -31,7 +31,7 @@ public class FreestyleProjectCreate1Test extends BaseTest {
        String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
-                .getErrorMessage();
+                .getErrorMessageInvalidCharacterOrDuplicateName();
 
        Boolean isEnabled = new CreateNewItemPage(getDriver()).okButtonIsEnabled();
 
@@ -41,7 +41,7 @@ public class FreestyleProjectCreate1Test extends BaseTest {
        Assert.assertFalse(isEnabled);
     }
 
-    @Test(dependsOnMethods = "testFreestyleProjectCreate")
+    @Test(dependsOnMethods = "testErrorMessage")
     public void testDeleteProject() {
 
         boolean isItemDeleted = new HomePage(getDriver())
