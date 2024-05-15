@@ -8,12 +8,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.DeleteDialog;
-import school.redrover.model.HomePage;
-import school.redrover.model.ItemErrorPage;
+import school.redrover.model.*;
 
 
-import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -190,16 +187,19 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateProjectWithoutName() {
-        final String errorMessage = "This field cannot be empty";
+        final String EMPTY_NAME = "";
+        final String ERROR_MESSAGE = "This field cannot be empty";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.className("hudson_matrix_MatrixProject")).click();
+        CreateNewItemPage createNewItemPage =
+                new HomePage(getDriver())
+                        .clickNewItem()
+                        .setItemName(EMPTY_NAME)
+                        .selectMultiConfiguration();
 
-        String actualErrorMessage = getDriver().findElement(By.id("itemname-required")).getText();
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        boolean isErrorMessageCorrect = createNewItemPage.getErrorMessageEmptyName().contains(ERROR_MESSAGE);
+        boolean isCanNotPressOkButton = createNewItemPage.isOkButtonNotActive();
 
-        Assert.assertTrue(actualErrorMessage.contains(errorMessage));
-        Assert.assertFalse(okButton.isEnabled());
+        Assert.assertTrue(isErrorMessageCorrect && isCanNotPressOkButton);
     }
 
     @Test

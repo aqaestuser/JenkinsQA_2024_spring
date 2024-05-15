@@ -17,7 +17,6 @@ import school.redrover.runner.TestUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static school.redrover.runner.TestUtils.goToMainPage;
@@ -164,7 +163,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .clickOkAnyway(new CreateNewItemPage(getDriver()))
-                .getErrorMessage();
+                .getErrorMessageInvalidCharacter();
 
         Assert.assertEquals(itemPipeline, "» A job already exists with the name ‘" + PIPELINE_NAME + "’");
     }
