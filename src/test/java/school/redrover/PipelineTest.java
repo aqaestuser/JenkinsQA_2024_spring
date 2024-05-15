@@ -17,6 +17,7 @@ import school.redrover.runner.TestUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static school.redrover.runner.TestUtils.goToMainPage;
@@ -869,6 +870,96 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//*[@id='main-panel']/div[1]/div/h1")).getText(), PIPELINE_NAME);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testEnableBack")
+    public void testPipelineBuildSuccessFromConsole() {
+        getDriver().findElement((By.xpath("//td[@class='jenkins-table__cell--tight']//a[contains(@tooltip,'Schedule')]"))).click();
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+
+        getWait60().until(ExpectedConditions.attributeToBe(
+                By.xpath("//a[@title='Success > Console Output']"), "tooltip", "Success > Console Output"));
+        getDriver().findElement(By.xpath("//a[@title='Success > Console Output']")).click();
+
+        WebElement consoleOutput = getDriver().findElement(By.xpath("//pre[@class='console-output']"));
+
+        Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testPipelineBuildSuccessFromConsole")
+    public void testPermalinksBuildDetails() {
+        final List<String> expectedPermalinks =
+                List.of("Last build (#1)", "Last stable build (#1)", "Last successful build (#1)", "Last completed build (#1)");
+
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+
+        List<String> actualPermalinks = getDriver()
+                .findElements(By.xpath("//li[@class='permalink-item']"))
+                .stream()
+                .map(permalink -> permalink.getText().split(",")[0].trim())
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(actualPermalinks, expectedPermalinks);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testPermalinksBuildDetails")
+    public void testGreenBuildSuccessColor() {
+        final String greenHexColor = "#1ea64b";
+
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        WebElement statusMark = getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@tooltip='Success']")));
+        String actualHexColor = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).getPropertyValue('--success');",
+                statusMark);
+
+        Assert.assertEquals(actualHexColor, greenHexColor);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testGreenBuildSuccessColor")
+    public void testSetPipelineNumberBuildsToKeep() {
+        final String maxNumberBuildsToKeep = "2";
+
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/configure']")).click();
+
+        getDriver().findElement(By.xpath("//label[contains(text(),'Discard')]")).click();
+        getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys(maxNumberBuildsToKeep);
+        getDriver().findElement(By.xpath("//button[@name='Apply']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        getDriver().findElement(By.id("jenkins-head-icon")).click();
+
+        getDriver().findElement((By.xpath("//td[@class='jenkins-table__cell--tight']//a[contains(@tooltip,'Schedule')]"))).click();
+        getDriver().navigate().refresh();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")).click();
+
+        List<WebElement> numberBuilds = getDriver().findElements(By.xpath("//td[contains(text(),'stable')]"));
+
+        Assert.assertEquals(String.valueOf(numberBuilds.size()), maxNumberBuildsToKeep);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testSetPipelineNumberBuildsToKeep")
+    public void testCheckBuildsHistoryDescendingOrder() {
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+
+        List<WebElement> builds = getDriver().findElements(By.xpath("//div[@class='pane-content']//a[contains(text(),'#')]"));
+
+        List<String> actualBuildsOrder = new ArrayList<>();
+        for (WebElement element : builds) {
+            actualBuildsOrder.add(element.getText());
+        }
+
+        List<String> expectedBuildOrder = new ArrayList<>(actualBuildsOrder);
+        expectedBuildOrder.sort(Collections.reverseOrder());
+
+        Assert.assertEquals(actualBuildsOrder, expectedBuildOrder, "Elements are not in descending order");
     }
 
     @Ignore
