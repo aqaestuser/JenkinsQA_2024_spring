@@ -134,7 +134,7 @@ public class CreateNewItemPage extends BasePage {
         return projectConfigPage;
     }
 
-    public String getErrorMessageInvalidCharacter() {
+    public String getErrorMessageInvalidCharacterOrDuplicateName() {
         return errorMessageInvalidCharacter.getText();
     }
 
@@ -212,6 +212,11 @@ public class CreateNewItemPage extends BasePage {
     }
 
     public Boolean okButtonIsEnabled() { return okButton.isEnabled(); }
+
+    public CreateNewItemPage clickItemNameField() {
+        nameText.click();
+        return this;
+    }
 
     public String getTitleOfNameField() {
         return titleOfNameField.getText();

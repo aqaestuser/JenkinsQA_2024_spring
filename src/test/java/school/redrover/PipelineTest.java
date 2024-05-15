@@ -164,7 +164,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .clickOkAnyway(new CreateNewItemPage(getDriver()))
-                .getErrorMessageInvalidCharacter();
+                .getErrorMessageInvalidCharacterOrDuplicateName();
 
         Assert.assertEquals(itemPipeline, "» A job already exists with the name ‘" + PIPELINE_NAME + "’");
     }

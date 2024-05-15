@@ -14,7 +14,7 @@ public class CreateFolder3Test extends BaseTest {
         String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName("Fold%erdate")
-                .getErrorMessageInvalidCharacter();
+                .getErrorMessageInvalidCharacterOrDuplicateName();
 
         assertEquals(errorMessage,"» ‘%’ is an unsafe character");
     }
