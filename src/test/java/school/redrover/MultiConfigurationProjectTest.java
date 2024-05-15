@@ -122,23 +122,24 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDeleteProjectDescription() {
-        final String description = "This is project description";
+        final String DESCRIPTION_TEXT = "This is project description";
         TestUtils.createNewItem(this, PROJECT_NAME, TestUtils.Item.MULTI_CONFIGURATION_PROJECT);
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(String.format("[href = 'job/%s/']", PROJECT_NAME)))).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description-link"))).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.name("description"))).sendKeys(description);
-        getDriver().findElement(By.name("Submit")).click();
+        MultiConfigurationProjectPage multiConfigurationProjectPage = new MultiConfigurationProjectPage(getDriver());
 
-        TestUtils.returnToDashBoard(this);
+        boolean isDescriptionDeleted = new HomePage(getDriver())
+                .clickJobByName(PROJECT_NAME, multiConfigurationProjectPage)
+                .clickAddDescriptionButton()
+                .addOrEditDescription(DESCRIPTION_TEXT)
+                .clickSaveDescription()
+                .clickLogo()
+                .clickJobByName(PROJECT_NAME, multiConfigurationProjectPage)
+                .clickAddDescriptionButton()
+                .clearDescription()
+                .clickSaveDescription()
+                .isDescriptionEmpty();
 
-        getDriver().findElement(By.cssSelector("[href = 'job/" + PROJECT_NAME + "/']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.name("description")).clear();
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertTrue(
-                getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#description>div"))));
+        Assert.assertTrue(isDescriptionDeleted);
     }
 
     @Test

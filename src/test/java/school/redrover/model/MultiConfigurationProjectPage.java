@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -61,6 +62,11 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
         return this;
     }
 
+    public MultiConfigurationProjectPage clearDescription() {
+        descriptionField.clear();
+        return this;
+    }
+
     public MultiConfigurationProjectPage clickSaveDescription() {
         saveButton.click();
 
@@ -112,5 +118,9 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
     public MultiConfigurationConfirmRenamePage clickRenameInMenu() {
         menuRename.click();
         return new MultiConfigurationConfirmRenamePage(getDriver());
+    }
+
+    public boolean isDescriptionEmpty() {
+        return getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#description>div")));
     }
 }
