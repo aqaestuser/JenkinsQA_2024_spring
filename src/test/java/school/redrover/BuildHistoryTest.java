@@ -57,8 +57,8 @@ public class BuildHistoryTest extends BaseTest{
                 .waitBuildToFinish()
                 .clickLogo()
                 .clickBuildHistory()
-                .clickBuildOnTimeline();
+                .isDisplayedBuildOnTimeline();
 
-        Assert.assertTrue(projectNameOnTimeline,"FREESTYLE is dispay");
+        Assert.assertTrue(projectNameOnTimeline,"FREESTYLE is display");
     }
 }

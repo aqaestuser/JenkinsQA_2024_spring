@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
@@ -23,7 +24,7 @@ public class BuildHistoryPage extends BasePage {
     @FindBy(css = "[class*='_button'] [href$='/1/console']")
     private WebElement buildConsole;
 
-    @FindBy(xpath = "//div[@class='label-event-blue  event-blue  timeline-event-label']")
+    @FindBy(xpath = "//a[@class='jenkins-table__link model-link']")
     private WebElement buildNameOnTimeline;
 
     public BuildHistoryPage(WebDriver driver) {
@@ -69,7 +70,7 @@ public class BuildHistoryPage extends BasePage {
         return new BuildConsoleOutputPage(getDriver());
     }
 
-    public boolean clickBuildOnTimeline(){
+    public boolean isDisplayedBuildOnTimeline(){
        return buildNameOnTimeline.isDisplayed();
 
     }
