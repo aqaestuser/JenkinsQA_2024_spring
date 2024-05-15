@@ -886,6 +886,39 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
 
+//    @Ignore
+//    @Test(dependsOnMethods = "testPipelineBuildSuccessFromConsole")
+//    public void testPermalinksBuildDetails() {
+//        final List<String> expectedPermalinks =
+//                List.of("Last build (#1)", "Last stable build (#1)", "Last successful build (#1)", "Last completed build (#1)");
+//
+//        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+//
+//        List<String> actualPermalinks = getDriver()
+//                .findElements(By.xpath("//li[@class='permalink-item']"))
+//                .stream()
+//                .map(permalink -> permalink.getText().split(",")[0].trim())
+//                .collect(Collectors.toList());
+//
+//        Assert.assertEquals(actualPermalinks, expectedPermalinks);
+//    }
+
+//    @Ignore
+//    @Test(dependsOnMethods = "testPermalinksBuildDetails")
+//    public void testGreenBuildSuccessColor() {
+//        final String greenHexColor = "#1ea64b";
+//
+//        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+//
+//        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+//        WebElement statusMark = getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@tooltip='Success']")));
+//        String actualHexColor = (String) js.executeScript(
+//                "return window.getComputedStyle(arguments[0]).getPropertyValue('--success');",
+//                statusMark);
+//
+//        Assert.assertEquals(actualHexColor, greenHexColor);
+//    }
+
     @Ignore
     @Test(dependsOnMethods = "testGreenBuildSuccessColor")
     public void testSetPipelineNumberBuildsToKeep() {
@@ -909,6 +942,24 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(String.valueOf(numberBuilds.size()), maxNumberBuildsToKeep);
     }
+
+//    @Ignore
+//    @Test(dependsOnMethods = "testSetPipelineNumberBuildsToKeep")
+//    public void testCheckBuildsHistoryDescendingOrder() {
+//        getDriver().findElement(By.xpath("//td/a[@href='job/" + PIPELINE_NAME + "/']")).click();
+//
+//        List<WebElement> builds = getDriver().findElements(By.xpath("//div[@class='pane-content']//a[contains(text(),'#')]"));
+//
+//        List<String> actualBuildsOrder = new ArrayList<>();
+//        for (WebElement element : builds) {
+//            actualBuildsOrder.add(element.getText());
+//        }
+//
+//        List<String> expectedBuildOrder = new ArrayList<>(actualBuildsOrder);
+//        expectedBuildOrder.sort(Collections.reverseOrder());
+//
+//        Assert.assertEquals(actualBuildsOrder, expectedBuildOrder, "Elements are not in descending order");
+//    }
 
     @Ignore
     @Test(dependsOnMethods = "testCheckBuildsHistoryDescendingOrder")

@@ -211,7 +211,11 @@ public class CreateNewItemPage extends BasePage {
         return itemNameHint.getCssValue("color");
     }
 
-    public Boolean okButtonIsEnabled() { return okButton.isEnabled(); }
+    public String getColorOfErrorMessageWhenUnsafeChar() {
+        return errorMessageInvalidCharacter.getCssValue("color");
+    }
+
+    public Boolean isOkButtonEnabled() { return okButton.isEnabled(); }
 
     public CreateNewItemPage clickItemNameField() {
         nameText.click();
@@ -220,6 +224,10 @@ public class CreateNewItemPage extends BasePage {
 
     public String getTitleOfNameField() {
         return titleOfNameField.getText();
+    }
+
+    public String getPageTitle() {
+        return getDriver().getTitle();
     }
 
 }
