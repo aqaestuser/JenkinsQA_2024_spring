@@ -810,13 +810,17 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testHideDescriptionPreview() {
 
-        TestUtils.createJob(this, TestUtils.Job.PIPELINE, "Pipeline3");
+        TestUtils.createPipelineProject(this, PIPELINE_NAME);
 
-        getDriver().findElement(By.name("description")).sendKeys("Pipeline description");
-        getDriver().findElement(By.cssSelector(".textarea-show-preview")).click();
-        getDriver().findElement(By.cssSelector(".textarea-hide-preview")).click();
+        boolean descriptionPreviewIsDisplayed = new HomePage(getDriver())
+                .clickCreatedPipelineName()
+                .clickChangeDescription()
+                .setDescription(DESCRIPTION)
+                .clickShowDescriptionPreview()
+                .clickHideDescriptionPreview()
+                .isDescriptionPreviewVisible();
 
-        Assert.assertFalse(getDriver().findElement(By.cssSelector(".textarea-preview")).isDisplayed());
+        Assert.assertFalse(descriptionPreviewIsDisplayed);
     }
 
     @Test

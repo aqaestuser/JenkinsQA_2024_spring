@@ -26,6 +26,15 @@ public class PipelineProjectPage extends BaseProjectPage {
     @FindBy(css = "#description>:first-child")
     private WebElement displayedDescription;
 
+    @FindBy(css = ".textarea-preview")
+    private WebElement descriptionPreview;
+
+    @FindBy(css = ".textarea-show-preview")
+    private WebElement showDescriptionPreview;
+
+    @FindBy(css = ".textarea-hide-preview")
+    private WebElement hideDescriptionPreview;
+
     @FindBy(css = "[data-title='Delete Pipeline']")
     private WebElement sidebarDeleteButton;
 
@@ -142,6 +151,20 @@ public class PipelineProjectPage extends BaseProjectPage {
         getWait2().until(ExpectedConditions.invisibilityOf(changeDescriptionButton));
 
         return this;
+    }
+
+    public PipelineProjectPage clickShowDescriptionPreview() {
+        showDescriptionPreview.click();
+        return this;
+    }
+
+    public PipelineProjectPage clickHideDescriptionPreview() {
+        hideDescriptionPreview.click();
+        return this;
+    }
+
+    public boolean isDescriptionPreviewVisible() {
+        return descriptionPreview.isDisplayed();
     }
 
     public String getTextAreaBorderBacklightColor() {
