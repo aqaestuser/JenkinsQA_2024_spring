@@ -4,7 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
-
 import java.util.List;
 
 public class BuildHistoryTest extends BaseTest{
@@ -14,7 +13,7 @@ public class BuildHistoryTest extends BaseTest{
     public void testCreatFreestyleProject() {
         List<String> actualMyProject = new HomePage(getDriver())
                 .clickNewItem()
-                .sendItemName(PROJECT_NAME)
+                .setItemName(PROJECT_NAME)
                 .selectFreestyleAndClickOk()
                 .clickSaveButton()
                 .clickLogo()
