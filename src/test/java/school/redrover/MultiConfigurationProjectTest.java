@@ -217,17 +217,17 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDeleteProjectViaDropdown() {
-        TestUtils.createNewItem(this, PROJECT_NAME, TestUtils.Item.MULTI_CONFIGURATION_PROJECT);
-        getDriver().findElement(By.linkText(PROJECT_NAME)).click();
 
-        TestUtils.openElementDropdown(this, getDriver().findElement(By.linkText(PROJECT_NAME)));
+        TestUtils.createMultiConfigurationProject(this, PROJECT_NAME);
 
-        getDriver().findElement(By.cssSelector(".tippy-box [href$='Delete']")).click();
-        getDriver().findElement(By.cssSelector("[data-id='ok']")).click();
+        String jenkinsHeader = new HomePage(getDriver())
+                .chooseCreatedProject(PROJECT_NAME)
+                .clickBreadcrumbsDropdownArrow()
+                .clickBreadcrumbsDeleteButton()
+                .clickYes(new HomePage(getDriver()))
+                .getWelcomeJenkinsHeader();
 
-        Assert.assertEquals(
-                getDriver().findElement(By.tagName("h1")).getText(),
-                "Welcome to Jenkins!",
+        Assert.assertEquals(jenkinsHeader, "Welcome to Jenkins!",
                 "Project not deleted");
     }
 
