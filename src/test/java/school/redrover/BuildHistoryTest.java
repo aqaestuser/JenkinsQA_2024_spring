@@ -1,7 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.FreestyleProjectPage;
@@ -14,7 +12,7 @@ public class BuildHistoryTest extends BaseTest{
     private final String PROJECT_NAME = "My freestyle project";
 
     @Test
-    public void testCreatFreestyleProject() {
+    public void testCreateFreestyleProject() {
         List<String> actualMyProject = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
@@ -26,7 +24,7 @@ public class BuildHistoryTest extends BaseTest{
         Assert.assertTrue(actualMyProject.contains(PROJECT_NAME));
         }
 
-        @Test(dependsOnMethods = "testCreatFreestyleProject")
+        @Test(dependsOnMethods = "testCreateFreestyleProject")
         public void testGetTableBuildHistory() {
 
         List<String> list = new HomePage(getDriver())
