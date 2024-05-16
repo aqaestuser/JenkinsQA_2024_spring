@@ -22,18 +22,11 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
     }
 
-    private WebElement jenkinsHomeLink() {
+    //private WebElement jenkinsHomeLink() {
 
-        return getDriver().findElement(By.id("jenkins-home-link"));
-    }
+        //return getDriver().findElement(By.id("jenkins-home-link"));
+    //}
 
-//    public void createFreestyleProject(String newName) {
-//        new HomePage(getDriver())
-//                .clickNewItem()
-//                .setItemName(newName)
-//                .selectFreestyleAndClickOk()
-//                .clickSaveButton();
-//    }
 
     public FreestyleProjectPage createFreestyleProjectWithDescription() {
 
