@@ -22,18 +22,11 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
     }
 
-    private WebElement jenkinsHomeLink() {
+    //private WebElement jenkinsHomeLink() {
 
-        return getDriver().findElement(By.id("jenkins-home-link"));
-    }
+        //return getDriver().findElement(By.id("jenkins-home-link"));
+    //}
 
-//    public void createFreestyleProject(String newName) {
-//        new HomePage(getDriver())
-//                .clickNewItem()
-//                .setItemName(newName)
-//                .selectFreestyleAndClickOk()
-//                .clickSaveButton();
-//    }
 
     public FreestyleProjectPage createFreestyleProjectWithDescription() {
 
@@ -391,6 +384,19 @@ public class FreestyleProjectTest extends BaseTest {
                 .getFullProjectPath();
 
         Assert.assertTrue(actualText.contains(expectedText), "The text does not contain the expected project name.");
+
+    }
+    @Test
+    public void testCreateProject() {
+
+        String expectedName = new HomePage(getDriver())
+                .clickCreateAJob()
+                .setItemName(FREESTYLE_PROJECT_NAME)
+                .selectFreestyleAndClickOk()
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertEquals(FREESTYLE_PROJECT_NAME, expectedName);
 
     }
 }
