@@ -232,19 +232,18 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testDeleteFreestyleProjectFromConfigurationPage() {
-        new HomePage(getDriver())
+        String deleteResult = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleAndClickOk()
                 .clickSaveButton()
-                .clickLogo();
+                .clickLogo()
+                .chooseCreatedFreestyleProject(FREESTYLE_PROJECT_NAME)
+                .deleteFreestyleProject()
+                .confirmDeleteFreestyleProject()
+                .getWelcomeJenkinsHeader();
 
-        getDriver().findElement(By.xpath("//a[@class= 'jenkins-table__link model-link inside']")).click();
-        getDriver().findElement(By.xpath("//*[@id='tasks']/div[6]/span")).click();
-        getDriver().findElement(By.xpath("//button[@data-id = 'ok']")).click();
-        String resultHeader = getDriver().findElement(By.xpath("//h1")).getText();
-
-        Assert.assertEquals(resultHeader, "Welcome to Jenkins!");
+        Assert.assertEquals(deleteResult, "Welcome to Jenkins!");
 
     }
 
