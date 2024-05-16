@@ -74,7 +74,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .selectFolder()
                 .setItemName(".")
-                .getErrorMessage();
+                .getErrorMessageInvalidCharacterOrDuplicateName();
 
         Assert.assertEquals(errorMessageText, "» “.” is not an allowed name",
                 "The error message is different");
@@ -86,7 +86,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .selectFolder()
                 .setItemName("Folder." + Keys.TAB)
-                .getErrorMessage();
+                .getErrorMessageInvalidCharacterOrDuplicateName();
 
         Assert.assertEquals(errorMessageText, "» A name cannot end with ‘.’",
                 "The error message is different");
@@ -101,7 +101,7 @@ public class FolderTest extends BaseTest {
                 .clickDropdownRenameButton()
                 .setNewName(NEW_FOLDER_NAME)
                 .clickRename()
-                .getPageHeading();
+                .getProjectName();
 
         Assert.assertEquals(folderStatusPageHeading, NEW_FOLDER_NAME,
                 "The Folder name is not equal to " + NEW_FOLDER_NAME);
@@ -114,7 +114,7 @@ public class FolderTest extends BaseTest {
                 .renameFolderFromDropdown()
                 .setNewName(THIRD_FOLDER_NAME)
                 .clickRename()
-                .getPageHeading();
+                .getProjectName();
 
         Assert.assertEquals(folderStatusPageHeading, THIRD_FOLDER_NAME,
                 "The Folder name is not equal to " + THIRD_FOLDER_NAME);
@@ -130,7 +130,7 @@ public class FolderTest extends BaseTest {
                 .clickOnRenameButton()
                 .setNewName(NEW_FOLDER_NAME)
                 .clickRename()
-                .getPageHeading();
+                .getProjectName();
 
         Assert.assertEquals(folderRenamedName, NEW_FOLDER_NAME);
     }
@@ -235,7 +235,7 @@ public class FolderTest extends BaseTest {
         String actualFolderName = new HomePage(getDriver())
                 .createNewFolder(folderName)
                 .clickFolder(folderName)
-                .getPageHeading();
+                .getProjectName();
 
         String actualEmptyStateMessage = new FolderProjectPage(getDriver())
                 .getMessageFromEmptyFolder();

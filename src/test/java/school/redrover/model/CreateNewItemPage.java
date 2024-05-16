@@ -43,7 +43,10 @@ public class CreateNewItemPage extends BasePage {
     private WebElement okButton;
 
     @FindBy(id = "itemname-invalid")
-    private WebElement errorMessage;
+    private WebElement errorMessageInvalidCharacter;
+
+    @FindBy(id = "itemname-required")
+    private WebElement errorMessageEmptyName;
 
     @FindBy(xpath = "//div[@class='item-copy']//li[not(@style='display: none;')]")
     private List<WebElement> copyFormElements;
@@ -134,8 +137,12 @@ public class CreateNewItemPage extends BasePage {
         return projectConfigPage;
     }
 
-    public String getErrorMessage() {
-        return errorMessage.getText();
+    public String getErrorMessageInvalidCharacterOrDuplicateName() {
+        return errorMessageInvalidCharacter.getText();
+    }
+
+    public String getErrorMessageEmptyName() {
+        return errorMessageEmptyName.getText();
     }
 
     public String getCreateNewItemPageUrl() {
@@ -157,6 +164,18 @@ public class CreateNewItemPage extends BasePage {
     public CreateItemPage clickOkButton() {
         okButton.click();
         return new CreateItemPage(getDriver());
+    }
+
+    public boolean isOkButtonNotActive() {
+        try
+        {
+            getDriver().findElement(By.xpath("//button[contains(@class, 'disabled') and text()='OK']"));
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
     }
 
     public List<String> getDropdownMenuContent() {
@@ -200,10 +219,23 @@ public class CreateNewItemPage extends BasePage {
         return itemNameHint.getCssValue("color");
     }
 
-    public Boolean okButtonIsEnabled() { return okButton.isEnabled(); }
+    public String getColorOfErrorMessageWhenUnsafeChar() {
+        return errorMessageInvalidCharacter.getCssValue("color");
+    }
+
+    public Boolean isOkButtonEnabled() { return okButton.isEnabled(); }
+
+    public CreateNewItemPage clickItemNameField() {
+        nameText.click();
+        return this;
+    }
 
     public String getTitleOfNameField() {
         return titleOfNameField.getText();
+    }
+
+    public String getPageTitle() {
+        return getDriver().getTitle();
     }
 
 }

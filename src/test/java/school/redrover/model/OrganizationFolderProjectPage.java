@@ -7,7 +7,7 @@ import school.redrover.model.base.BaseProjectPage;
 
 public class OrganizationFolderProjectPage extends BaseProjectPage {
 
-    @FindBy(css = "span > a[href$='configure']")
+    @FindBy(css = ".task [href$='configure']")
     private WebElement configureButton;
 
     @FindBy(css = "h1 > svg")
@@ -30,6 +30,12 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
 
     @FindBy(xpath = "//*[@id='description']/div")
     private WebElement description;
+
+    @FindBy(xpath = "//a[@data-title='Delete Organization Folder']")
+    private WebElement deleteOnSidebar;
+
+    @FindBy(xpath = "//button[@data-id='ok']")
+    private WebElement yesButtonOnDeleteOrganizationFolderAlert;
 
     public OrganizationFolderProjectPage(WebDriver driver) {
         super(driver);
@@ -75,5 +81,15 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
 
     public String getDescriptionText() {
         return description.getText();
+    }
+
+    public OrganizationFolderProjectPage clickDeleteOnSidebar() {
+        deleteOnSidebar.click();
+        return this;
+    }
+
+    public HomePage clickYesForDeleteOrganizationFolder() {
+        yesButtonOnDeleteOrganizationFolderAlert.click();
+        return new HomePage(getDriver());
     }
 }
