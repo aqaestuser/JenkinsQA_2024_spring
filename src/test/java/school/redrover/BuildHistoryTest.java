@@ -36,7 +36,7 @@ public class BuildHistoryTest extends BaseTest{
     }
 
     @Test
-    public void testCheckBuildOnBoard(){
+    public void testCheckBuildOnBoard() {
         String FREESTYLE_PROJECT_NAME = "FREESTYLE";
 
         TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
