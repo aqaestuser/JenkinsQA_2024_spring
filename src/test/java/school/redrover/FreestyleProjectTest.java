@@ -393,4 +393,17 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(actualText.contains(expectedText), "The text does not contain the expected project name.");
 
     }
+    @Test
+    public void testCreateProject() {
+
+        String expectedName = new HomePage(getDriver())
+                .clickCreateAJob()
+                .setItemName(FREESTYLE_PROJECT_NAME)
+                .selectFreestyleAndClickOk()
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertEquals(FREESTYLE_PROJECT_NAME, expectedName);
+
+    }
 }
