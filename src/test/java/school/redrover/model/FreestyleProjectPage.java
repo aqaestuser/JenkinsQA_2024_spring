@@ -9,25 +9,39 @@ import school.redrover.model.base.BaseProjectPage;
 
 public class FreestyleProjectPage extends BaseProjectPage {
 
+    @FindBy(xpath = "//*[@id='breadcrumbs']/li[3]/a")
+    private WebElement projectNameFromBreadcrumbs;
+
+    @FindBy(css = "#disable-project button")
+    private WebElement disableProjectButton;
+
+    @FindBy(css = "#enable-project button")
+    private WebElement enableButton;
+
     @FindBy(id = "main-panel")
     private WebElement fullProjectName;
 
-    @FindBy(xpath = "//*[@id='main-panel']//h1")
+    @FindBy(tagName = "h1")
     private WebElement projectName;
 
     @FindBy(css = "#description > div:first-child")
     private WebElement projectDescription;
 
     @FindBy(id = "description-link")
-    private WebElement changeDescriptionButton;
+    private WebElement addDescriptionButton;
 
     @FindBy(name = "description")
     private WebElement descriptionInput;
 
     @FindBy(name = "Submit")
     private WebElement saveButton;
+
     @FindBy(xpath = "//a[contains(@href,'move')]")
     private WebElement moveButton;
+
+    @FindBy(xpath = "//a[contains(@href, 'configure')]")
+    private WebElement configureButton;
+
     @FindBy(xpath = "//a[contains(@href, 'confirm-rename')]")
     private WebElement renameButton;
 
@@ -58,13 +72,30 @@ public class FreestyleProjectPage extends BaseProjectPage {
         return fullProjectName.getText();
     }
 
-    public FreestyleProjectPage clickChangeDescription() {
-        changeDescriptionButton.click();
+    public FreestyleProjectPage clickAddDescription() {
+        addDescriptionButton.click();
 
         return this;
     }
 
-    public FreestyleProjectPage clearOnDescriptionInput() {
+    public FreestyleProjectPage clickDisableProjectButton() {
+        disableProjectButton.click();
+
+        return this;
+    }
+
+    public String getDisableProjectButtonText() {
+
+        return disableProjectButton.getText();
+    }
+
+    public FreestyleProjectPage clickEnableButton() {
+        enableButton.click();
+
+        return this;
+    }
+
+    public FreestyleProjectPage clearDescription() {
         descriptionInput.clear();
 
         return this;
@@ -82,9 +113,9 @@ public class FreestyleProjectPage extends BaseProjectPage {
         return this;
     }
 
-    public String getProjectName() {
+    public String getProjectNameFromBreadcrumbs() {
 
-        return projectName.getText();
+        return projectNameFromBreadcrumbs.getText();
     }
 
     public String getProjectDescriptionText() {
@@ -96,6 +127,13 @@ public class FreestyleProjectPage extends BaseProjectPage {
         return new FreestyleMovePage(getDriver());
     }
 
+    public FreestyleConfigPage clickConfigure() {
+
+        configureButton.click();
+
+        return new FreestyleConfigPage(getDriver());
+    }
+
     public FreestyleRenamePage clickRename() {
 
         renameButton.click();
@@ -103,12 +141,12 @@ public class FreestyleProjectPage extends BaseProjectPage {
         return new FreestyleRenamePage(getDriver());
     }
 
-    public FreestyleProjectPage deleteFreestyleProject() {
+    public FreestyleProjectPage clickDelete() {
         getWait10().until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
         return this;
     }
 
-    public HomePage confirmDeleteFreestyleProject() {
+    public HomePage clickYesInConfirmDeleteDialog() {
         yesButton.click();
         return new HomePage(getDriver());
     }
@@ -136,8 +174,8 @@ public class FreestyleProjectPage extends BaseProjectPage {
     }
 
     public String getBuildInfo() {
-        return buildInfo.getText();
 
+        return buildInfo.getText();
     }
 
     public String getFullProjectPath() {

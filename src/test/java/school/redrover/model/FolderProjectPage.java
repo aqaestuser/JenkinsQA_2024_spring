@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseProjectPage;
 
 import java.util.List;
@@ -15,15 +16,6 @@ public class FolderProjectPage extends BaseProjectPage {
 
     @FindBy(css = "[href*='confirm-rename']")
     private WebElement renameButton;
-
-    @FindBy(tagName = "h1")
-    private WebElement pageHeading;
-
-    @FindBy(xpath = "//span[contains(text(),'Rename')]/../.")
-    private WebElement renameButtonLeft;
-
-    @FindBy(css = "h1")
-    private WebElement pageTopic;
 
     @FindBy(css = ".empty-state-section")
     private WebElement emptyStateSection;
@@ -61,6 +53,21 @@ public class FolderProjectPage extends BaseProjectPage {
     @FindBy(css = "[class*='dropdown'] [href$='rename']")
     private WebElement dropdownRenameButton;
 
+    @FindBy(css = "a[data-title='Delete Folder']")
+    private WebElement deleteOnSidebar;
+
+    @FindBy(css = "button[data-id='ok']")
+    private WebElement yesButtonOnDeleteFolderAlert;
+
+    @FindBy(css = "h2.h4")
+    private WebElement messageFromEmptyFolder;
+
+    @FindBy(css = "a.content-block__link")
+    private WebElement createJobLink;
+
+    @FindBy(xpath = "//button[@class='jenkins-dropdown__item'][contains(@href, 'Delete')]")
+    private WebElement deleteProject;
+
     public FolderProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -73,16 +80,6 @@ public class FolderProjectPage extends BaseProjectPage {
         renameButton.click();
 
         return new FolderRenamePage(getDriver());
-    }
-
-    public FolderRenamePage clickOnRenameButtonLeft() {
-        renameButtonLeft.click();
-
-        return new FolderRenamePage(getDriver());
-    }
-
-    public String getPageHeading() {
-        return pageHeading.getText();
     }
 
     public Boolean isFolderEmpty() {
@@ -162,5 +159,52 @@ public class FolderProjectPage extends BaseProjectPage {
         dropdownRenameButton.click();
 
         return new FolderRenamePage(getDriver());
+    }
+
+    public FolderProjectPage clickDeleteOnSidebar() {
+        deleteOnSidebar.click();
+
+        return this;
+    }
+
+    public HomePage clickYesForDeleteFolder() {
+        yesButtonOnDeleteFolderAlert.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public boolean isItemExistsInsideFolder(String nameItem) {
+        return getItemListInsideFolder().contains(nameItem);
+    }
+
+    public String getMessageFromEmptyFolder() {
+        return messageFromEmptyFolder.getText();
+    }
+
+    public String getTextWhereClickForCreateJob() {
+        return createJobLink.getText();
+    }
+
+    public Boolean isLinkForCreateJobDisplayed() {
+        return createJobLink.isDisplayed();
+    }
+
+    public FolderProjectPage clickJobNameBreadcrumb(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class = 'jenkins-dropdown__item'][contains(@href," + name + ")]"))).click();
+
+        return this;
+    }
+
+    public FolderProjectPage openItemDropdown() {
+        WebElement dropdownElement = getDriver().findElement(By.xpath("//td//button[@class='jenkins-menu-dropdown-chevron']"));
+        clickSpecificDropdownArrow(dropdownElement);
+
+        return this;
+    }
+
+    public FolderProjectPage clickDropdownDeleteProject() {
+        deleteProject.click();
+
+        return this;
     }
 }

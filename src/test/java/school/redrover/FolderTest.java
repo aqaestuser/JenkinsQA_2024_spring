@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.DeleteDialog;
 import school.redrover.model.FolderProjectPage;
 import school.redrover.model.HomePage;
 import school.redrover.model.PipelineProjectPage;
@@ -14,22 +15,23 @@ import java.util.List;
 public class FolderTest extends BaseTest {
 
     private static final String FOLDER_NAME = "First_Folder";
+
     private static final String NEW_FOLDER_NAME = "Renamed_First_Folder";
+
     private static final String THIRD_FOLDER_NAME = "Dependant_Test_Folder";
+
     private static final String FOLDER_TO_MOVE = "Folder_to_move_into_the_first";
+
+    private static final String FOLDER_TO_MOVE_2 = "Folder_to_move_into_the_first_2";
+
     private static final String PIPELINE_NAME = "Pipeline Sv";
+
+    private static final String IVAN_S_FREE_STYLE_PROJECT = "Ivan's Freestyle";
+
     private static final String FOLDER_DESCRIPTION_FIRST = "Some description of the folder.";
+
     private static final String FOLDER_DESCRIPTION_SECOND = "NEW description of the folder.";
 
-    public void create() {
-        HomePage homePage = new HomePage(getDriver());
-
-        homePage.clickNewItem()
-                .setItemName(FOLDER_NAME)
-                .selectFolderAndClickOk()
-                .clickSaveButton()
-                .clickLogo();
-    }
 
     @Test
     public void testCreateViaCreateAJob() {
@@ -43,9 +45,8 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderBreadcrumbName, FOLDER_NAME, "Breadcrumb name doesn't match " + FOLDER_NAME);
     }
 
-    @Test (dependsOnMethods = "testCreateViaCreateAJob")
+    @Test(dependsOnMethods = "testCreateViaCreateAJob")
     public void testAddDescription() {
-
         String textInDescription = new FolderProjectPage(getDriver())
                 .clickAddOrEditDescription()
                 .setDescription(FOLDER_DESCRIPTION_FIRST)
@@ -55,7 +56,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(textInDescription, FOLDER_DESCRIPTION_FIRST);
     }
 
-    @Test(dependsOnMethods = {"testCreateViaCreateAJob", "testAddDescription"})
+    @Test(dependsOnMethods = "testAddDescription")
     public void testChangeDescription() {
         String textInDescription = new FolderProjectPage(getDriver())
                 .clickAddOrEditDescription()
@@ -73,7 +74,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .selectFolder()
                 .setItemName(".")
-                .getErrorMessage();
+                .getErrorMessageInvalidCharacterOrDuplicateName();
 
         Assert.assertEquals(errorMessageText, "» “.” is not an allowed name",
                 "The error message is different");
@@ -85,7 +86,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .selectFolder()
                 .setItemName("Folder." + Keys.TAB)
-                .getErrorMessage();
+                .getErrorMessageInvalidCharacterOrDuplicateName();
 
         Assert.assertEquals(errorMessageText, "» A name cannot end with ‘.’",
                 "The error message is different");
@@ -100,7 +101,7 @@ public class FolderTest extends BaseTest {
                 .clickDropdownRenameButton()
                 .setNewName(NEW_FOLDER_NAME)
                 .clickRename()
-                .getPageHeading();
+                .getProjectName();
 
         Assert.assertEquals(folderStatusPageHeading, NEW_FOLDER_NAME,
                 "The Folder name is not equal to " + NEW_FOLDER_NAME);
@@ -113,7 +114,7 @@ public class FolderTest extends BaseTest {
                 .renameFolderFromDropdown()
                 .setNewName(THIRD_FOLDER_NAME)
                 .clickRename()
-                .getPageHeading();
+                .getProjectName();
 
         Assert.assertEquals(folderStatusPageHeading, THIRD_FOLDER_NAME,
                 "The Folder name is not equal to " + THIRD_FOLDER_NAME);
@@ -129,7 +130,7 @@ public class FolderTest extends BaseTest {
                 .clickOnRenameButton()
                 .setNewName(NEW_FOLDER_NAME)
                 .clickRename()
-                .getPageHeading();
+                .getProjectName();
 
         Assert.assertEquals(folderRenamedName, NEW_FOLDER_NAME);
     }
@@ -156,6 +157,34 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(nestedFolder, FOLDER_TO_MOVE, FOLDER_TO_MOVE + " is not in " + FOLDER_NAME);
     }
 
+    @Test(dependsOnMethods = "testFolderMovedIntoAnotherFolderViaBreadcrumbs")
+    public void testCreateMultiConfigurationProjectInFolder(){
+        final String MULTI_CONFIGURATION_NAME = "MultiConfigurationProject_1";
+
+        FolderProjectPage folderProjectPage = new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME)
+                .clickNewItemInsideFolder()
+                .setItemName(MULTI_CONFIGURATION_NAME)
+                .selectFreestyleAndClickOk()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME);
+
+        Assert.assertTrue(folderProjectPage.isItemExistsInsideFolder(MULTI_CONFIGURATION_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectInFolder")
+    public void testDeleteFolderViaDropdown() {
+
+        boolean isFolderDeleted = new FolderProjectPage(getDriver())
+                .clickLogo()
+                .openItemDropdown(FOLDER_NAME)
+                .clickDeleteInDropdown(new DeleteDialog(getDriver()))
+                .clickYes(new HomePage(getDriver()))
+                .isItemDeleted(FOLDER_NAME);
+
+        Assert.assertTrue(isFolderDeleted);
+    }
+
     @Test
     public void testMoveFolderToFolderViaChevron() {
         List<String> folderNameList = new HomePage(getDriver())
@@ -172,38 +201,6 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testRename() {
-        create();
-
-        HomePage homePage = new HomePage(getDriver());
-
-        String resultName = homePage
-                .clickOnCreatedFolder(FOLDER_NAME)
-                .clickOnRenameButton()
-                .setNewName(NEW_FOLDER_NAME)
-                .clickRename()
-                .getBreadcrumbName();
-
-        Assert.assertEquals(resultName, NEW_FOLDER_NAME);
-    }
-
-    @Test
-    public void testRenameFolder() {
-
-        List<String> itemList = new HomePage(getDriver())
-                .clickNewItem()
-                .setItemName(FOLDER_NAME)
-                .selectFolderAndClickOk()
-                .clickSaveButton()
-                .clickOnRenameButtonLeft()
-                .renameFolder(NEW_FOLDER_NAME)
-                .clickLogo()
-                .getItemList();
-
-        Assert.assertListContainsObject(itemList, NEW_FOLDER_NAME, "Folder is not renamed!");
-    }
-
-    @Test
     public void testCreateViaNewItem() {
         FolderProjectPage folderProjectPage = new HomePage(getDriver())
                 .clickNewItem()
@@ -212,24 +209,55 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton();
         String folderName = folderProjectPage.getBreadcrumbName();
 
-        Assert.assertEquals(folderName, FOLDER_NAME);
-
         List<String> itemList = folderProjectPage
                 .clickLogo()
                 .getItemList();
 
+        Assert.assertEquals(folderName, FOLDER_NAME);
         Assert.assertTrue((itemList.contains(FOLDER_NAME)));
-
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateViaNewItem")
+    public void testCheckNewFolderIsEmpty() {
+        Boolean isFolderEmpty = new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME)
+                .isFolderEmpty();
+
+        Assert.assertTrue(isFolderEmpty);
+    }
+
+    @Test(dependsOnMethods = "testCheckNewFolderIsEmpty")
+    public void testNewlyCreatedFolderIsEmptyAJ() {
+        final String folderName = "NewProjectFolder";
+        final String thisFolderIsEmptyMessage = "This folder is empty";
+        final String createAJobLinkText = "Create a job";
+
+        String actualFolderName = new HomePage(getDriver())
+                .createNewFolder(folderName)
+                .clickFolder(folderName)
+                .getProjectName();
+
+        String actualEmptyStateMessage = new FolderProjectPage(getDriver())
+                .getMessageFromEmptyFolder();
+
+        String actualCreateJobLinkText = new FolderProjectPage(getDriver())
+                .getTextWhereClickForCreateJob();
+
+        Boolean isLinkForCreateJobDisplayed = new FolderProjectPage(getDriver())
+                .isLinkForCreateJobDisplayed();
+
+        Assert.assertEquals(actualFolderName, folderName);
+        Assert.assertEquals(actualEmptyStateMessage, thisFolderIsEmptyMessage);
+        Assert.assertEquals(actualCreateJobLinkText, createAJobLinkText);
+        Assert.assertTrue(isLinkForCreateJobDisplayed, "newJobLink is NOT displayed");
+    }
+
+    @Test(dependsOnMethods = "testNewlyCreatedFolderIsEmptyAJ")
     public void testCreateJobPipelineInFolder() {
         String expectedText = String.format("Full project name: %s/%s", FOLDER_NAME, PIPELINE_NAME);
 
-        create();
-
         PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
-                .clickFolderName()
+                .clickFolder(FOLDER_NAME)
                 .clickNewItemInsideFolder()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
@@ -244,8 +272,52 @@ public class FolderTest extends BaseTest {
                 .getItemInTableName();
 
         Assert.assertEquals(itemName, PIPELINE_NAME);
-
     }
 
+    @Test(dependsOnMethods = "testCreateJobPipelineInFolder")
+    public void testCreateTwoInnerFolder() {
+        List<String> itemNames = new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME)
+                .clickNewItemInsideFolder()
+                .setItemName(FOLDER_TO_MOVE)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME)
+                .clickNewItemInsideFolder()
+                .setItemName(FOLDER_TO_MOVE_2)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME)
+                .getItemListInsideFolder();
 
+        Assert.assertTrue(itemNames.contains(FOLDER_TO_MOVE) && itemNames.contains(FOLDER_TO_MOVE_2));
+    }
+
+    @Test(dependsOnMethods = "testCreateTwoInnerFolder")
+    public void testCreateFreeStyleProjectInsideRootFolder() {
+        List<String> insideFilderItemList = new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME)
+                .clickNewItemInsideFolder()
+                .setItemName(IVAN_S_FREE_STYLE_PROJECT)
+                .selectFreestyleAndClickOk()
+                .clickSaveButton()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME)
+                .getItemListInsideFolder();
+
+        Assert.assertListContainsObject(insideFilderItemList, IVAN_S_FREE_STYLE_PROJECT, "FreeStyle Project was not created");
+    }
+
+    @Test(dependsOnMethods = "testCreateFreeStyleProjectInsideRootFolder")
+    public void testDeleteFolder() {
+        List<String> jobList =new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME)
+                .clickDeleteOnSidebar()
+                .clickYesForDeleteFolder()
+                .getItemList();
+
+        Assert.assertListNotContainsObject(jobList, FOLDER_NAME, FOLDER_NAME + " not removed!");
+    }
 }

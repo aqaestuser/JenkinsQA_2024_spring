@@ -1,30 +1,17 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.AboutJenkinsPage;
 import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FooterTest extends BaseTest {
 
-    @Test
-    public void testJenkinsVersionFooter() {
-        WebElement jenkinsVersion = getDriver().findElement(By.xpath("//*[@class='jenkins-button jenkins-button--tertiary jenkins_ver']"));
-
-        Assert.assertEquals(jenkinsVersion.getText(), "Jenkins 2.440.2");
-    }
-
-    @Test
-    public void testApiInfo() {
-        getDriver().findElement(By.xpath("//*[@class='jenkins-button jenkins-button--tertiary rest-api']")).click();
-
-        Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/api/");
-    }
+    private final String jenkinsVersion = "2.440.2";
 
     @Test
     public void testLinkButtonsListInVersionDropDown() {
@@ -39,9 +26,9 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testRestAPIButtonTitle() {
-        getDriver().findElement(By.xpath("//a[@href='api/']")).click();
-
-        String titleText = getDriver().getTitle();
+        String titleText = new HomePage(getDriver())
+                .clickApiLink()
+                .getApiPageTitleText();
 
         Assert.assertEquals(titleText, "Remote API [Jenkins]");
     }
@@ -49,8 +36,8 @@ public class FooterTest extends BaseTest {
     @Test
     public void testJenkinsVersion() {
         AboutJenkinsPage page = new HomePage(getDriver())
-                .jenkinsFooterClick()
-                .selectAboutJenkins();
+                .clickVersion()
+                .selectAboutJenkinsAndClick();
 
         Assert.assertTrue(page.isDisplayedVersionJenkins());
     }
@@ -58,7 +45,7 @@ public class FooterTest extends BaseTest {
     @Test
     public void testDropDownLink() {
         HomePage page = new HomePage(getDriver())
-                .jenkinsFooterClick();
+                .clickVersion();
 
         Assert.assertTrue(page.isDisplayedAboutJenkinsDropdownItem());
         Assert.assertTrue(page.isDisplayedInvolvedDropdownItem());
@@ -68,10 +55,59 @@ public class FooterTest extends BaseTest {
     @Test
     public void testJenkinsInformationFooter() {
         boolean isExistJenkinsInformationFooter = new HomePage(getDriver())
-                .jenkinsFooterClick()
-                .selectAboutJenkins()
+                .clickVersion()
+                .selectAboutJenkinsAndClick()
                 .isExistJenkinsInformationFooter();
 
         Assert.assertTrue(isExistJenkinsInformationFooter);
+    }
+
+    @Test
+    public void testVersionOnAboutJenkinsPage() {
+        String versionOnPage = new HomePage(getDriver())
+                .clickVersion()
+                .selectAboutJenkinsAndClick()
+                .getJenkinsVersion();
+
+        Assert.assertEquals(versionOnPage, jenkinsVersion);
+    }
+
+    @Test
+    public void testVersionOnFooter() {
+        Assert.assertEquals(new HomePage(getDriver()).getVersionOnFooter(), jenkinsVersion);
+    }
+
+    @Test
+    public void testVersionFooterOnEachPage() {
+        List<String> versionList = new ArrayList<>();
+
+        versionList.add(new HomePage(getDriver())
+                .getVersionOnFooter());
+
+        versionList.add(new HomePage(getDriver())
+                .clickNewItem()
+                .getVersionOnFooter());
+
+        versionList.add(new HomePage(getDriver())
+                .clickLogo()
+                .clickPeopleButton()
+                .getVersionOnFooter());
+
+        versionList.add(new HomePage(getDriver())
+                .clickLogo()
+                .clickBuildHistory()
+                .getVersionOnFooter());
+
+        versionList.add(new HomePage(getDriver())
+                .clickLogo()
+                .clickManageJenkins()
+                .getVersionOnFooter());
+
+        versionList.add(new HomePage(getDriver())
+                .clickLogo()
+                .clickMyViewsOnSidebar()
+                .getVersionOnFooter());
+
+        Assert.assertTrue(versionList.stream().allMatch(s -> s.equals(jenkinsVersion)));
     }
 }

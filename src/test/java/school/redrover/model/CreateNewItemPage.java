@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
@@ -42,13 +43,22 @@ public class CreateNewItemPage extends BasePage {
     private WebElement okButton;
 
     @FindBy(id = "itemname-invalid")
-    private WebElement errorMessage;
+    private WebElement errorItemNameInvalid;
+
+    @FindBy(id = "itemname-required")
+    private WebElement errorMessageEmptyName;
 
     @FindBy(xpath = "//div[@class='item-copy']//li[not(@style='display: none;')]")
     private List<WebElement> copyFormElements;
 
     @FindBy(id = "itemname-required")
     private WebElement itemNameHint;
+
+    @FindBy(css = "label.h3")
+    private WebElement titleOfNameField;
+
+    @FindBy(id = "name")
+    WebElement newItemName;
 
     public CreateNewItemPage(WebDriver driver) {
         super(driver);
@@ -57,12 +67,6 @@ public class CreateNewItemPage extends BasePage {
     public CreateNewItemPage setItemName(String name) {
         nameText.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE);
         nameText.sendKeys(name);
-        return this;
-    }
-
-    public CreateNewItemPage selectTypeAndClickOk(String type) {
-        getDriver().findElement(By.xpath("//span[text()='" + type + "']")).click();
-        okButton.click();
         return this;
     }
 
@@ -126,10 +130,19 @@ public class CreateNewItemPage extends BasePage {
         return page;
     }
 
+    public <T extends BaseConfigPage<?>> T selectProjectTypeAndClickOk(TestUtils.ProjectType projectType, T projectConfigPage) {
+        getDriver().findElement(By.xpath("//span[text()='" + projectType.getProjectTypeName() + "']")).click();
+        okButton.click();
 
-    public String getErrorMessage() {
-        return errorMessage.getText();
+        return projectConfigPage;
+    }
 
+    public String getErrorMessageInvalidCharacterOrDuplicateName() {
+        return errorItemNameInvalid.getText();
+    }
+
+    public String getErrorMessageEmptyName() {
+        return errorMessageEmptyName.getText();
     }
 
     public String getCreateNewItemPageUrl() {
@@ -153,6 +166,18 @@ public class CreateNewItemPage extends BasePage {
         return new CreateItemPage(getDriver());
     }
 
+    public boolean isOkButtonNotActive() {
+        try
+        {
+            getDriver().findElement(By.xpath("//button[contains(@class, 'disabled') and text()='OK']"));
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
     public List<String> getDropdownMenuContent() {
         List<WebElement> allJobFromThisLetter = getWait60().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("li[style='']")));
         List<String> allJobFromThisLetterName = new ArrayList<>();
@@ -162,6 +187,11 @@ public class CreateNewItemPage extends BasePage {
         }
         return allJobFromThisLetterName ;
     }
+    public CreateNewItemPage sendItemName(String name) {
+        newItemName.sendKeys(name);
+        return this;
+    }
+
 
 
     public CreateNewItemPage selectFreeStyleProject() {
@@ -176,7 +206,6 @@ public class CreateNewItemPage extends BasePage {
         }
     }
 
-
     public CreateNewItemPage clearItemNameField() {
         nameText.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         return this;
@@ -190,5 +219,26 @@ public class CreateNewItemPage extends BasePage {
         return itemNameHint.getCssValue("color");
     }
 
-    public Boolean okButtonIsEnabled() { return okButton.isEnabled(); }
+    public String getColorOfErrorMessageWhenUnsafeChar() {
+        return errorItemNameInvalid.getCssValue("color");
+    }
+
+    public Boolean isOkButtonEnabled() { return okButton.isEnabled(); }
+
+    public CreateNewItemPage clickItemNameField() {
+        nameText.click();
+        return this;
+    }
+
+    public String getTitleOfNameField() {
+        return titleOfNameField.getText();
+    }
+
+    public String getPageTitle() {
+        return getDriver().getTitle();
+    }
+
+    public Boolean isErrorItemNameInvalidDisplayed() {
+        return errorItemNameInvalid.isDisplayed();
+    }
 }

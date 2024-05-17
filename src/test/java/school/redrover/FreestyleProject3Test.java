@@ -4,11 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.CreateNewItemPage;
-import school.redrover.model.CreateNewViewPage;
-import school.redrover.model.FreestyleConfigPage;
 import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -26,31 +22,31 @@ public class FreestyleProject3Test extends BaseTest {
        @Test
     public void testCreateFreestyleProject() {
 
-        String newProjectName = new HomePage(getDriver())
+        String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleAndClickOk()
                 .clickSaveButton()
                 .getProjectName();
 
-        Assert.assertEquals(newProjectName, FREESTYLE_PROJECT_NAME);
+        Assert.assertEquals(projectName, FREESTYLE_PROJECT_NAME);
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProject2(){
 
         final String EXPECTED_PROJECT_NAME = "new Freestyle project";
 
-        getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(EXPECTED_PROJECT_NAME);
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        String newProjectName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(EXPECTED_PROJECT_NAME)
+                .selectFreestyleAndClickOk()
+                .clickSaveButton()
+                .getProjectName();
 
-        boolean isJobCreated = getDriver().findElement(By.xpath("//h1[text()='new Freestyle project']")).isDisplayed();
-        Assert.assertTrue(isJobCreated, "FreestyleProject is not created.");
+        Assert.assertEquals(newProjectName, EXPECTED_PROJECT_NAME, "FreestyleProject is not created.");
     }
+
     @Test
     public void deleteFreestyleProject() {
         List<WebElement> projectList = new HomePage(getDriver())
@@ -60,8 +56,8 @@ public class FreestyleProject3Test extends BaseTest {
                 .clickSaveButton()
                 .clickLogo()
                 .chooseCreatedFreestyleProject(FREESTYLE_PROJECT_NAME)
-                .deleteFreestyleProject()
-                .confirmDeleteFreestyleProject()
+                .clickDelete()
+                .clickYesInConfirmDeleteDialog()
                 .getTheListOfFreestyleProjects(FREESTYLE_PROJECT_NAME);
 
         Assert.assertTrue(projectList.isEmpty());
@@ -87,6 +83,7 @@ public class FreestyleProject3Test extends BaseTest {
 
         Assert.assertEquals(ActualProjectName, RENAMED_PROJECT_NAME);
     }
+
     @Test (dependsOnMethods = "testRenameFreestyleProjectFromDropdown")
     public void testDeleteFreestyleProjectFromDropdown() {
 

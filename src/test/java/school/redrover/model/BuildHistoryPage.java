@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
@@ -19,6 +20,12 @@ public class BuildHistoryPage extends BasePage {
 
     @FindBy(css = "td [class$='link'][href*='job']")
     private List<WebElement> buildsList;
+
+    @FindBy(css = "[class*='_button'] [href$='/1/console']")
+    private WebElement buildConsole;
+
+    @FindBy(xpath = "//a[@class='jenkins-table__link model-link']")
+    private WebElement buildNameOnTimeline;
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
@@ -57,4 +64,14 @@ public class BuildHistoryPage extends BasePage {
         return !getBuildsList().contains(name);
     }
 
+    public BuildConsoleOutputPage clickBuild1Console(int buildNumber) {
+        buildConsole.click();
+
+        return new BuildConsoleOutputPage(getDriver());
+    }
+
+    public boolean isDisplayedBuildOnTimeline(){
+       return buildNameOnTimeline.isDisplayed();
+
+    }
 }

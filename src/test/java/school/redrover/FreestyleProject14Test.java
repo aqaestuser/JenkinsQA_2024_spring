@@ -1,11 +1,9 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils.*;
-import school.redrover.runner.TestUtils;
 
 public class FreestyleProject14Test extends BaseTest {
 
@@ -13,18 +11,18 @@ public class FreestyleProject14Test extends BaseTest {
     public void testCreateFreestyleProjectWithDescription() {
 
         final String FREESTYLE_PROJECT_NAME = "Random freestyle project";
+        final String description = "Some desc for Freestyle project";
 
-        TestUtils.createJob(this, Job.FREESTYLE, FREESTYLE_PROJECT_NAME);
+        String projectDescription = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(FREESTYLE_PROJECT_NAME)
+                .selectFreestyleAndClickOk()
+                .setDescription(description)
+                .clickSaveButton()
+                .clickLogo()
+                .clickCreatedFreestyleName()
+                .getProjectDescriptionText();
 
-        getDriver().findElement(By.name(
-                "description")).sendKeys("Some desc for Freestyle project");
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-
-        getDriver().findElement(By.xpath(
-                "//span[text()='" + FREESTYLE_PROJECT_NAME + "']")).click();
-        Boolean descriptionIsDisplayed = getDriver().findElement(By.id("description")).isDisplayed();
-
-        Assert.assertEquals(descriptionIsDisplayed, true);
+        Assert.assertEquals(projectDescription, description);
     }
 }

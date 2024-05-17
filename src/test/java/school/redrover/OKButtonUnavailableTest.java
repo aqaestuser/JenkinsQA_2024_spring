@@ -1,8 +1,8 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
 
 public class OKButtonUnavailableTest extends BaseTest {
@@ -10,12 +10,12 @@ public class OKButtonUnavailableTest extends BaseTest {
     @Test
     public void testOKButtonIsUnavailable() {
 
-        getDriver().findElement(By.xpath("//a[.='New Item']")).click();
-        getDriver().findElement(By.id("name")).click();
-        getDriver().findElement(By.id("name")).sendKeys("");
-        getDriver().findElement(By.id("ok-button")).click();
+        Boolean okButtonIsUnavailable = new HomePage(getDriver())
+                .clickNewItem()
+                .clearItemNameField()
+                .setItemName("")
+                .isOkButtonEnabled();
 
-        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
-
+        Assert.assertFalse(okButtonIsUnavailable);
     }
 }

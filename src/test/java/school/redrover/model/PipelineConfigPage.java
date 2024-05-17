@@ -15,9 +15,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage> {
     @FindBy(xpath = "//textarea[@name='description']")
     private WebElement descriptionTextArea;
 
-    @FindBy(xpath = "//label[@data-title='Disabled']")
-    private WebElement toggleSwitchEnableDisable;
-
     @FindBy(xpath = "//label[text() = 'Discard old builds']")
     private WebElement discardOldBuildsCheckbox;
 
@@ -39,6 +36,18 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage> {
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement textareaPreview;
 
+    @FindBy(xpath = "(//span[@class='ace_string'])[2]")
+    private WebElement echoScript;
+
+    @FindBy(xpath = "//button[@data-section-id='advanced-project-options']")
+    private WebElement advancedProjectOptionsMenu;
+
+    @FindBy(xpath = "//section[@class='jenkins-section']//button[@type='button']")
+    private WebElement advancedButton;
+
+    @FindBy(xpath = "//div[@class='setting-main']//input[contains(@checkurl, 'checkDisplayName')]")
+    private WebElement displayNameTextField;
+
     public PipelineConfigPage(WebDriver driver) {
         super(driver, new PipelineProjectPage(driver));
     }
@@ -49,8 +58,28 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage> {
         return this;
     }
 
-    public PipelineConfigPage clickToggleSwitchEnableDisable() {
-        getWait2().until(ExpectedConditions.visibilityOf(toggleSwitchEnableDisable)).click();
+    public PipelineConfigPage clickAdvancedProjectOptionsMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(advancedProjectOptionsMenu)).click();
+
+        return this;
+    }
+
+    public PipelineConfigPage clickAdvancedButton() {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].dispatchEvent(new Event('click'));",
+                advancedButton);
+
+        return this;
+    }
+
+    public PipelineConfigPage setDisplayNameDescription(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(displayNameTextField)).sendKeys(name);
+
+        return this;
+    }
+
+    public PipelineConfigPage clearDisplayNameDescription() {
+        getWait10().until(ExpectedConditions.elementToBeClickable(displayNameTextField)).clear();
 
         return this;
     }
@@ -110,6 +139,12 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage> {
     }
 
     public String getTextareaPreviewText() {
+
         return textareaPreview.getText();
+    }
+
+    public String getScriptText() {
+
+        return echoScript.getText();
     }
 }
