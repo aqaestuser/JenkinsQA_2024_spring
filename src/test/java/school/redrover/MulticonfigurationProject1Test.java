@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderProjectPage;
+import school.redrover.model.HomePage;
+import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -50,23 +53,20 @@ public class MulticonfigurationProject1Test extends BaseTest {
 
     @Test
     public void testMoveProjectToFolderFromDashboardPage(){
-        createFolder();
-        TestUtils.returnToDashBoard(this);
 
-        createMulticonfigurationProject();
-        TestUtils.returnToDashBoard(this);
+        TestUtils.createFolderProject(this, FOLDER_NAME);
+        TestUtils.createMultiConfigurationProject(this, PROJECT_NAME);
 
-        getDriver().findElement(By.xpath("//*[@href='job/" + PROJECT_NAME + "/']")).click();
-        getDriver().findElement(By.linkText("Move")).click();
+        new HomePage(getDriver())
+                .clickJobByName(PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickMoveOptionInMenu()
+                .selectFolder(FOLDER_NAME)
+                .clickMove()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME);
 
-        final WebElement selectFolder = getDriver().findElement(By.xpath("//*[@class='select setting-input']"));
-        Select dropDown = new Select(selectFolder);
-        dropDown.selectByValue("/" + FOLDER_NAME);
-        getDriver().findElement(By.name("Submit")).click();
+        boolean isProjectMoved = new FolderProjectPage(getDriver()).getItemListInsideFolder().contains(PROJECT_NAME);
 
-        TestUtils.returnToDashBoard(this);
-        getDriver().findElement(By.xpath("//*[@href='job/" + FOLDER_NAME + "/']/span")).click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("job_" + PROJECT_NAME)).isDisplayed());
+        Assert.assertTrue(isProjectMoved);
     }
 }
