@@ -57,6 +57,9 @@ public class CreateNewItemPage extends BasePage {
     @FindBy(css = "label.h3")
     private WebElement titleOfNameField;
 
+    @FindBy(id = "name")
+    WebElement newItemName;
+
     public CreateNewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -184,6 +187,11 @@ public class CreateNewItemPage extends BasePage {
         }
         return allJobFromThisLetterName ;
     }
+    public CreateNewItemPage sendItemName(String name) {
+        newItemName.sendKeys(name);
+        return this;
+    }
+
 
 
     public CreateNewItemPage selectFreeStyleProject() {
