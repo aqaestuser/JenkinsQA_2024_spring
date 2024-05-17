@@ -17,6 +17,9 @@ public abstract class BasePage extends BaseModel {
     @FindBy(css = "a.model-link > span")
     private WebElement userNameOnHeader;
 
+    @FindBy(tagName = "h1")
+    private WebElement headerOne;
+
     public BasePage(WebDriver driver) {
         super(driver);
     }
@@ -76,6 +79,10 @@ public abstract class BasePage extends BaseModel {
 
     public String getText(WebElement webElement) {
         return webElement.getText();
+    }
+
+    public String getHeaderOneText() {
+        return headerOne.getText();
     }
 
     public void scrollIntoView(WebElement element) {
