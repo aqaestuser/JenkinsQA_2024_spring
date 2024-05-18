@@ -19,10 +19,13 @@ public class HeaderBlock extends BasePage {
     private WebElement adminDropdownConfigureLink;
     @FindBy(css = ".yui-ac-bd li:nth-child(1)")
     private WebElement searchBoxResult;
+    @FindBy(xpath = "//div[@class='yui-ac-bd']//ul//li[1]")
+    private WebElement firstSuggestListVariant;
 
     public HeaderBlock(WebDriver driver) {
         super(driver);
     }
+
      public HeaderBlock enterRequestIntoSearchBox(String requestData){
         searchBox.sendKeys(requestData);
         return this;
@@ -48,5 +51,10 @@ public class HeaderBlock extends BasePage {
 
     public String getSearchBoxResult() {
         return getWait2().until(ExpectedConditions.visibilityOf(searchBoxResult)).getText();
+    }
+
+    public HeaderBlock chooseAndClickFirstSuggestListVariant(){
+        getWait10().until(ExpectedConditions.visibilityOf(firstSuggestListVariant)).click();
+        return this;
     }
 }
