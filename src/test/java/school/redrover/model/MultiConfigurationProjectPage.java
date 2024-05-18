@@ -43,6 +43,9 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
     @FindBy(xpath = "//*[contains(@href, 'rename')]")
     private WebElement menuRename;
 
+    @FindBy(xpath = "//*[contains(@href, 'move')]")
+    private WebElement moveOptionInMenu;
+
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -114,5 +117,10 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
 
     public boolean isDescriptionEmpty() {
         return getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#description>div")));
+    }
+
+    public MultiConfigurationMovePage clickMoveOptionInMenu() {
+        moveOptionInMenu.click();
+        return new MultiConfigurationMovePage(getDriver());
     }
 }

@@ -15,7 +15,8 @@ import java.util.Random;
 public class MultiConfigurationProjectTest extends BaseTest {
 
     private static final String PROJECT_NAME = "MCProject";
-    private final String RANDOM_PROJECT_NAME = TestUtils.randomString();
+    private static final String RANDOM_PROJECT_NAME = TestUtils.randomString();
+    private static final String FOLDER_NAME = "Folder_name";
 
     private String generateRandomNumber(){
         Random r = new Random();
@@ -308,5 +309,24 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getDisabledProjectListText();
 
         Assert.assertTrue(disabledProjectList.contains(PROJECT_NAME));
+    }
+
+    @Test
+    public void testMoveProjectToFolderFromDashboardPage(){
+
+        TestUtils.createFolderProject(this, FOLDER_NAME);
+        TestUtils.createMultiConfigurationProject(this, PROJECT_NAME);
+
+        new HomePage(getDriver())
+                .clickJobByName(PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickMoveOptionInMenu()
+                .selectFolder(FOLDER_NAME)
+                .clickMove()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME);
+
+        boolean isProjectMoved = new FolderProjectPage(getDriver()).getItemListInsideFolder().contains(PROJECT_NAME);
+
+        Assert.assertTrue(isProjectMoved);
     }
 }
