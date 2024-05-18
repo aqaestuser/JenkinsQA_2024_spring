@@ -37,6 +37,12 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
     @FindBy(css = "#breadcrumbBar li:last-child")
     private WebElement breadcrumbs;
 
+    @FindBy(css = "[href^='/job'] [class$='dropdown-chevron']")
+    private WebElement breadcrumbsProjectDropdownArrow;
+
+    @FindBy(css = "button[href $= '/doDelete']")
+    private WebElement breadcrumbsDropdownDelete;
+
     @FindBy(xpath = "//*[span = 'Delete Multi-configuration project']")
     private WebElement menuDelete;
 
@@ -114,5 +120,16 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
 
     public boolean isDescriptionEmpty() {
         return getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#description>div")));
+    }
+
+    public MultiConfigurationProjectPage clickBreadcrumbsProjectDropdownArrow() {
+        clickSpecificDropdownArrow(breadcrumbsProjectDropdownArrow);
+
+        return this;
+    }
+
+    public DeleteDialog clickDropdownDelete() {
+        breadcrumbsDropdownDelete.click();
+        return new DeleteDialog(getDriver());
     }
 }

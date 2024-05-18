@@ -220,14 +220,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         TestUtils.createMultiConfigurationProject(this, PROJECT_NAME);
 
-        String jenkinsHeader = new HomePage(getDriver())
-                .chooseCreatedProject(PROJECT_NAME)
-                .clickBreadcrumbsDropdownArrow()
-                .clickBreadcrumbsDeleteButton()
+        List<String> itemsList = new HomePage(getDriver())
+                .clickMCPName(PROJECT_NAME)
+                .clickBreadcrumbsProjectDropdownArrow()
+                .clickDropdownDelete()
                 .clickYes(new HomePage(getDriver()))
-                .getWelcomeJenkinsHeader();
+                .getItemList();
 
-        Assert.assertEquals(jenkinsHeader, "Welcome to Jenkins!",
+        Assert.assertListNotContainsObject(itemsList, PROJECT_NAME,
                 "Project not deleted");
     }
 
