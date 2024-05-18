@@ -34,6 +34,12 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
     @FindBy(css = "#disable-project button")
     private WebElement disableProjectButton;
 
+    @FindBy(css = "button[formnovalidate*='NoValidate']")
+    private WebElement enableProjectButton;
+
+    @FindBy(css = "[id='enable-project']")
+    private WebElement disableMessage;
+
     @FindBy(css = "#breadcrumbBar li:last-child")
     private WebElement breadcrumbs;
 
@@ -105,6 +111,16 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
         disableProjectButton.click();
 
         return this;
+    }
+
+    public MultiConfigurationProjectPage clickEnableButton() {
+        enableProjectButton.click();
+
+        return this;
+    }
+
+    public String getDisableMessage() {
+        return disableMessage.getText();
     }
 
     public boolean isProjectInsideFolder(String projectName, String folderName) {
