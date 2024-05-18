@@ -47,6 +47,9 @@ public class ManageJenkinsPage extends BasePage {
     @FindBy(css = ".jenkins-search__results a:nth-child(2)")
     private WebElement secondSearchResult;
 
+    @FindBy(xpath ="//html" )
+    private WebElement colorSchema;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -141,5 +144,9 @@ public class ManageJenkinsPage extends BasePage {
         getWait2().until(ExpectedConditions.visibilityOf(secondSearchResult)).click();
 
         return page;
+    }
+
+    public String colorSchema(){
+        return colorSchema.getAttribute("data-theme");
     }
 }

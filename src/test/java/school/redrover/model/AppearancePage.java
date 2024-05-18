@@ -59,6 +59,11 @@ public class AppearancePage extends BasePage {
         return this;
     }
 
+    public ManageJenkinsPage clickApply(){
+        applyButton.click();
+        return new ManageJenkinsPage(getDriver());
+    }
+
     public AppearancePage switchToDefaultTheme() {
         if (isDefaultThemeNotSelected()) {
             clickDefaultThemeButton();
