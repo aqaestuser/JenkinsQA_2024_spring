@@ -57,6 +57,12 @@ public class CreateNewItemPage extends BasePage {
     @FindBy(css = "label.h3")
     private WebElement titleOfNameField;
 
+    @FindBy(css = "#items span")
+    private List<WebElement> typesList;
+
+    @FindBy(id = "name")
+    WebElement newItemName;
+
     public CreateNewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -163,6 +169,12 @@ public class CreateNewItemPage extends BasePage {
         return new CreateItemPage(getDriver());
     }
 
+    public CreateItemPage setNotExistingJobNameAndClickOkButton(String name)  {
+        nameTextInCopyForm.sendKeys(name);
+        okButton.click();
+        return new CreateItemPage(getDriver());
+    }
+
     public boolean isOkButtonNotActive() {
         try
         {
@@ -182,8 +194,13 @@ public class CreateNewItemPage extends BasePage {
         for (WebElement el : allJobFromThisLetter) {
             allJobFromThisLetterName.add(el.getText());
         }
-        return allJobFromThisLetterName ;
+        return allJobFromThisLetterName;
     }
+    public CreateNewItemPage sendItemName(String name) {
+        newItemName.sendKeys(name);
+        return this;
+    }
+
 
 
     public CreateNewItemPage selectFreeStyleProject() {
@@ -191,11 +208,7 @@ public class CreateNewItemPage extends BasePage {
         return this;
     }
     public Boolean getOkButtoneState() {
-        if(okButton.getAttribute("disabled") != ""){
-            return false;
-        }else{
-            return true;
-        }
+        return okButton.getAttribute("disabled") == "";
     }
 
     public CreateNewItemPage clearItemNameField() {
@@ -233,4 +246,12 @@ public class CreateNewItemPage extends BasePage {
     public Boolean isErrorItemNameInvalidDisplayed() {
         return errorItemNameInvalid.isDisplayed();
     }
+    public Boolean isDisplayedNameField() {
+        return nameText.isDisplayed();
+    }
+
+    public List<String> getTypesList() {
+        return typesList.stream().map(WebElement::getText).toList();
+    }
+
 }

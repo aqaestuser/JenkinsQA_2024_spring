@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
-
 import static school.redrover.runner.TestUtils.goToMainPage;
 
 public class PipelineTest extends BaseTest {
@@ -28,7 +27,6 @@ public class PipelineTest extends BaseTest {
     private static final List<String> NAME_PROJECTS = List.of("PPProject", "PPProject2");
     private static final By SAVE_BUTTON_CONFIGURATION = By.xpath("//button[@formnovalidate='formNoValidate']");
     private static final By ADVANCED_PROJECT_OPTIONS_MENU = By.xpath("//button[@data-section-id='advanced-project-options']");
-    private static final By DISPLAY_NAME_TEXT_FIELD = By.xpath("//div[@class='setting-main']//input[contains(@checkurl, 'checkDisplayName')]");
 
     public void createPipeline(String pipelineName) {
         new HomePage(getDriver())
@@ -446,7 +444,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(scheduleABuildArrows.size(), 0);
     }
 
-    @Test(dependsOnMethods = "testPipelineNotActive")
+    @Test(dependsOnMethods = {"testPipelineNotActive", "testDisableItem"})
     public void testEnableBack() {
         String pipelineStatus = new HomePage(getDriver())
                 .clickJobByName(PIPELINE_NAME, new PipelineProjectPage(getDriver()))
@@ -751,41 +749,30 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(actualResult.contains("Stage Logs (stage 1)"));
     }
 
-    @Ignore
+
     @Test
     public void testStageColumnHeader() {
 
         int number_of_stages = 2;
-
-        TestUtils.createItem(TestUtils.PIPELINE, PIPELINE_NAME, this);
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(
-                By.xpath("//a[contains(@href, 'configure')]")))).click();
-
-        String pipelineScript = "pipeline {\n" +
-                "agent any\n\n" +
-                "stages {\n";
-
-        getDriver().findElement(By.className("ace_text-input")).sendKeys(pipelineScript);
-
-        for (int i = 1; i <= number_of_stages; i++) {
-
-            String stage = "\nstage(\'stage " + i + "\') {\n" +
-                    "steps {\n" +
-                    "echo \'test " + i + "\'\n";
-            getDriver().findElement(By.className("ace_text-input")).sendKeys(stage);
-            getDriver().findElement(By.className("ace_text-input")).sendKeys(Keys.ARROW_DOWN);
-            getDriver().findElement(By.className("ace_text-input")).sendKeys(Keys.ARROW_DOWN);
+        List<String> expectedHeaderNameList = new ArrayList<>();
+        for (int i = 0; i < number_of_stages; i++) {
+            expectedHeaderNameList.add("stage " + (i + 1));
         }
 
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/build?delay=0sec']")).click();
+        List<String> actualStageHeaderNameList = new HomePage(getDriver())
+                .clickNodesLink()
+                .clickBuiltInNodeName()
+                .turnNodeOnIfOffline()
+                .clickNewItem()
+                .setItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .scrollToPipelineScript()
+                .sendScript(number_of_stages)
+                .clickSaveButton().clickBuild()
+                .waitBuildToFinish()
+                .getStageHeaderNameList();
 
-        for (int i = 1; i <= number_of_stages; i++) {
-            String actualResult = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("th[class='stage-header-name-" + (i - 1) + "']"))).getText();
-            String expectedResult = "stage " + i;
-
-            Assert.assertEquals(actualResult, expectedResult);
-        }
+        Assert.assertEquals(actualStageHeaderNameList, expectedHeaderNameList);
     }
 
     @Test
@@ -1026,6 +1013,20 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(projectsDisplayNameInHeader.contains(editedDisplayNameText), "DisplayName is not edited correctly");
     }
 
+    @Test(dependsOnMethods = {"testAddDisplayNameInAdvancedSection", "testEditDisplayNameInAdvancedSection"})
+    public void testDeleteDisplayNameInAdvancedSection() {
+        String projectsDisplayNameInHeader = new HomePage(getDriver())
+                .clickCreatedPipelineName()
+                .clickSidebarConfigureButton(PIPELINE_NAME)
+                .clickAdvancedProjectOptionsMenu()
+                .clickAdvancedButton()
+                .clearDisplayNameDescription()
+                .clickSaveButton()
+                .getProjectsDisplayNameInHeader();
+
+        Assert.assertEquals(projectsDisplayNameInHeader, PIPELINE_NAME);
+    }
+
     @Test
     public void testVerifySectionHasTooltip() {
         String labelText = "Display Name";
@@ -1064,27 +1065,6 @@ public class PipelineTest extends BaseTest {
 
         WebElement link = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@target='blank']")));
         Assert.assertTrue(link.isDisplayed(), "Uncheck doesn't work");
-    }
-
-    @Test(dependsOnMethods = {"testAddDisplayNameInAdvancedSection", "testEditDisplayNameInAdvancedSection"})
-    public void testDeleteDisplayNameInAdvancedSection() {
-        final String displayNameText = "This is project's Display name text for Advanced Project Options";
-
-        getDriver().findElement(By.xpath("//a[contains(@href, '" + PIPELINE_NAME + "')]")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(ADVANCED_PROJECT_OPTIONS_MENU)).click();
-
-        WebElement advancedButton = getDriver().findElement(By.xpath("//section[@class='jenkins-section']//button[@type='button']"));
-
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].dispatchEvent(new Event('click'));",
-                advancedButton);
-        getWait10().until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_TEXT_FIELD)).clear();
-        getDriver().findElement(SAVE_BUTTON_CONFIGURATION).click();
-
-        Assert.assertFalse(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
-                .getText().contains(displayNameText));
     }
 
     @Test

@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -16,7 +15,8 @@ import java.util.Random;
 public class MultiConfigurationProjectTest extends BaseTest {
 
     private static final String PROJECT_NAME = "MCProject";
-    private final String RANDOM_PROJECT_NAME = TestUtils.randomString();
+    private static final String RANDOM_PROJECT_NAME = TestUtils.randomString();
+    private static final String FOLDER_NAME = "Folder_name";
 
     private String generateRandomNumber(){
         Random r = new Random();
@@ -153,16 +153,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testYesButtonColorDeletingMCPInSidebar() {
-        TestUtils.createNewItem(this, PROJECT_NAME, TestUtils.Item.MULTI_CONFIGURATION_PROJECT);
-        getDriver().findElement(By.linkText(PROJECT_NAME)).click();
-        getDriver().findElement(By.cssSelector("[data-message^='Delete']")).click();
-
-        String script = "return window.getComputedStyle(arguments[0]).getPropertyValue('--color')";
-        String actualColor = (String) (((JavascriptExecutor) getDriver()).executeScript(
-                script,
-                getDriver().findElement(By.cssSelector("[data-id='ok']"))));
         String expectedColorNone = "#e6001f";
         String expectedColorDark = "hsl(5, 100%, 60%)";
+
+        String actualColor = TestUtils
+                .createNewItem(this, PROJECT_NAME, TestUtils.Item.MULTI_CONFIGURATION_PROJECT)
+                .clickMCPName(PROJECT_NAME)
+                .clickDeleteInMenu(new DeleteDialog(getDriver()))
+                .getYesButtonColorDeletingViaSidebar();
 
         if (getDriver().findElement(By.tagName("html")).getAttribute("data-theme").equals("none")) {
             Assert.assertEquals(expectedColorNone, actualColor);
@@ -311,5 +309,24 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getDisabledProjectListText();
 
         Assert.assertTrue(disabledProjectList.contains(PROJECT_NAME));
+    }
+
+    @Test
+    public void testMoveProjectToFolderFromDashboardPage(){
+
+        TestUtils.createFolderProject(this, FOLDER_NAME);
+        TestUtils.createMultiConfigurationProject(this, PROJECT_NAME);
+
+        new HomePage(getDriver())
+                .clickJobByName(PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickMoveOptionInMenu()
+                .selectFolder(FOLDER_NAME)
+                .clickMove()
+                .clickLogo()
+                .clickFolder(FOLDER_NAME);
+
+        boolean isProjectMoved = new FolderProjectPage(getDriver()).getItemListInsideFolder().contains(PROJECT_NAME);
+
+        Assert.assertTrue(isProjectMoved);
     }
 }

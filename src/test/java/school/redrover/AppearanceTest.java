@@ -32,13 +32,12 @@ public class AppearanceTest extends BaseTest {
     @Test
     public void testDarkThemeSwitchNotification() {
         goToManageAppearance();
+        String result = new AppearancePage(getDriver())
+                .clickDarkThemeButton()
+                .clickApply()
+                .colorSchema();
 
-        getDriver().findElement(By.cssSelector("[for='radio-block-0']")).click();
-        getDriver().findElement(By.name("Apply")).click();
-
-        Assert.assertEquals(
-                getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("notification-bar"))).getText(),
-                "Saved");
+        Assert.assertEquals(result, "dark");
     }
 
     @Test
