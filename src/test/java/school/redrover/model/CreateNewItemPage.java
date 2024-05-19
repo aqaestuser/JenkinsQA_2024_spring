@@ -68,8 +68,9 @@ public class CreateNewItemPage extends BasePage {
     }
 
     public CreateNewItemPage setItemName(String name) {
-        nameText.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE);
+        getWait5().until(ExpectedConditions.visibilityOf(nameText));
         nameText.sendKeys(name);
+
         return this;
     }
 
@@ -201,8 +202,6 @@ public class CreateNewItemPage extends BasePage {
         return this;
     }
 
-
-
     public CreateNewItemPage selectFreeStyleProject() {
         freestyleItem.click();
         return this;
@@ -253,5 +252,4 @@ public class CreateNewItemPage extends BasePage {
     public List<String> getTypesList() {
         return typesList.stream().map(WebElement::getText).toList();
     }
-
 }

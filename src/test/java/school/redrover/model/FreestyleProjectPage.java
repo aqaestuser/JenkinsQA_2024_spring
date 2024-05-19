@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseProjectPage;
 
-public class FreestyleProjectPage extends BaseProjectPage {
+public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> {
 
     @FindBy(xpath = "//*[@id='breadcrumbs']/li[3]/a")
     private WebElement projectNameFromBreadcrumbs;
@@ -62,6 +62,9 @@ public class FreestyleProjectPage extends BaseProjectPage {
 
     @FindBy(xpath = "//div[contains(text(), 'Full project name:')]")
     private WebElement projectPath;
+
+    @FindBy(xpath = "//a[@tooltip='Success > Console Output']")
+    private WebElement successConsoleOutputButton;
 
     @FindBy(xpath = "//form[@id='enable-project']")
     private WebElement disabledStatusMassage;
@@ -211,6 +214,12 @@ public class FreestyleProjectPage extends BaseProjectPage {
     public String getFullProjectPath() {
 
         return projectPath.getText();
+    }
+
+    public JobBuildConsolePage clickSuccessConsoleOutputButton() {
+        getWait60().until(ExpectedConditions.elementToBeClickable(successConsoleOutputButton)).click();
+
+        return new JobBuildConsolePage(getDriver());
     }
 
     public String getDesabledMassageText() {

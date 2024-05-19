@@ -7,15 +7,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseSideMenuPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-public class HomePage extends BasePage {
+public class HomePage extends BaseSideMenuPage<HomePage> {
 
     @FindBy(linkText = "Create a job")
     private WebElement createAJobLink;
@@ -172,6 +171,10 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "#description > *:first-child")
     private WebElement descriptionText;
+
+    @FindBy(xpath = "//h1")
+    private WebElement h1Heading;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -368,7 +371,6 @@ public class HomePage extends BasePage {
 
         return new FreestyleProjectPage(getDriver());
     }
-
 
     public OrganizationFolderProjectPage chooseOrganizationFolder(String projectName) {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//td/a[@href='job/"
@@ -711,4 +713,22 @@ public class HomePage extends BasePage {
         return new HomePage(getDriver());
     }
 
+    public UserConfigurePage openUserConfigurations() {
+        return clickPeopleSideMenu()
+                .clickUserIdLink()
+                .clickConfigureSideMenu();
+    }
+
+    public FreestyleProjectPage createFreestyleProjectWithConfigurations(String projectName) {
+        getWait5().until(ExpectedConditions.textToBePresentInElement(h1Heading, "Welcome to Jenkins!"));
+
+        return clickNewItemSideMenu()
+                .setItemName(projectName)
+                .selectFreestyleAndClickOk()
+                .scrollToBuildTriggersHeading()
+                .clickTriggerBuildsRemotelyCheckbox()
+                .inputAuthenticationToken(projectName)
+                .clickAddTimestampsCheckbox()
+                .clickSaveButton();
+    }
 }
