@@ -517,15 +517,6 @@ public class HomePage extends BaseSideMenuPage<HomePage> {
         return heading.getText();
     }
 
-    public HomePage createFolder(String folderName) {
-        clickNewItem()
-                .setItemName(folderName)
-                .selectFolderAndClickOk()
-                .clickSaveButton()
-                .clickLogo();
-        return new HomePage(getDriver());
-    }
-
     public MovePage chooseFolderToMove() {
         getWait5().until(ExpectedConditions.visibilityOf(moveOption)).click();
         return new MovePage(getDriver());

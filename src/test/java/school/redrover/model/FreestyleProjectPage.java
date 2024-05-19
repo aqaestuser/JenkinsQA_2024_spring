@@ -57,6 +57,9 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     @FindBy(xpath = "//div[contains(text(), 'Full project name:')]")
     private WebElement projectPath;
 
+    @FindBy(tagName = "h1")
+    private WebElement pageHeading;
+
     @FindBy(xpath = "//a[@tooltip='Success > Console Output']")
     private WebElement successConsoleOutputButton;
 
@@ -200,10 +203,12 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     }
 
     public String getFullProjectPath() {
-
         return projectPath.getText();
     }
 
+    public String getPageHeadingText() {
+        return pageHeading.getText();
+    }
     public JobBuildConsolePage clickSuccessConsoleOutputButton() {
         getWait60().until(ExpectedConditions.elementToBeClickable(successConsoleOutputButton)).click();
 
