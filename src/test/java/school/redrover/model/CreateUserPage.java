@@ -3,7 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 
 public class CreateUserPage extends BasePage {
