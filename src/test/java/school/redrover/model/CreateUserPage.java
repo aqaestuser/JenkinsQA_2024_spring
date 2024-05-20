@@ -3,6 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 
 public class CreateUserPage extends BasePage {
@@ -24,6 +25,18 @@ public class CreateUserPage extends BasePage {
 
     @FindBy(name = "Submit")
     private WebElement createUserButton;
+
+    @FindBy(xpath = "//*[text()='\"\" is prohibited as a username for security reasons.']")
+    private WebElement usernameErrorMsg;
+
+    @FindBy(xpath = "//*[text()='Password is required']")
+    private WebElement passwordErrorMsg;
+
+    @FindBy(xpath = "//*[text()='\"\" is prohibited as a full name for security reasons.']")
+    private WebElement fullNameErrorMsg;
+
+    @FindBy(xpath = "//*[text()='Invalid e-mail address")
+    private WebElement emailErrorMsg;
 
     public CreateUserPage(WebDriver driver) {
         super(driver);
@@ -63,6 +76,22 @@ public class CreateUserPage extends BasePage {
         createUserButton.click();
 
         return new UsersPage(getDriver());
+    }
+
+    public WebElement getUsernameErrorMsgField() {
+        return usernameErrorMsg;
+    }
+
+    public WebElement getPasswordErrorMsgField() {
+        return passwordErrorMsg;
+    }
+
+    public WebElement getFullNameErrorMsgField() {
+        return fullNameErrorMsg;
+    }
+
+    public WebElement getEmailErrorMsgField() {
+        return emailErrorMsg;
     }
 
 }
