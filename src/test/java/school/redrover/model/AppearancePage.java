@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 import java.util.List;
@@ -27,6 +28,9 @@ public class AppearancePage extends BasePage {
 
     @FindBy(id = "notification-bar")
     private WebElement notification;
+
+    @FindBy(tagName = "body")
+    private WebElement htmlBody;
 
     public AppearancePage(WebDriver driver) {
         super(driver);
@@ -82,6 +86,11 @@ public class AppearancePage extends BasePage {
 
     public String getNotificationText() {
 
-        return notification.getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(notification)).getText();
+    }
+
+    public String getBackgroundColor() {
+
+        return htmlBody.getCssValue("background-color");
     }
 }
