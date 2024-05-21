@@ -25,6 +25,9 @@ public class AppearancePage extends BasePage {
     @FindBy(name = "Apply")
     private WebElement applyButton;
 
+    @FindBy(id = "notification-bar")
+    private WebElement notification;
+
     public AppearancePage(WebDriver driver) {
         super(driver);
     }
@@ -59,9 +62,9 @@ public class AppearancePage extends BasePage {
         return this;
     }
 
-    public ManageJenkinsPage clickApply(){
+    public AppearancePage clickApply(){
         applyButton.click();
-        return new ManageJenkinsPage(getDriver());
+        return new AppearancePage(getDriver());
     }
 
     public AppearancePage switchToDefaultTheme() {
@@ -75,5 +78,10 @@ public class AppearancePage extends BasePage {
     public String getCurrentThemeAttribute() {
         return getDriver().findElement(By.cssSelector("html[data-theme]"))
                 .getAttribute("data-theme");
+    }
+
+    public String getNotificationText() {
+
+        return notification.getText();
     }
 }

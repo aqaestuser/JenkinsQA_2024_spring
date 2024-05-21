@@ -31,13 +31,14 @@ public class AppearanceTest extends BaseTest {
 
     @Test
     public void testDarkThemeSwitchNotification() {
-        goToManageAppearance();
-        String result = new AppearancePage(getDriver())
+        String notificationText = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickAppearanceButton()
                 .clickDarkThemeButton()
                 .clickApply()
-                .colorSchema();
+                .getNotificationText();
 
-        Assert.assertEquals(result, "dark");
+        Assert.assertEquals(notificationText, "Saved");
     }
 
     @Test
