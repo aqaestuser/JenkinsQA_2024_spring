@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.HomePage;
+import school.redrover.model.OrganizationFolderConfigPage;
 import school.redrover.model.OrganizationFolderProjectPage;
 import school.redrover.runner.BaseTest;
 
@@ -265,5 +266,27 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTimePeriodOptions();
 
         Assert.assertEquals(actualTimePeriodOptions, expectedTimePeriodOptions);
+    }
+
+    @Test
+    public void testUntrustedPropertyCheckboxesSelectedUponSaving() {
+
+        OrganizationFolderConfigPage organizationFolderConfigPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(ORGANIZATION_FOLDER_NAME)
+                .selectOrganizationFolderAndClickOk()
+                .clickSaveButton()
+                .clickConfigure()
+                .scrollToPropertyStrategyBlock()
+                .clickAddPropertyButton()
+                .clickUntrustedDropdownOption()
+                .selectUntrustedCheckboxes()
+                .clickSaveButton()
+                .clickConfigure()
+                .scrollToPropertyStrategyBlock();
+
+        Assert.assertTrue(organizationFolderConfigPage.areUntrustedCheckboxesSelected(),
+                "Not all checkboxes are selected");
+        Assert.assertEquals(organizationFolderConfigPage.getSelectedCheckboxesSize(), 11);
     }
 }
