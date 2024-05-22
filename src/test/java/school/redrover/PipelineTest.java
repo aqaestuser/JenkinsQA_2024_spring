@@ -22,11 +22,15 @@ import org.testng.annotations.DataProvider;
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "FirstPipeline";
+
     private static final String NEW_PIPELINE_NAME = "New Pipeline name";
+
     private static final String DESCRIPTION = "Lorem ipsum dolor sit amet";
+
     private static final String SUCCEED_BUILD_EXPECTED = "Finished: SUCCESS";
+
     private static final List<String> NAME_PROJECTS = List.of("PPProject", "PPProject2");
-    private static final By SAVE_BUTTON_CONFIGURATION = By.xpath("//button[@formnovalidate='formNoValidate']");
+
     private static final By ADVANCED_PROJECT_OPTIONS_MENU = By.xpath("//button[@data-section-id='advanced-project-options']");
 
         @Test
@@ -1073,6 +1077,25 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
+    public void testSetPipelineSpeedDurabilityOverride() {
+        final String selectedOptionForCheck = "Less durability, a bit faster (specialty use only)";
+        final int index = 1;
+
+        String selectedOption = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .clickPipelineSpeedDurabilityOverrideCheckbox()
+                .selectCustomPipelineSpeedDurabilityLevel(index)
+                .scrollToPipelineScript()
+                .clickSaveButton()
+                .clickSidebarConfigureButton(PIPELINE_NAME)
+                .getCustomPipelineSpeedDurabilityLevelText();
+
+        Assert.assertTrue(selectedOption.contains(selectedOptionForCheck));
+    }
+
+    @Test
     public void testSetQuietPeriodBuildTriggersMoreThanZero() {
         final int numberOfSeconds = 3;
 
@@ -1178,32 +1201,6 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(new HomePage(getDriver()).isTooltipDisplayed(tooltipText),
                 "Tooltip '" + tooltipText + "' is not displayed.");
-    }
-
-    @Test
-    public void testSetPipelineSpeedDurabilityOverride() {
-        final String selectedOptionForCheck = "Less durability, a bit faster (specialty use only)";
-
-        TestUtils.createPipelineProject(this, PIPELINE_NAME);
-
-        getDriver().findElement(By.xpath("//a[contains(@href, '" + PIPELINE_NAME + "')]")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
-
-        getDriver().findElement(By.xpath("//label[text()='Pipeline speed/durability override']")).click();
-        WebElement selectCustomPipelineSpeedDurabilityLevel = getDriver().findElement(By.xpath("//select[@class='setting-input']"));
-        Select dropDown = new Select(selectCustomPipelineSpeedDurabilityLevel);
-        dropDown.selectByIndex(1);
-        String selectedValue = selectCustomPipelineSpeedDurabilityLevel.getText();
-
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].scrollIntoView();",
-                getDriver().findElement(SAVE_BUTTON_CONFIGURATION));
-        getDriver().findElement(SAVE_BUTTON_CONFIGURATION).click();
-
-        getDriver().findElement(By.xpath("//a[contains(@href, '" + PIPELINE_NAME + "')]")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
-
-        Assert.assertTrue(selectedValue.contains(selectedOptionForCheck));
     }
 
     @Test
