@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.WebElement;
@@ -74,7 +75,7 @@ public class ManageJenkinsPage extends BasePage {
 
         return new SecurityPage(getDriver());
     }
-  
+
     public boolean isSearchInputDisplayed() {
         return searchInput.isDisplayed();
     }
@@ -210,5 +211,11 @@ public class ManageJenkinsPage extends BasePage {
             index++;
         }
         return true;
+    }
+
+    public String clickManageLink(String link) {
+        getDriver().findElement(By.xpath("//dt[text()='" + link + "']")).click();
+
+        return getDriver().getCurrentUrl();
     }
 }
