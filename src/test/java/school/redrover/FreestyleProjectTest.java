@@ -2,6 +2,7 @@ package school.redrover;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Link;
+import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -20,9 +21,10 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String EDITED_PROJECT_DESCRIPTION = "Project new description";
     private static final String FOLDER_NAME = "Folder_Project_Name";
 
-    @Description("Verify Create Freestyle Project")
+    @Story("New Item(Goes to FEATURES BY STORIES)")
+    @Description("Verify Create Freestyle Project(Description inside Overview))")
     @Link(url="https://trello.com/c/7ifuPCsT")
-    @Test
+    @Test(description = "description inside @Test(replaces test name)")
     public void testCreateProject() {
         List<String> itemList = new HomePage(getDriver())
                 .clickNewItem()
