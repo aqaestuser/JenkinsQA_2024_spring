@@ -1,9 +1,14 @@
 package school.redrover;
 
-import org.testng.*;
-import org.testng.annotations.*;
+import io.qameta.allure.Description;
+import io.qameta.allure.Link;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.runner.*;
+import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
@@ -15,6 +20,8 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String EDITED_PROJECT_DESCRIPTION = "Project new description";
     private static final String FOLDER_NAME = "Folder_Project_Name";
 
+    @Description("Verify Create Freestyle Project")
+    @Link(url="https://trello.com/c/7ifuPCsT")
     @Test
     public void testCreateProject() {
         List<String> itemList = new HomePage(getDriver())
