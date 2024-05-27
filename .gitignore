@@ -41,3 +41,5 @@ build/
 
 ### project ###
 local.properties
+/.allure/
+/log/
