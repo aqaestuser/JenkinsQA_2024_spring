@@ -29,9 +29,11 @@ public class PipelineTest extends BaseTest {
 
     private static final List<String> NAME_PROJECTS = List.of("PPProject", "PPProject2");
 
+    private static final String pipelineScript = "pipeline {\nagent any\n\nstages {\n";
+
     private static final By ADVANCED_PROJECT_OPTIONS_MENU = By.xpath("//button[@data-section-id='advanced-project-options']");
 
-        @Test
+    @Test
     public void testCreatePipeline() {
         List<String> itemPipeline = new HomePage(getDriver())
                 .clickNewItem()
@@ -323,7 +325,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .sendScript(stagesQtt)
+                .sendScript(stagesQtt, pipelineScript)
                 .clickSaveButton()
                 .makeBuilds(buildsQtt)
                 .clickFullStageViewButton()
@@ -390,7 +392,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .sendScript(stagesQtt)
+                .sendScript(stagesQtt, pipelineScript)
                 .clickSaveButton()
                 .makeBuilds(buildsQtt)
                 .getSagesQtt();
@@ -427,12 +429,9 @@ public class PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDisableItem")
     public void testPipelineNotActive() {
-        String actualProjectName = getDriver().findElement(By.xpath("//tbody//td[3]//a[contains(@href, 'job/')]/span")).getText();
-        Assert.assertEquals(actualProjectName, PIPELINE_NAME);
 
-        List<WebElement> scheduleABuildArrows = getDriver().findElements(
-                By.xpath("//table//a[@title= 'Schedule a Build for " + PIPELINE_NAME + "']"));
-        Assert.assertEquals(scheduleABuildArrows.size(), 0);
+        Assert.assertTrue(new HomePage(getDriver()).isItemExists(PIPELINE_NAME));
+        Assert.assertEquals(new HomePage(getDriver()).getBuildButtonCountForProject(PIPELINE_NAME), 0);
     }
 
     @Test(dependsOnMethods = {"testPipelineNotActive", "testDisableItem"})
@@ -549,17 +548,10 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(isPipelineDeleted, "Pipeline was not deleted successfully.");
     }
 
-    @Ignore
     @Test
     public void testConsoleOutputValue() {
-
         int number_of_stages = 8;
-
-        getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
-        getDriver().findElement(By.name("name")).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(By.cssSelector("[class$='WorkflowJob']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
+        List<String> expectedConsoleOuputForAllStages = List.of("test 1", "test 2", "test 3", "test 4", "test 5", "test 6", "test 7", "test 8");
         String pipelineScript = """
                 pipeline {
                 agent any
@@ -567,33 +559,17 @@ public class PipelineTest extends BaseTest {
                 stages {
                 """;
 
-        getDriver().findElement(By.className("ace_text-input")).sendKeys(pipelineScript);
+        List<String> actualConsoleOuputForAllStages = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .scrollToPipelineScript()
+                .sendScript(number_of_stages, pipelineScript)
+                .clickSaveButton()
+                .clickBuild()
+                .getConsoleOuputForAllStages(number_of_stages);
 
-        for (int i = 1; i <= number_of_stages; i++) {
-
-            String stage = "\nstage('stage " + i + "') {\n" +
-                    "steps {\n" +
-                    "echo 'test " + i + "'\n";
-            getDriver().findElement(By.className("ace_text-input")).sendKeys(stage);
-            getDriver().findElement(By.className("ace_text-input")).sendKeys(Keys.ARROW_DOWN);
-            getDriver().findElement(By.className("ace_text-input")).sendKeys(Keys.ARROW_DOWN);
-        }
-
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/build?delay=0sec']")).click();
-
-        for (int i = 1; i <= number_of_stages; i++) {
-
-            getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("td[class='stage-cell stage-cell-" + (i - 1) + " SUCCESS']"))).click();
-            getDriver().findElement(By.cssSelector("span[class='glyphicon glyphicon-stats']")).click();
-
-            String actualRes = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("pre[class='console-output']"))).getText();
-            String expectedResult = "test " + i;
-
-            getDriver().findElement(By.cssSelector("span[class='glyphicon glyphicon-remove']")).click();
-            getWait2().until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("span[class='glyphicon glyphicon-remove']")));
-            Assert.assertEquals(actualRes, expectedResult);
-        }
+        Assert.assertEquals(actualConsoleOuputForAllStages, expectedConsoleOuputForAllStages);
     }
 
     @Test
@@ -771,7 +747,7 @@ public class PipelineTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .scrollToPipelineScript()
-                .sendScript(number_of_stages)
+                .sendScript(number_of_stages, pipelineScript)
                 .clickSaveButton().clickBuild()
                 .waitBuildToFinish()
                 .getStageHeaderNameList();

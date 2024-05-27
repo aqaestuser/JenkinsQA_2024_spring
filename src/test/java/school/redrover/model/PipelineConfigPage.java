@@ -193,17 +193,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage> {
         return this;
     }
 
-    public PipelineConfigPage selectDropDownDefinition(Integer index) {
-        WebElement dropDownDefinition = getDriver().findElement(By.xpath(
-                "//section[@class = 'jenkins-section']//select[@class = 'jenkins-select__input dropdownList']/option[" + index + "]"));
-
-        getWait5().until(ExpectedConditions.visibilityOf(dropDownDefinition)).click();
-        return this;
-    }
-
-    public PipelineConfigPage sendScript(int stagesQtt) {
-        String pipelineScript = "pipeline {\nagent any\n\nstages {\n";
-
+    public PipelineConfigPage sendScript(int stagesQtt, String pipelineScript) {
         getDriver().findElement(By.className("ace_text-input")).sendKeys(pipelineScript);
 
         for (int i = 1; i <= stagesQtt; i++) {
@@ -212,6 +202,14 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage> {
             getDriver().findElement(By.className("ace_text-input")).sendKeys(stage, Keys.ARROW_DOWN, Keys.ARROW_DOWN);
         }
 
+        return this;
+    }
+
+    public PipelineConfigPage selectDropDownDefinition(Integer index) {
+        WebElement dropDownDefinition = getDriver().findElement(By.xpath(
+                "//section[@class = 'jenkins-section']//select[@class = 'jenkins-select__input dropdownList']/option[" + index + "]"));
+
+        getWait5().until(ExpectedConditions.visibilityOf(dropDownDefinition)).click();
         return this;
     }
 
