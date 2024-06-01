@@ -10,7 +10,7 @@ import school.redrover.model.base.BaseFrame;
 import school.redrover.model.base.BasePage;
 import school.redrover.model.base.BaseProjectPage;
 
-public class HeaderFrame extends BaseFrame {
+public class HeaderFrame<T extends BasePage<T>> extends BaseFrame<T> {
 
     @FindBy(css = "a.model-link > span")
     private WebElement userNameOnHeader;
@@ -49,8 +49,8 @@ public class HeaderFrame extends BaseFrame {
     private WebElement adminDropdownConfigureLink;
 
 
-    public HeaderFrame(WebDriver driver) {
-        super(driver);
+    public HeaderFrame(WebDriver driver, T returnPage) {
+        super(driver, returnPage);
     }
 
     public UserPage clickUserNameOnHeader() {
@@ -59,10 +59,10 @@ public class HeaderFrame extends BaseFrame {
         return new UserPage(getDriver());
     }
 
-    public HomePage typeTextToSearchField(String text) {
+    public T typeTextToSearchField(String text) {
         searchBox.sendKeys(text);
 
-        return new HomePage(getDriver());
+        return getReturnPage();
     }
 
     public SearchResultPage pressEnterOnSearchField() {
@@ -76,23 +76,23 @@ public class HeaderFrame extends BaseFrame {
         return new SearchResultPage(getDriver());
     }
 
-    public HomePage chooseAndClickFirstSuggestListVariant(){
+    public T chooseAndClickFirstSuggestListVariant(){
         getWait5().until(ExpectedConditions.visibilityOf(firstSuggestListVariant)).click();
 
-        return new HomePage(getDriver());
+        return getReturnPage();
     }
 
     public String getSearchFieldText() {
         return getWait2().until(ExpectedConditions.visibilityOf(searchFieldText)).getText();
     }
 
-    public <T extends BaseProjectPage<?>> T searchProjectByName(String projectName, T projectType) {
+    public <ProjectPage extends BaseProjectPage<?>> ProjectPage searchProjectByName(String projectName, ProjectPage projectPage) {
         searchBox.sendKeys(projectName + Keys.ENTER);
 
-        return projectType;
+        return projectPage;
     }
 
-    public void openHeaderUsernameDropdown() {
+    public void clickChevronForOpenHeaderUsernameDropdown() {
         new Actions(getDriver())
                 .moveToElement(admin)
                 .pause(1000)
@@ -100,17 +100,17 @@ public class HeaderFrame extends BaseFrame {
                 .perform();
     }
 
-    public ViewAllPage clickMyViewsFromDropdown() {
-        openHeaderUsernameDropdown();
+    public ViewAllPage clickMyViewsOnHeaderDropdown() {
+        clickChevronForOpenHeaderUsernameDropdown();
         myViewsOnDropDown.click();
 
         return new ViewAllPage(getDriver());
     }
 
-    public <T extends BasePage> T clickWarningIcon(T page) {
+    public T clickWarningIcon() {
         warningIcon.click();
 
-        return page;
+        return getReturnPage();
     }
 
     public String getWarningTooltipText() {

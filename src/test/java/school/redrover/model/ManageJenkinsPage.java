@@ -10,7 +10,7 @@ import school.redrover.model.base.BasePage;
 
 import java.util.*;
 
-public class ManageJenkinsPage extends BasePage {
+public class ManageJenkinsPage extends BasePage<ManageJenkinsPage> {
 
     @FindBy(css = "[href='configureSecurity']")
     private WebElement securityLink;
