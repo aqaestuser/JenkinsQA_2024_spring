@@ -22,4 +22,4 @@ jobs:
           cache: 'maven'
 
       - name: Maven compile
-        run: mvn -Dtest=*Header* test
+        run: mvn -Dtest=*Head* test
