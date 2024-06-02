@@ -1,0 +1,24 @@
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+jobs:
+  run-test:
+    if: ${{ github.event.pull_request.merged }}
+    name: 'update main maven cache'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git clone
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+          cache: 'maven'
