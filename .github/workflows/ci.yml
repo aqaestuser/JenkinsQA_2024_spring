@@ -22,14 +22,6 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
       - name: Get list of changed files
         run: echo "LIST_OF_CHANGED_FILES=$(git diff --name-only origin/$GITHUB_HEAD_REF $(git merge-base origin/$GITHUB_HEAD_REF origin/main) | tr '\n' ';')" >> $GITHUB_ENV
 
@@ -53,7 +45,7 @@ jobs:
         run: ./.github/wait-for-jenkins.sh
 
       - name: Maven test
-        run: mvn -Dtest=*Head* test
+        run: mvn test
         env:
           CHROME_OPTIONS: --remote-allow-origins=*;--disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless=new;--window-size=1920,1080
           APP_OPTIONS: host=localhost;port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
