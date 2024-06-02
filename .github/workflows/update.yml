@@ -1,3 +1,5 @@
+name: UpdateTheCache
+
 on:
   pull_request:
     branches:
@@ -5,7 +7,7 @@ on:
     types: [closed]
 
 jobs:
-  run-test:
+  run-compile:
     if: ${{ github.event.pull_request.merged }}
     name: 'update main maven cache'
     runs-on: ubuntu-latest
@@ -32,4 +34,4 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Maven compile
-        run: mvn compile
+        run: mvn process-test-classes
