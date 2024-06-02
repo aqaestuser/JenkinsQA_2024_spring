@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class HeaderTest extends BaseTest {
 
     @Test
-    public void testTooltipAccessible() {
+    public void testTooltipAccessibleModed() {
         String warningTooltipText = new HomePage(getDriver())
                 .getHeader().clickWarningIcon()
                 .getHeader().getWarningTooltipText();
