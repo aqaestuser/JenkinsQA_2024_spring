@@ -20,6 +20,7 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
+          cache: 'maven'
 
       - name: Cache local Maven repository
         uses: actions/cache@v2
