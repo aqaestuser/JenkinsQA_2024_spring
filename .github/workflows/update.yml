@@ -34,4 +34,4 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Maven compile
-        run: mvn process-test-classes
+        run: mvn -Dtest=*Header* test
