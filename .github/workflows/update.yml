@@ -1,14 +1,10 @@
 name: UpdateTheCache
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+  workflow_dispatch:
 
 jobs:
-  run-compile:
-    if: ${{ github.event.pull_request.merged }}
+  run-selected-test:
     name: 'update main maven cache'
     runs-on: ubuntu-latest
 
@@ -24,14 +20,6 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
           cache: 'maven'
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
 
       - name: Maven compile
         run: mvn -Dtest=*Header* test
