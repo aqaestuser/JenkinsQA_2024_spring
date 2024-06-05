@@ -21,7 +21,7 @@ import java.util.Properties;
 
 public final class ProjectUtils {
 
-    private static final Logger LOGGER = LogManager.getLogger(ProjectUtils.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final String PREFIX_PROP = "local.";
     private static final String PROP_HOST = PREFIX_PROP + "host";
     private static final String PROP_PORT = PREFIX_PROP + "port";
@@ -53,8 +53,8 @@ public final class ProjectUtils {
                 try {
                     InputStream inputStream = ProjectUtils.class.getClassLoader().getResourceAsStream("local.properties");
                     if (inputStream == null) {
-                        System.out.println("ERROR: The \u001B[31mlocal.properties\u001B[0m file not found in src/test/resources/ directory.");
-                        System.out.println("You need to create it from local.properties.TEMPLATE file.");
+                        LOGGER.error("ERROR: The \u001B[31mlocal.properties\u001B[0m file not found in src/test/resources/ directory.");
+                        LOGGER.error("You need to create it from local.properties.TEMPLATE file.");
                         System.exit(1);
                     }
                     properties.load(inputStream);
