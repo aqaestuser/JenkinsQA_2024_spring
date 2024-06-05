@@ -161,7 +161,7 @@ public abstract class BaseTest {
 //            stopDriver();
 //        }
 
-        if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
+        if (methodsOrder.isGroupFinished(method)) {
             ProjectUtils.log("Driver is dead ... ");
             stopDriver();
         } else ProjectUtils.log("Driver is alive ... ");
