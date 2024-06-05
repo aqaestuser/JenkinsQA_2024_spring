@@ -28,6 +28,7 @@ public abstract class BaseTest {
     private OrderUtils.MethodsOrder<Method> methodsOrder;
 
     private Method prevMethod = null;
+    Boolean isNewMethod = false;
 
     private void startDriver() {
         ProjectUtils.log("Browser open");
@@ -89,7 +90,6 @@ public abstract class BaseTest {
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
-        Boolean isNewMethod = false;
         if (prevMethod != null) System.out.println("current: " + method.getName() + " prev >>" + prevMethod.getName());
         if (prevMethod == null || !method.getName().equals(prevMethod.getName())) {
             prevMethod = method;
@@ -126,7 +126,7 @@ public abstract class BaseTest {
             ProjectUtils.takeScreenshot(getDriver(), testResult.getInstanceName(), testResult.getName());
         }
 
-        if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
+        if (isNewMethod && methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
             stopDriver();
         }
 
