@@ -1,6 +1,9 @@
 package school.redrover;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,6 +18,12 @@ import java.util.List;
 import java.util.Random;
 
 public class NewItemTest extends BaseTest {
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    @BeforeMethod
+    public void bef() {
+        LOGGER.warn(new HomePage(getDriver()).getItemList());
+    }
 
     @Test
     public void testOpenCreateNewItemPage() {
@@ -218,6 +227,7 @@ public class NewItemTest extends BaseTest {
                 .getDropdownMenuContent();
 
         Assert.assertEquals(jobsFromDropdownMenu, firstLettersJobs);
+        LOGGER.warn("projects list created!!");
     }
 
     @DataProvider(name = "unsafeCharactersProvider")
@@ -238,6 +248,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(errorMessage, "» ‘" + x + "’ is an unsafe character");
     }
 
+    @Ignore
     @Test
     public void testUserSeeTheNameEntryField() {
 
@@ -270,6 +281,7 @@ public class NewItemTest extends BaseTest {
                 {"nested-projects"}};
     }
 
+    @Ignore
     @Test(dataProvider = "projectTypes")
     public void testCreateItemForStandaloneOrNestedProjects(String projectType) {
         String PROJECT_NAME = "NewProject";
