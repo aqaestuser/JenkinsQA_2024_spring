@@ -1,5 +1,7 @@
 package school.redrover.runner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -19,6 +21,7 @@ import java.util.Properties;
 
 public final class ProjectUtils {
 
+    private static final Logger LOGGER = LogManager.getLogger(ProjectUtils.class.getName());
     private static final String PREFIX_PROP = "local.";
     private static final String PROP_HOST = PREFIX_PROP + "host";
     private static final String PROP_PORT = PREFIX_PROP + "port";
@@ -116,12 +119,14 @@ public final class ProjectUtils {
     }
 
     public static void log(String str) {
-        System.out.println(str);
+        LOGGER.info(str);
+//        System.out.println(str);
     }
 
     public static void logf(String str, Object... arr) {
-        System.out.printf(str, arr);
-        System.out.println();
+        LOGGER.info(str, arr);
+//        System.out.printf(str, arr);
+//        System.out.println();
     }
 
     static void takeScreenshot(WebDriver driver, String instanceName, String methodName) {
