@@ -119,7 +119,7 @@ public final class ProjectUtils {
     }
 
     public static void log(String str) {
-        LOGGER.debug(str);
+        LOGGER.info(str);
     }
 
     public static void logf(String str, Object... arr) {
