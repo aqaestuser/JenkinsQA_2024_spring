@@ -27,6 +27,8 @@ public abstract class BaseTest {
 
     private OrderUtils.MethodsOrder<Method> methodsOrder;
 
+    private Method prevMethod = null;
+
     private void startDriver() {
         ProjectUtils.log("Browser open");
 
@@ -87,6 +89,10 @@ public abstract class BaseTest {
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
+        System.out.println("current: " + method.getName() + " prev >>" + prevMethod.getName());
+        if (!method.getName().equals(prevMethod.getName())) {
+            prevMethod = method;
+        }
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         System.out.println(methodsOrder.getFlatList());
         try {
