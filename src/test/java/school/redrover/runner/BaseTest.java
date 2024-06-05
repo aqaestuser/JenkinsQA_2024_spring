@@ -98,7 +98,7 @@ public abstract class BaseTest {
             prevMethod = method;
             isNewMethod = true;
         } else {
-            methodsOrder.markAsNotInvoked(method)
+            methodsOrder.markAsNotInvoked(method);
         }
 
 
