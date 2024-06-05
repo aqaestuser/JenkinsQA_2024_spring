@@ -88,6 +88,7 @@ public abstract class BaseTest {
     @BeforeMethod
     protected void beforeMethod(Method method) {
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
+        System.out.println(methodsOrder.getFlatList());
         try {
             if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
                 clearData();
