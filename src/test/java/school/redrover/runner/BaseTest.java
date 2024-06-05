@@ -89,8 +89,8 @@ public abstract class BaseTest {
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
-        System.out.println("current: " + method.getName() + " prev >>" + prevMethod.getName());
-        if (!method.getName().equals(prevMethod.getName())) {
+        if (prevMethod != null) System.out.println("current: " + method.getName() + " prev >>" + prevMethod.getName());
+        if (prevMethod == null || !method.getName().equals(prevMethod.getName())) {
             prevMethod = method;
         }
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
