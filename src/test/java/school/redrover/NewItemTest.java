@@ -182,7 +182,8 @@ public class NewItemTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDropdownNamesMenuContentWhenCopyProject" ,dataProvider = "existingJobsNames")
     public void testCopyFromExistingJob(String type, String jobName) {
-
+        LOGGER.info(new HomePage(getDriver()).getItemList());
+        System.out.println(new HomePage(getDriver()).getItemList());
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(jobName + "Copy")
