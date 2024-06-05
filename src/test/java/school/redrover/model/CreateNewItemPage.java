@@ -150,6 +150,7 @@ public class CreateNewItemPage extends BasePage<CreateNewItemPage> {
     }
 
     public CreateNewItemPage setItemNameInCopyForm(String name) {
+
 //        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".item-copy .description")));
         nameTextInCopyForm.sendKeys(name);
         return this;
