@@ -116,7 +116,7 @@ public abstract class BaseTest {
             stopDriver();
         }
 
-        ProjectUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
+        ProjectUtils.logf("Execution time is %.3f sec\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0);
     }
 
     protected WebDriver getDriver() {
