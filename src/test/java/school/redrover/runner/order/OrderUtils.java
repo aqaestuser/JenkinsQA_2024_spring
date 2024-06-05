@@ -79,7 +79,6 @@ public final class OrderUtils {
                 for (T method : list) {
                     methodInvokedMap.put(method, false);
                     methodListMap.put(method, list);
-                    ProjectUtils.log("added ->" + method.getClass().getName());
                 }
             }
         }

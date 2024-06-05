@@ -102,6 +102,10 @@ public abstract class BaseTest {
             isNewMethod = false;
         }
 
+//        if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !ProjectUtils.closeBrowserIfError())) {
+//            ProjectUtils.log("Driver is dead ... ");
+//            stopDriver();
+//        } else ProjectUtils.log("Driver is alive ... ");
 
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         try {
@@ -110,7 +114,12 @@ public abstract class BaseTest {
                     methodsOrder.isGroupFinished(method),
                     isNewMethod,
                     !methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod));
-            if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
+            if ((!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) && isNewMethod) {
+                try {
+                    JenkinsUtils.logout(driver);
+                } catch (Exception ignore) {}
+
+                closeDriver();
                 clearData();
                 startDriver();
                 getWeb();
@@ -161,13 +170,24 @@ public abstract class BaseTest {
 //            stopDriver();
 //        }
 
-        if (methodsOrder.isGroupFinished(method)) {
+        ProjectUtils.logf(">>>\n 1 %s\n 2 %s\n 3 %s\n 4 %s\n ",
+                methodsOrder.isGroupFinished(method),
+                ProjectUtils.isServerRun(),
+                testResult.isSuccess(),
+                ProjectUtils.closeBrowserIfError());
+
+        if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
             ProjectUtils.log("Driver is dead ... ");
-            stopDriver();
+//            stopDriver();
         } else ProjectUtils.log("Driver is alive ... ");
 //        ProjectUtils.logf("Execution time is %.3f sec\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0);
     }
 
+    @AfterClass
+    protected void afterClass() {
+        ProjectUtils.log("After class  ... ");
+        stopDriver();
+    }
     protected WebDriver getDriver() {
         return driver;
     }

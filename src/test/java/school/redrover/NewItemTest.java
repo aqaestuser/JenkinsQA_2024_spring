@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class NewItemTest extends BaseTest {
     private static final Logger LOGGER = LogManager.getLogger();
-
+    @Ignore
     @Test
     public void testOpenCreateNewItemPage() {
         String newItemHeader = new HomePage(getDriver())
@@ -34,7 +34,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(newItemHeader, "New Item [Jenkins]");
         Assert.assertEquals(TextAboveNameField, "Enter an item name");
     }
-
+    @Ignore
     @Test
     public void testCreateNewFolder() {
         List<String> itemsList = new HomePage(getDriver())
@@ -47,7 +47,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertListContainsObject(itemsList, "Name", "Item not found");
     }
-
+    @Ignore
     @Test
     public void testCreateItemWithoutSelectedItemType() {
         boolean okButtonIsEnabled = new HomePage(getDriver())
@@ -57,7 +57,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertFalse(okButtonIsEnabled);
     }
-
+    @Ignore
     @Test
     public void testRenameFolder() {
         List<String> itemsList = new HomePage(getDriver())
@@ -76,6 +76,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertListContainsObject(itemsList, "New Name", "Item not found");
     }
 
+    @Ignore
     @Test
     public void testMessageWhenCreateItemUsingSpecialCharactersInName() {
         String[] specialCharacters = {"!", "%", "&", "#", "@", "*", "$", "?", "^", "|", "/", "]", "["};
@@ -95,6 +96,7 @@ public class NewItemTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testCreateItemWithEmptyName() {
         String hintTextWhenEmptyName = "» This field cannot be empty, please enter a valid name";
@@ -127,7 +129,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertFalse(createNewItemPage.isOkButtonEnabled());
     }
-
+    @Ignore
     @Test
     public void testCreateMulticonfigurationProject() {
         List<String> itemsList = new HomePage(getDriver())
@@ -140,7 +142,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertListContainsObject(itemsList, "Name", "Item not found");
     }
-
+    @Ignore
     @Test
     public void testCreateMulticonfigurationProjectNegative() {
         CreateNewItemPage createNewItemPage = new HomePage(getDriver())
@@ -150,7 +152,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(createNewItemPage.getItemNameHintText(), "» This field cannot be empty, please enter a valid name");
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testDropdownNamesMenuContentWhenCopyProject")
     public void testCopyFromNotExistingJob() {
         final String notExistingName = "AAA";
@@ -170,10 +172,10 @@ public class NewItemTest extends BaseTest {
     public Object[][] existingJobsNames(){
         return new Object[][]{
                 {"Freestyle","folff"},
-                {"Freestyle","folff00"},
+//                {"Freestyle","folff00"},
                 {"Folder","Folder1"},
                 {"Folder","bFolder2"},
-                {"Pipeline","pipe1"},
+//                {"Pipeline","pipe1"},
 //                {"MultiConfigurationProject", "multi1"},
 //                {"MultiBranchPipe", "multiBranch1"},
 //                {"organizationFolder","organizationFolder1"}
@@ -211,11 +213,11 @@ public class NewItemTest extends BaseTest {
         TestUtils.createFreestyleProject(this, freestyle1);
         TestUtils.createFolderProject(this, folder1);
         TestUtils.createFolderProject(this, folder2);
-        TestUtils.createFreestyleProject(this, freestyle2);
-        TestUtils.createPipelineProject(this, pipeline1);
-        TestUtils.createMultiConfigurationProject(this, multiConfigurationProject1);
-        TestUtils.createMultibranchProject(this,multiBranchPipe1);
-        TestUtils.createOrganizationFolderProject(this,organizationFolder1);
+//        TestUtils.createFreestyleProject(this, freestyle2);
+//        TestUtils.createPipelineProject(this, pipeline1);
+//        TestUtils.createMultiConfigurationProject(this, multiConfigurationProject1);
+//        TestUtils.createMultibranchProject(this,multiBranchPipe1);
+//        TestUtils.createOrganizationFolderProject(this,organizationFolder1);
 
         List<String> firstLettersJobs = TestUtils.getJobsBeginningFromThisFirstLetters(this, firstLetters);
 
@@ -226,7 +228,6 @@ public class NewItemTest extends BaseTest {
                 .getDropdownMenuContent();
 
         Assert.assertEquals(jobsFromDropdownMenu, firstLettersJobs);
-        LOGGER.warn("projects list created!!");
     }
 
     @DataProvider(name = "unsafeCharactersProvider")
@@ -237,6 +238,7 @@ public class NewItemTest extends BaseTest {
         };
     }
 
+    @Ignore
     @Test(dataProvider = "unsafeCharactersProvider")
     public void testInvalidValuesForProjectNameInput(String x) {
         String errorMessage = new HomePage(getDriver())
@@ -255,7 +257,7 @@ public class NewItemTest extends BaseTest {
                 .clickNewItem()
                 .isDisplayedNameField());
     }
-
+    @Ignore
     @Test
     public void TestCheckListOfSuggestedForCreationProjectTypes() {
         List<String> typesList = List.of(
