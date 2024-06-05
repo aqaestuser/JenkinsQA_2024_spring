@@ -90,11 +90,17 @@ public abstract class BaseTest {
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
-        if (prevMethod != null) System.out.println("current: " + method.getName() + " prev >>" + prevMethod.getName());
-        if (prevMethod == null || !method.getName().equals(prevMethod.getName())) {
+        System.out.println("current: " + method.getName() + " prev >>" + ((prevMethod == null)?"null":prevMethod.getName()));
+        if (prevMethod == null) {
             prevMethod = method;
             isNewMethod = true;
+        } else {
+             if (!method.getName().equals(prevMethod.getName())) {
+                 prevMethod = method;
+                 isNewMethod = true;
+             }
         }
+
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         System.out.println(methodsOrder.getFlatList());
         try {
