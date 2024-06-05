@@ -110,14 +110,16 @@ public abstract class BaseTest {
                     methodsOrder.isGroupFinished(method),
                     isNewMethod,
                     !methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod));
-            if (!methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod)) {
-                clearData();
-                startDriver();
-                getWeb();
-                loginWeb();
-            } else {
-                getWeb();
-                acceptAlert();
+            if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
+                if (isNewMethod) {
+                    clearData();
+                    startDriver();
+                    getWeb();
+                    loginWeb();
+                } else {
+                    getWeb();
+                    acceptAlert();
+                }
             }
         } catch (Exception e) {
             closeDriver();

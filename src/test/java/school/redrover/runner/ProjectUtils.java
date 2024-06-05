@@ -126,6 +126,10 @@ public final class ProjectUtils {
         LOGGER.info(String.format(str, arr));
     }
 
+    public static void logfDebug(String str, Object... arr) {
+        LOGGER.debug(String.format(str, arr));
+    }
+
     static void takeScreenshot(WebDriver driver, String instanceName, String methodName) {
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
