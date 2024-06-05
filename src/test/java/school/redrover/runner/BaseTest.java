@@ -89,14 +89,16 @@ public abstract class BaseTest {
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
+        Boolean isNewMethod = false;
         if (prevMethod != null) System.out.println("current: " + method.getName() + " prev >>" + prevMethod.getName());
         if (prevMethod == null || !method.getName().equals(prevMethod.getName())) {
             prevMethod = method;
+            isNewMethod = true;
         }
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         System.out.println(methodsOrder.getFlatList());
         try {
-            if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
+            if (!methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod)) {
                 clearData();
                 startDriver();
                 getWeb();
