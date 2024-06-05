@@ -172,8 +172,8 @@ public class NewItemTest extends BaseTest {
                 {"Freestyle","folff"},
                 {"Freestyle","folff00"},
                 {"Folder","Folder1"},
-//                {"Folder","bFolder2"},
-//                {"Pipeline","pipe1"},
+                {"Folder","bFolder2"},
+                {"Pipeline","pipe1"},
 //                {"MultiConfigurationProject", "multi1"},
 //                {"MultiBranchPipe", "multiBranch1"},
 //                {"organizationFolder","organizationFolder1"}
