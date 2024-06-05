@@ -84,22 +84,23 @@ public abstract class BaseTest {
                 Arrays.stream(this.getClass().getMethods())
                         .filter(m -> m.getAnnotation(Test.class) != null && m.getAnnotation(Ignore.class) == null)
                         .collect(Collectors.toList()),
-                m -> m.getName(),
+                Method::getName,
                 m -> m.getAnnotation(Test.class).dependsOnMethods());
     }
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
-        System.out.println("current: " + method.getName() + " prev >>" + ((prevMethod == null)?"null":prevMethod.getName()));
+        System.out.println("current: " + method.getName() + " prev >>" + ((prevMethod == null) ? "null" : prevMethod.getName()));
         if (prevMethod == null) {
             prevMethod = method;
             isNewMethod = true;
+        } else if (!method.getName().equals(prevMethod.getName())) {
+            prevMethod = method;
+            isNewMethod = true;
         } else {
-             if (!method.getName().equals(prevMethod.getName())) {
-                 prevMethod = method;
-                 isNewMethod = true;
-             }
+            isNewMethod = false;
         }
+
 
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         System.out.println(methodsOrder.getFlatList());
