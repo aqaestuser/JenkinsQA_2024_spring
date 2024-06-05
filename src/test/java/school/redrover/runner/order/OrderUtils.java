@@ -85,6 +85,10 @@ public final class OrderUtils {
             return Boolean.TRUE.equals(this.methodInvokedMap.put(method, true));
         }
 
+        public boolean markAsNotInvoked(T method) {
+            return Boolean.TRUE.equals(this.methodInvokedMap.put(method, false));
+        }
+
         public boolean isInvoked(T method) {
             return this.methodInvokedMap.get(method);
         }

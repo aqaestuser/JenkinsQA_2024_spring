@@ -98,7 +98,7 @@ public abstract class BaseTest {
             prevMethod = method;
             isNewMethod = true;
         } else {
-            isNewMethod = false;
+            methodsOrder.markAsNotInvoked(method)
         }
 
 
@@ -111,15 +111,13 @@ public abstract class BaseTest {
                     isNewMethod,
                     !methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod));
             if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
-                if (isNewMethod) {
-                    clearData();
-                    startDriver();
-                    getWeb();
-                    loginWeb();
-                } else {
-                    getWeb();
-                    acceptAlert();
-                }
+                clearData();
+                startDriver();
+                getWeb();
+                loginWeb();
+            } else {
+                getWeb();
+                acceptAlert();
             }
         } catch (Exception e) {
             closeDriver();
@@ -127,6 +125,29 @@ public abstract class BaseTest {
         } finally {
             methodsOrder.markAsInvoked(method);
         }
+//        try {
+//            ProjectUtils.logf("isGroupStarted %b,  isGroupFinished %b, isNewMethod %b result %b",
+//                    methodsOrder.isGroupStarted(method),
+//                    methodsOrder.isGroupFinished(method),
+//                    isNewMethod,
+//                    !methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod));
+//            if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
+//                if (isNewMethod) {
+//                    clearData();
+//                    startDriver();
+//                    getWeb();
+//                    loginWeb();
+//                } else {
+//                    getWeb();
+//                    acceptAlert();
+//                }
+//            }
+//        } catch (Exception e) {
+//            closeDriver();
+//            throw new RuntimeException(e);
+//        } finally {
+//            methodsOrder.markAsInvoked(method);
+//        }
     }
 
     @AfterMethod
@@ -135,7 +156,12 @@ public abstract class BaseTest {
             ProjectUtils.takeScreenshot(getDriver(), testResult.getInstanceName(), testResult.getName());
         }
 
-        if (isNewMethod && methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
+//        if (isNewMethod && methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
+//            ProjectUtils.log("Driver is closing ... ");
+//            stopDriver();
+//        }
+
+        if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
             ProjectUtils.log("Driver is closing ... ");
             stopDriver();
         }
