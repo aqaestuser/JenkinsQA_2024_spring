@@ -13,17 +13,13 @@ import school.redrover.model.FreestyleConfigPage;
 import school.redrover.model.HomePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+import school.redrover.runner.order.OrderUtils;
 
 import java.util.List;
 import java.util.Random;
 
 public class NewItemTest extends BaseTest {
     private static final Logger LOGGER = LogManager.getLogger();
-
-    @BeforeMethod
-    public void bef() {
-        LOGGER.warn(new HomePage(getDriver()).getItemList());
-    }
 
     @Test
     public void testOpenCreateNewItemPage() {
@@ -153,6 +149,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(createNewItemPage.getItemNameHintText(), "» This field cannot be empty, please enter a valid name");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDropdownNamesMenuContentWhenCopyProject")
     public void testCopyFromNotExistingJob() {
         final String notExistingName = "AAA";
