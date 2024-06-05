@@ -1,5 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Sun Jun 02 15:41:06 GMT 2024","Sun Jun 02 15:41:08 GMT 2024","1755","Command line suite","Command line test","school.redrover.HeaderTest","school.redrover.HeaderTest","testAccessToManageJenkinsPage","testAccessToManageJenkinsPage",""
-"passed","Sun Jun 02 15:41:09 GMT 2024","Sun Jun 02 15:41:10 GMT 2024","301","Command line suite","Command line test","school.redrover.HeaderTest","school.redrover.HeaderTest","testLogout","testLogout",""
-"passed","Sun Jun 02 15:41:13 GMT 2024","Sun Jun 02 15:41:13 GMT 2024","164","Command line suite","Command line test","school.redrover.HeaderTest","school.redrover.HeaderTest","testTooltipAccessiblebbbModed","testTooltipAccessiblebbbModed",""
-"passed","Sun Jun 02 15:41:15 GMT 2024","Sun Jun 02 15:41:16 GMT 2024","1450","Command line suite","Command line test","school.redrover.HeaderTest","school.redrover.HeaderTest","testWarningsSettingPage","testWarningsSettingPage",""
