@@ -134,6 +134,7 @@ public abstract class BaseTest {
         }
 
         if (isNewMethod && methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
+            ProjectUtils.log("Driver is closing ... ");
             stopDriver();
         }
 
