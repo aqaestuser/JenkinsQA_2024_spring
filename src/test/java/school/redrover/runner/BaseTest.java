@@ -104,7 +104,6 @@ public abstract class BaseTest {
 
 
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
-        System.out.println(methodsOrder.getFlatList());
         try {
             ProjectUtils.logf("isGroupStarted %b,  isGroupFinished %b, isNewMethod %b result %b",
                     methodsOrder.isGroupStarted(method),
@@ -163,11 +162,10 @@ public abstract class BaseTest {
 //        }
 
         if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
-            ProjectUtils.log("Driver is closing ... ");
+            ProjectUtils.log("Driver is dead ... ");
             stopDriver();
-        }
-
-        ProjectUtils.logf("Execution time is %.3f sec\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0);
+        } else ProjectUtils.log("Driver is alive ... ");
+//        ProjectUtils.logf("Execution time is %.3f sec\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0);
     }
 
     protected WebDriver getDriver() {
