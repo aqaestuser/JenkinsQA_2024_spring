@@ -98,6 +98,11 @@ public abstract class BaseTest {
         ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         System.out.println(methodsOrder.getFlatList());
         try {
+            ProjectUtils.logf("isGroupStarted %b,  isGroupFinished %b, isNewMethod %b result %b",
+                    methodsOrder.isGroupStarted(method),
+                    methodsOrder.isGroupFinished(method),
+                    isNewMethod,
+                    !methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod));
             if (!methodsOrder.isGroupStarted(method) || (methodsOrder.isGroupFinished(method) && isNewMethod)) {
                 clearData();
                 startDriver();
