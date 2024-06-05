@@ -119,14 +119,11 @@ public final class ProjectUtils {
     }
 
     public static void log(String str) {
-        LOGGER.info(str);
-//        System.out.println(str);
+        LOGGER.debug(str);
     }
 
     public static void logf(String str, Object... arr) {
-        LOGGER.info(str, arr);
-//        System.out.printf(str, arr);
-//        System.out.println();
+        LOGGER.info(String.format(str, arr));
     }
 
     static void takeScreenshot(WebDriver driver, String instanceName, String methodName) {
