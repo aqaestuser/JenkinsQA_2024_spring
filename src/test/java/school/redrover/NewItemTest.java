@@ -172,13 +172,13 @@ public class NewItemTest extends BaseTest {
     public Object[][] existingJobsNames(){
         return new Object[][]{
                 {"Freestyle","folff"},
-//                {"Freestyle","folff00"},
+                {"Freestyle","folff00"},
                 {"Folder","Folder1"},
                 {"Folder","bFolder2"},
-//                {"Pipeline","pipe1"},
-//                {"MultiConfigurationProject", "multi1"},
-//                {"MultiBranchPipe", "multiBranch1"},
-//                {"organizationFolder","organizationFolder1"}
+                {"Pipeline","pipe1"},
+                {"MultiConfigurationProject", "multi1"},
+                {"MultiBranchPipe", "multiBranch1"},
+                {"organizationFolder","organizationFolder1"}
        };
     }
 
@@ -213,11 +213,11 @@ public class NewItemTest extends BaseTest {
         TestUtils.createFreestyleProject(this, freestyle1);
         TestUtils.createFolderProject(this, folder1);
         TestUtils.createFolderProject(this, folder2);
-//        TestUtils.createFreestyleProject(this, freestyle2);
-//        TestUtils.createPipelineProject(this, pipeline1);
-//        TestUtils.createMultiConfigurationProject(this, multiConfigurationProject1);
-//        TestUtils.createMultibranchProject(this,multiBranchPipe1);
-//        TestUtils.createOrganizationFolderProject(this,organizationFolder1);
+        TestUtils.createFreestyleProject(this, freestyle2);
+        TestUtils.createPipelineProject(this, pipeline1);
+        TestUtils.createMultiConfigurationProject(this, multiConfigurationProject1);
+        TestUtils.createMultibranchProject(this,multiBranchPipe1);
+        TestUtils.createOrganizationFolderProject(this,organizationFolder1);
 
         List<String> firstLettersJobs = TestUtils.getJobsBeginningFromThisFirstLetters(this, firstLetters);
 
