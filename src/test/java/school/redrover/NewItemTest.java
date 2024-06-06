@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class NewItemTest extends BaseTest {
     private static final Logger LOGGER = LogManager.getLogger();
-    @Ignore
+
     @Test
     public void testOpenCreateNewItemPage() {
         String newItemHeader = new HomePage(getDriver())
@@ -34,7 +34,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(newItemHeader, "New Item [Jenkins]");
         Assert.assertEquals(TextAboveNameField, "Enter an item name");
     }
-    @Ignore
+
     @Test
     public void testCreateNewFolder() {
         List<String> itemsList = new HomePage(getDriver())
@@ -47,7 +47,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertListContainsObject(itemsList, "Name", "Item not found");
     }
-    @Ignore
+
     @Test
     public void testCreateItemWithoutSelectedItemType() {
         boolean okButtonIsEnabled = new HomePage(getDriver())
@@ -57,7 +57,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertFalse(okButtonIsEnabled);
     }
-    @Ignore
+
     @Test
     public void testRenameFolder() {
         List<String> itemsList = new HomePage(getDriver())
@@ -76,7 +76,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertListContainsObject(itemsList, "New Name", "Item not found");
     }
 
-    @Ignore
+
     @Test
     public void testMessageWhenCreateItemUsingSpecialCharactersInName() {
         String[] specialCharacters = {"!", "%", "&", "#", "@", "*", "$", "?", "^", "|", "/", "]", "["};
@@ -96,7 +96,7 @@ public class NewItemTest extends BaseTest {
         }
     }
 
-    @Ignore
+
     @Test
     public void testCreateItemWithEmptyName() {
         String hintTextWhenEmptyName = "» This field cannot be empty, please enter a valid name";
@@ -129,7 +129,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertFalse(createNewItemPage.isOkButtonEnabled());
     }
-    @Ignore
+
     @Test
     public void testCreateMulticonfigurationProject() {
         List<String> itemsList = new HomePage(getDriver())
@@ -142,7 +142,7 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertListContainsObject(itemsList, "Name", "Item not found");
     }
-    @Ignore
+
     @Test
     public void testCreateMulticonfigurationProjectNegative() {
         CreateNewItemPage createNewItemPage = new HomePage(getDriver())
@@ -238,7 +238,7 @@ public class NewItemTest extends BaseTest {
         };
     }
 
-    @Ignore
+
     @Test(dataProvider = "unsafeCharactersProvider")
     public void testInvalidValuesForProjectNameInput(String x) {
         String errorMessage = new HomePage(getDriver())
@@ -249,7 +249,7 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(errorMessage, "» ‘" + x + "’ is an unsafe character");
     }
 
-    @Ignore
+
     @Test
     public void testUserSeeTheNameEntryField() {
 
@@ -257,7 +257,7 @@ public class NewItemTest extends BaseTest {
                 .clickNewItem()
                 .isDisplayedNameField());
     }
-    @Ignore
+
     @Test
     public void TestCheckListOfSuggestedForCreationProjectTypes() {
         List<String> typesList = List.of(
@@ -282,7 +282,7 @@ public class NewItemTest extends BaseTest {
                 {"nested-projects"}};
     }
 
-    @Ignore
+
     @Test(dataProvider = "projectTypes")
     public void testCreateItemForStandaloneOrNestedProjects(String projectType) {
         String PROJECT_NAME = "NewProject";
