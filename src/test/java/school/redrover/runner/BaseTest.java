@@ -120,7 +120,7 @@ public abstract class BaseTest {
         if (!testResult.isSuccess()) {
             ProjectUtils.log("my_screenshot1.png adding ...");
             Allure.addAttachment(
-                    "my_screenshot1.png",
+                    "screenshot.png",
                     "image/png",
                     new ByteArrayInputStream(((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES)),
                     "png");

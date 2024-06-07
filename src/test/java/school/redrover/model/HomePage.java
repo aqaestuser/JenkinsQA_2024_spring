@@ -284,7 +284,7 @@ public class HomePage extends BasePage<HomePage> {
         return new OrganizationFolderProjectPage(getDriver());
     }
 
-    @Step("execute openDashboardBreadcrumbsDropdown")
+    @Step("Click on Chevron of the Dashboard")
     public HomePage openDashboardBreadcrumbsDropdown() {
         WebElement chevron = dashboardBreadcrumbs.findElement(By.cssSelector("[class$='chevron']"));
         ((JavascriptExecutor) getDriver()).executeScript(
@@ -295,7 +295,7 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("execute clickManageFromDashboardBreadcrumbsMenu")
+    @Step("Click on Manage Jenkins in the Dashboard dropdown menu")
     public ManageJenkinsPage clickManageFromDashboardBreadcrumbsMenu() {
         manageFromDashboardBreadcrumbsMenu.click();
 
