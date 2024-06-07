@@ -25,7 +25,7 @@ public class AppearanceTest extends BaseTest {
                 .getThemesList()
                 .size();
 
-        Assert.assertEquals(quantityOfThemes, 3);
+        Assert.assertEquals(quantityOfThemes, 4);
     }
 
     @Test
