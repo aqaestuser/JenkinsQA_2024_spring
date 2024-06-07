@@ -86,7 +86,7 @@ public abstract class BaseTest {
                 Arrays.stream(this.getClass().getMethods())
                         .filter(m -> m.getAnnotation(Test.class) != null && m.getAnnotation(Ignore.class) == null)
                         .collect(Collectors.toList()),
-                m -> m.getName(),
+                Method::getName,
                 m -> m.getAnnotation(Test.class).dependsOnMethods());
     }
 
@@ -116,15 +116,16 @@ public abstract class BaseTest {
         if (!testResult.isSuccess() && ProjectUtils.isServerRun()) {
             ProjectUtils.takeScreenshot(getDriver(), testResult.getInstanceName(), testResult.getName());
         }
-
+        ProjectUtils.log("ready to take screenshot");
         if (!testResult.isSuccess()) {
+            ProjectUtils.log("my_screenshot1.png adding ...");
             Allure.addAttachment(
                     "my_screenshot1.png",
                     "image/png",
                     new ByteArrayInputStream(((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES)),
                     "png");
         }
-
+        ProjectUtils.log("leaving screenshot area");
         if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
             stopDriver();
         }
