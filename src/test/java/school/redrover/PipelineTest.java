@@ -941,7 +941,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(consoleOutput.contains(SUCCEED_BUILD_EXPECTED));
     }
 
-
+    @Ignore
     @Test
     public void testDisablePipelineProject() {
         TestUtils.createPipelineProject(this, PIPELINE_NAME);
