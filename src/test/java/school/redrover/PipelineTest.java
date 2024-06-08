@@ -776,7 +776,8 @@ public class PipelineTest extends BaseTest {
 
                 stages {
                 """;
-
+        getDriver().findElement(By.cssSelector("#job_FirstPipeline > td:nth-child(3) > a > span")).click();
+        getDriver().findElement(By.cssSelector("#tasks > div:nth-child(5) > span > a")).click();
         getDriver().findElement(By.className("ace_text-input")).sendKeys(pipelineScript);
 
         for (int i = 1; i <= number_of_stages; i++) {
@@ -940,7 +941,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(consoleOutput.contains(SUCCEED_BUILD_EXPECTED));
     }
 
-    @Ignore
+
     @Test
     public void testDisablePipelineProject() {
         TestUtils.createPipelineProject(this, PIPELINE_NAME);
