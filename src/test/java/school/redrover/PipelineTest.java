@@ -692,7 +692,7 @@ public class PipelineTest extends BaseTest {
                 .clickManageJenkins()
                 .clickNodes()
                 .clickOnBuiltInNode()
-                .clickBringThisNodeBackOnlineBtn()
+                .clickBringThisNodeBackOnlineButton()
                 .clickLogo()
 
                 .clickNewItem()
