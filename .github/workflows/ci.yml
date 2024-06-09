@@ -45,8 +45,9 @@ jobs:
         run: ./.github/wait-for-jenkins.sh
 
       - name: Run check style
-        uses: nikitasavinov/checkstyle-action@master
+        uses: nikitasavinov/checkstyle-action@0.6.0
         with:
+          checkstyle_config: sun_checks.xml
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: 'github-pr-check'
           tool_name: 'testtool'
