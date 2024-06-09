@@ -25,6 +25,14 @@ jobs:
       - name: Get list of changed files
         run: echo "LIST_OF_CHANGED_FILES=$(git diff --name-only origin/$GITHUB_HEAD_REF $(git merge-base origin/$GITHUB_HEAD_REF origin/main) | tr '\n' ';')" >> $GITHUB_ENV
 
+      - name: Run check style
+        uses: nikitasavinov/checkstyle-action@0.6.0
+        with:
+          checkstyle_config: sun_checks.xml
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: 'github-pr-check'
+          tool_name: 'testtool'
+
       - name: Prepare Jenkins data
         run: |
           cat ${{ github.workspace }}/jenkins_data/jenkins_backup0* > ${{ github.workspace }}/jenkins_backup.tar
@@ -43,14 +51,6 @@ jobs:
 
       - name: Wait for the Jenkins
         run: ./.github/wait-for-jenkins.sh
-
-      - name: Run check style
-        uses: nikitasavinov/checkstyle-action@0.6.0
-        with:
-          checkstyle_config: my_checks.xml
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: 'github-pr-check'
-          tool_name: 'testtool'
 
       - name: Maven test
 #        run: mvn test
