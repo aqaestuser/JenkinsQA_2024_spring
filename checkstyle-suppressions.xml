@@ -9,4 +9,5 @@
     <suppress checks="MagicNumberCheck"/>
     <suppress message="Missing a Javadoc comment"/>
     <suppress checks="DesignForExtension"/>
+    <suppress checks="FinalParameters"/>
 </suppressions>
