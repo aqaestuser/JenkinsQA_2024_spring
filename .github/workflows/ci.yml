@@ -51,6 +51,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: 'github-pr-check'
           tool_name: 'testtool'
+          workdir: 'src/test/java'
 
       - name: Maven test
 #        run: mvn test
