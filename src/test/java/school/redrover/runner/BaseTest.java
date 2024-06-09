@@ -1,6 +1,9 @@
 package school.redrover.runner;
 
+import io.qameta.allure.Allure;
 import org.apache.logging.log4j.Level;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
@@ -8,6 +11,7 @@ import org.testng.annotations.*;
 import school.redrover.runner.order.OrderForTests;
 import school.redrover.runner.order.OrderUtils;
 
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.Arrays;
@@ -82,7 +86,7 @@ public abstract class BaseTest {
                 Arrays.stream(this.getClass().getMethods())
                         .filter(m -> m.getAnnotation(Test.class) != null && m.getAnnotation(Ignore.class) == null)
                         .collect(Collectors.toList()),
-                m -> m.getName(),
+                Method::getName,
                 m -> m.getAnnotation(Test.class).dependsOnMethods());
     }
 
@@ -112,7 +116,16 @@ public abstract class BaseTest {
         if (!testResult.isSuccess() && ProjectUtils.isServerRun()) {
             ProjectUtils.takeScreenshot(getDriver(), testResult.getInstanceName(), testResult.getName());
         }
-
+        ProjectUtils.log("ready to take screenshot");
+        if (!testResult.isSuccess()) {
+            ProjectUtils.log("my_screenshot1.png adding ...");
+            Allure.addAttachment(
+                    "screenshot.png",
+                    "image/png",
+                    new ByteArrayInputStream(((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES)),
+                    "png");
+        }
+        ProjectUtils.log("leaving screenshot area");
         if (methodsOrder.isGroupFinished(method) && !(!ProjectUtils.isServerRun() && !testResult.isSuccess() && !ProjectUtils.closeBrowserIfError())) {
             stopDriver();
         }
