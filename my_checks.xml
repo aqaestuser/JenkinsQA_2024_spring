@@ -61,7 +61,7 @@
   <module name="JavadocPackage"/>
 
   <!-- Checks whether files end with a new line.                        -->
-  <!-- See https://checkstyle.org/checks/misc/newlineatendoffile.html -->
+  <!-- See https://checkstyle.org/checks/misc/newatendoffile.html -->
   <module name="NewlineAtEndOfFile"/>
 
   <!-- Checks that property files contain the same keys.         -->
