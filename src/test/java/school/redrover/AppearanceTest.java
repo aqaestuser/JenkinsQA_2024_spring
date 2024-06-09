@@ -27,7 +27,7 @@ public class AppearanceTest extends BaseTest {
                 .size();
 
         Allure.step("Expected results: 3 color themes available for selection");
-        Assert.assertEquals(quantityOfThemes, 4);
+        Assert.assertEquals(quantityOfThemes, 3);
     }
 
     @Test
