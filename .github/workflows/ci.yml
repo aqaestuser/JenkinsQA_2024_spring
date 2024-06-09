@@ -47,10 +47,10 @@ jobs:
       - name: Run check style
         uses: nikitasavinov/checkstyle-action@master
         with:
-          checkstyle_config: 'my_checks.xml'
+          checkstyle_config: 'src/test/java/resources/my_checks.xml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: 'github-pr-check'
-          tool_name: 'testtool'
+          tool_name: 'Checkstyle'
           workdir: 'src/test/java/school/redrover'
 
 
