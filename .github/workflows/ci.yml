@@ -52,7 +52,8 @@ jobs:
           reporter: 'github-pr-check'
           tool_name: 'testtool'
           workdir: 'src/test/java/school/redrover'
-          properties_file: 'checkstyle_prop.xml'
+#          properties_file: 'checkstyle_prop.xml'
+          config_loc: 'checkstyle_prop.xml'
 
       - name: Maven test
 #        run: mvn test
