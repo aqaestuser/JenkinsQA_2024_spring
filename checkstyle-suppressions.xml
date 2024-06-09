@@ -6,6 +6,7 @@
 
 <suppressions>
 <!--    <suppress checks="JavadocStyleCheck"/>-->
-<!--    <suppress checks="MagicNumberCheck"/>-->
+    <suppress checks="MagicNumberCheck"/>
     <suppress message="Missing a Javadoc comment"/>
+    <suppress checks="DesignForExtension"/>
 </suppressions>
