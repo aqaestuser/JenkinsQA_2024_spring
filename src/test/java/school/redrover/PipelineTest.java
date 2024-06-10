@@ -3,24 +3,24 @@ package school.redrover;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
-import static school.redrover.runner.TestUtils.goToMainPage;
-import org.testng.annotations.DataProvider;
 
 public class PipelineTest extends BaseTest {
 
@@ -32,9 +32,7 @@ public class PipelineTest extends BaseTest {
 
     private static final String SUCCEED_BUILD_EXPECTED = "Finished: SUCCESS";
 
-    private static final List<String> NAME_PROJECTS = List.of("PPProject", "PPProject2");
-
-    private static final String pipelineScript = "pipeline {\nagent any\n\nstages {\n";
+    private static final String PIPELINE_SCRIPT = "pipeline {\nagent any\n\nstages {\n";
 
     private static final By ADVANCED_PROJECT_OPTIONS_MENU = By.xpath("//button[@data-section-id='advanced-project-options']");
 
@@ -387,7 +385,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .sendScript(stagesQtt, pipelineScript)
+                .sendScript(stagesQtt, PIPELINE_SCRIPT)
                 .clickSaveButton()
                 .makeBuilds(buildsQtt)
                 .clickFullStageViewButton()
@@ -466,7 +464,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .sendScript(stagesQtt, pipelineScript)
+                .sendScript(stagesQtt, PIPELINE_SCRIPT)
                 .clickSaveButton()
                 .makeBuilds(buildsQtt)
                 .getSagesQtt();
@@ -657,8 +655,11 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testConsoleOutputValue() {
-        int number_of_stages = 8;
-        List<String> expectedConsoleOuputForAllStages = List.of("test 1", "test 2", "test 3", "test 4", "test 5", "test 6", "test 7", "test 8");
+        int numberOfStages = 8;
+        List<String> expectedConsoleOuputForAllStages = List.of(
+                "test 1", "test 2", "test 3",
+                "test 4", "test 5", "test 6",
+                "test 7", "test 8");
         String pipelineScript = """
                 pipeline {
                 agent any
@@ -671,10 +672,10 @@ public class PipelineTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .scrollToPipelineScript()
-                .sendScript(number_of_stages, pipelineScript)
+                .sendScript(numberOfStages, pipelineScript)
                 .clickSaveButton()
                 .clickBuild()
-                .getConsoleOuputForAllStages(number_of_stages);
+                .getConsoleOuputForAllStages(numberOfStages);
 
         Assert.assertEquals(actualConsoleOuputForAllStages, expectedConsoleOuputForAllStages);
     }
@@ -684,7 +685,7 @@ public class PipelineTest extends BaseTest {
     @Story("US_08.002 Take information about a project built")
     @Description("Check List of builds is displayed in descending'")
     public void testBuildAttributesDescending() {
-        final String PIPELINE_SCRIPT = """
+        final String pipelineScript = """
                 pipeline {
                 agent any
 
@@ -701,7 +702,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .sendScript(1,PIPELINE_SCRIPT)
+                .sendScript(1, pipelineScript)
                 .clickSaveButton()
                 .makeBuilds(5)
                 .waitBuildToFinish()
@@ -717,7 +718,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testBuildColorGreen() {
 
-        int number_of_stages = 1;
+        int numberOfStages = 1;
 
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/manage']"))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='computer']"))).click();
@@ -744,11 +745,11 @@ public class PipelineTest extends BaseTest {
 
         getDriver().findElement(By.className("ace_text-input")).sendKeys(pipelineScript);
 
-        for (int i = 1; i <= number_of_stages; i++) {
+        for (int i = 1; i <= numberOfStages; i++) {
 
-            String stage = "\nstage('stage " + i + "') {\n" +
-                    "steps {\n" +
-                    "echo 'test " + i + "'\n";
+            String stage = "\nstage('stage " + i + "') {\n"
+                    + "steps {\n"
+                    + "echo 'test " + i + "'\n";
             getDriver().findElement(By.className("ace_text-input")).sendKeys(stage);
             getDriver().findElement(By.className("ace_text-input")).sendKeys(Keys.ARROW_DOWN);
             getDriver().findElement(By.className("ace_text-input")).sendKeys(Keys.ARROW_DOWN);
@@ -770,9 +771,9 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testStageColumnHeader() {
 
-        int number_of_stages = 2;
+        int numberOfStages = 2;
         List<String> expectedHeaderNameList = new ArrayList<>();
-        for (int i = 0; i < number_of_stages; i++) {
+        for (int i = 0; i < numberOfStages; i++) {
             expectedHeaderNameList.add("stage " + (i + 1));
         }
 
@@ -784,7 +785,7 @@ public class PipelineTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .scrollToPipelineScript()
-                .sendScript(number_of_stages, pipelineScript)
+                .sendScript(numberOfStages, PIPELINE_SCRIPT)
                 .clickSaveButton().clickBuild()
                 .waitBuildToFinish()
                 .getStageHeaderNameList();
@@ -830,9 +831,11 @@ public class PipelineTest extends BaseTest {
     public void testFullStageViewDropDownMenu() {
         TestUtils.createPipelineProject(this, PIPELINE_NAME);
 
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']"))).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//li[@class='jenkins-breadcrumbs__list-item']"))).click();
 
-        WebElement chevron = getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button[@class='jenkins-menu-dropdown-chevron']"));
+        WebElement chevron = getDriver().findElement(
+                By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']//button[@class='jenkins-menu-dropdown-chevron']"));
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
 
         jsExecutor.executeScript("arguments[0].dispatchEvent(new Event('mouseenter'));", chevron);
@@ -886,8 +889,9 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipelineProject(this, PIPELINE_NAME);
         getDriver().findElement(By.cssSelector("#tasks > div:nth-child(4) > span > a")).click();
 
-        getWait60().until(ExpectedConditions.textToBePresentInElementLocated(By.id("pipeline-box"), "Stage View\n" +
-                "This Pipeline has run successfully, but does not define any stages. Please use the stage step to define some stages in this Pipeline."));
+        getWait60().until(ExpectedConditions.textToBePresentInElementLocated(By.id("pipeline-box"), "Stage View\n"
+                + "This Pipeline has run successfully, but does not define any stages. "
+                + "Please use the stage step to define some stages in this Pipeline."));
 
         getDriver().findElement(By.cssSelector("#disable-project > button")).click();
 
@@ -901,7 +905,8 @@ public class PipelineTest extends BaseTest {
             }
         }
 
-        goToMainPage(getDriver());
+        new HomePage(getDriver())
+                .clickLogo();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("(//*[name()='svg'][@tooltip='Disabled'])[1]")).isDisplayed());
 
@@ -936,7 +941,7 @@ public class PipelineTest extends BaseTest {
         PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
                 .clickCreateAJob()
                 .setItemName(PIPELINE_NAME)
-                .clickProjectType(TestUtils.ProjectType.PIPELINE)
+                .clickProjectType("Pipeline")
                 .clickOkAnyway(new PipelineConfigPage(getDriver()))
                 .clickDiscardOldBuilds()
                 .setNumberBuildsToKeep(1)
@@ -958,7 +963,7 @@ public class PipelineTest extends BaseTest {
     @Description("Verify the pipeline configuration has interactive sections: General, Advanced Project Options, Pipeline")
     public void testSectionsOfSidePanelAreVisible() {
 
-        List<String> expectedSectionsNameList = new ArrayList<>(Arrays.asList("General","Advanced Project Options","Pipeline"));
+        List<String> expectedSectionsNameList = List.of("General", "Advanced Project Options", "Pipeline");
 
         List<String> sectionsNameList = new HomePage(getDriver())
                 .clickCreateAJob()
@@ -969,12 +974,12 @@ public class PipelineTest extends BaseTest {
                 .clickSidebarConfigureButton()
                 .getSectionsNameList();
 
-        Assert.assertEquals(sectionsNameList,expectedSectionsNameList);
+        Assert.assertEquals(sectionsNameList, expectedSectionsNameList);
     }
 
     @Test
     public void testAddDisplayNameInAdvancedSection() {
-         String projectsDisplayNameInHeader = new HomePage(getDriver())
+        String projectsDisplayNameInHeader = new HomePage(getDriver())
                 .clickCreateAJob()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
@@ -1157,12 +1162,12 @@ public class PipelineTest extends BaseTest {
 
     @DataProvider(name = "tooltipTextProvider")
     public Object[][] tooltipTextProvider() {
-        return new Object[][] {
-                { "Discard old builds" },
-                { "Pipeline speed/durability override" },
-                { "Preserve stashes from completed builds" },
-                { "This project is parameterized" },
-                { "Throttle builds" },
+        return new Object[][]{
+                {"Discard old builds"},
+                {"Pipeline speed/durability override"},
+                {"Preserve stashes from completed builds"},
+                {"This project is parameterized"},
+                {"Throttle builds"},
                 {"Build after other projects are built"},
                 {"Build periodically"},
                 {"GitHub hook trigger for GITScm polling"},
@@ -1173,6 +1178,7 @@ public class PipelineTest extends BaseTest {
                 {"Script"}
         };
     }
+
     @Test(dataProvider = "tooltipTextProvider")
     void testVerifyConfigurationPageHaveTooltips(String tooltipText) {
         new HomePage(getDriver())
