@@ -721,7 +721,7 @@ public class PipelineTest extends BaseTest {
         final String PIPELINE_SCRIPT = """
                 pipeline {
                 agent any
-
+ 
                 stages {
                 """;
 
