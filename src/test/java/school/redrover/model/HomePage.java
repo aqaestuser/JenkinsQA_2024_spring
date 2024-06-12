@@ -116,6 +116,12 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']//span[@data-notification='Build scheduled']")
     private WebElement buildScheduledMessagePopUp;
 
+    @FindBy(css= "#notification-bar > span")
+    private WebElement buildDoneGreenMessage;
+
+    @FindBy(css = "button[href $= '/build?delay=0sec']")
+    private WebElement dropdownBuild;
+
     @FindBy(xpath = "//button[@data-id='ok']")
     private WebElement yesButton;
 
@@ -124,6 +130,9 @@ public class HomePage extends BasePage<HomePage> {
 
     @FindBy(css = "[href='/toggleCollapse?paneId=executors']")
     private WebElement toggleCollapse;
+
+    @FindBy(css = "tr > td > .jenkins-table__link > span:first-child")
+    private List<WebElement> itemList;
 
 
     public HomePage(WebDriver driver) {
@@ -144,8 +153,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public List<String> getItemList() {
-        return getDriver().findElements(By.cssSelector("tr > td > .jenkins-table__link > span:first-child"))
-                .stream()
+        return itemList.stream()
                 .map(WebElement::getText)
                 .toList();
     }
@@ -509,8 +517,18 @@ public class HomePage extends BasePage<HomePage> {
         return buildScheduledMessagePopUp.getAttribute("data-notification");
     }
 
-    public boolean isNodesDisplayedOnExecutorsPanel() {
+    public HomePage clickBuildNowFromDropdown() {
+        dropdownBuild.click();
 
+        return this;
+    }
+
+    public String catchBuildNowDoneMessage() {
+        return getWait2().until(ExpectedConditions.visibilityOf(buildDoneGreenMessage)).getText();
+
+    }
+
+    public boolean isNodesDisplayedOnExecutorsPanel() {
         return executors.getText().contains("built-in node");
     }
 
