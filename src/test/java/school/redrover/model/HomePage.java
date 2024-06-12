@@ -17,6 +17,9 @@ import java.util.List;
 
 public class HomePage extends BasePage<HomePage> {
 
+    @FindBy(xpath = "//a[.='New Item']")
+    private WebElement newItem;
+
     @FindBy(linkText = "Create a job")
     private WebElement createAJobLink;
 
@@ -55,12 +58,6 @@ public class HomePage extends BasePage<HomePage> {
 
     @FindBy(css = "[class='tippy-box'] [href='/manage']")
     private WebElement manageFromDashboardBreadcrumbsMenu;
-
-    @FindBy(id = "executors")
-    private WebElement buildExecutorStatus;
-
-    @FindBy(xpath = "//td[text()='Idle']")
-    private List<WebElement> buildExecutorStatusList;
 
     @FindBy(css = "[aria-describedby*='tippy']")
     private WebElement builSchedulePopUp;
@@ -125,13 +122,22 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(css = "button[href $= '/build?delay=0sec']")
     private WebElement dropdownBuild;
 
+    @FindBy(css = "#executors")
+    private WebElement executors;
+
+    @FindBy(css = "[href='/toggleCollapse?paneId=executors']")
+    private WebElement toggleCollapse;
+
+    @FindBy(css = "tr > td > .jenkins-table__link > span:first-child")
+    private List<WebElement> itemList;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
     }
 
     public CreateNewItemPage clickNewItem() {
-        getDriver().findElement(By.xpath("//a[.='New Item']")).click();
+        newItem.click();
 
         return new CreateNewItemPage(getDriver());
     }
@@ -143,8 +149,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public List<String> getItemList() {
-        return getDriver().findElements(By.cssSelector("tr > td > .jenkins-table__link > span:first-child"))
-                .stream()
+        return itemList.stream()
                 .map(WebElement::getText)
                 .toList();
     }
@@ -191,6 +196,7 @@ public class HomePage extends BasePage<HomePage> {
         return getDriver().findElement(By.cssSelector("[href='/computer/" + name + "/']")).isDisplayed();
     }
 
+    @Step("Click on the specific Multi-configuration project name")
     public MultiConfigurationProjectPage clickSpecificMultiConfigurationProjectName(String itemName) {
         getDriver().findElement(
                 By.cssSelector("td>[href^='job/" + itemName.replace(" ", "%20") + "']")).click();
@@ -242,6 +248,7 @@ public class HomePage extends BasePage<HomePage> {
         return new MultiConfigurationMovePage(getDriver());
     }
 
+    @Step("Click on the specific Pipeline name")
     public PipelineProjectPage clickSpecificPipelineName(String itemName) {
         getDriver().findElement(
                 By.cssSelector("td>[href^='job/" + itemName.replace(" ", "%20") + "']")).click();
@@ -257,6 +264,7 @@ public class HomePage extends BasePage<HomePage> {
         return getItemList().contains(name);
     }
 
+    @Step("Click on the specific Multibranch Pipeline name")
     public MultibranchPipelineProjectPage clickSpecificMultibranchPipelineName(String itemName) {
         getDriver().findElement(
                 By.cssSelector("td>[href^='job/" + itemName.replace(" ", "%20") + "']")).click();
@@ -288,6 +296,7 @@ public class HomePage extends BasePage<HomePage> {
         return projectIcon.getSize().height;
     }
 
+    @Step("Click on the specific Organization Folder name")
     public OrganizationFolderProjectPage clickSpecificOrganizationFolderName(String itemName) {
         getDriver().findElement(
                 By.cssSelector("td>[href^='job/" + itemName.replace(" ", "%20") + "']")).click();
@@ -384,6 +393,7 @@ public class HomePage extends BasePage<HomePage> {
         return new PeoplePage(getDriver());
     }
 
+    @Step("Click on the specific Folder name")
     public FolderProjectPage clickSpecificFolderName(String itemName) {
         getDriver().findElement(
                 By.cssSelector("td>[href^='job/" + itemName.replace(" ", "%20") + "']")).click();
@@ -391,6 +401,7 @@ public class HomePage extends BasePage<HomePage> {
         return new FolderProjectPage(getDriver());
     }
 
+    @Step("Click on the specific Freestyle project name")
     public FreestyleProjectPage clickSpecificFreestyleProjectName(String itemName) {
         getDriver().findElement(
                 By.cssSelector("td>[href^='job/" + itemName.replace(" ", "%20") + "']")).click();
@@ -411,7 +422,6 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public int getSizeViewNameList() {
-
         return viewNameList.size();
     }
 
@@ -423,12 +433,10 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String getBuildStatus() {
-
         return greenBuildArrow.getAttribute("tooltip");
     }
 
     public List<String> getDisabledProjectListText() {
-
         return disabledProjectList.stream().map(WebElement::getText).toList();
     }
 
@@ -496,7 +504,6 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String getBuildScheduledMessage() {
-
         return buildScheduledMessagePopUp.getAttribute("data-notification");
     }
 
@@ -507,11 +514,14 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String catchBuildNowDoneMessage() {
-
         return buildDoneGreenMessage.getText();
-
-
     }
 
+    public boolean isNodesDisplayedOnExecutorsPanel() {
+        return executors.getText().contains("built-in node");
+    }
 
+    public void clickOnExecutorPanelToggle() {
+        toggleCollapse.click();
+    }
 }
