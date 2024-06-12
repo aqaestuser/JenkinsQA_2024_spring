@@ -514,7 +514,8 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String catchBuildNowDoneMessage() {
-        return buildDoneGreenMessage.getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(buildDoneGreenMessage)).getText();
+
     }
 
     public boolean isNodesDisplayedOnExecutorsPanel() {
