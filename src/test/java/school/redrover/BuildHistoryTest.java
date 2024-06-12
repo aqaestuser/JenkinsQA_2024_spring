@@ -81,7 +81,7 @@ public class BuildHistoryTest extends BaseTest {
                 .clickBuildNowFromDropdown()
                 .catchBuildNowDoneMessage();
 
-        Allure.step("Expected result:'Build Now: Done.' green message should appear after clicking 'Build Now' from dropdown menu");
+        Allure.step("Expected result: message should appear after clicking 'Build Now' from dropdown menu");
         Assert.assertEquals(buildDoneGreenMessageActual, buildDoneGreenMessageExpected);
     }
 
