@@ -44,7 +44,7 @@ import java.util.List;
 
         TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
 
-        boolean projectNameOnTimeline = new HomePage(getDriver())
+        boolean isProjectNameOnTimeline = new HomePage(getDriver())
                 .clickJobByName("FREESTYLE", new FreestyleProjectPage(getDriver()))
                 .clickBuildNowOnSideBar()
                 .waitForGreenMarkBuildSuccessAppearience()
@@ -52,7 +52,7 @@ import java.util.List;
                 .clickBuildHistory()
                 .isDisplayedBuildOnTimeline();
         Allure.step("Expected result:project name appears in the table on the BuildHistory Page");
-        Assert.assertTrue(projectNameOnTimeline);
+        Assert.assertTrue(isProjectNameOnTimeline);
     }
 
     @Test
@@ -90,7 +90,7 @@ import java.util.List;
     }
 
     @Test
-    @Story("US_08.002 Start to build a project")
+    @Story("US_08.002 Get the information about a project build")
     @Description("Check 'Build now: Done.' notification is displayed")
      public void testPermalinksDisplayed() {
 
