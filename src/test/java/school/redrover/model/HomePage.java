@@ -119,6 +119,12 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']//span[@data-notification='Build scheduled']")
     private WebElement buildScheduledMessagePopUp;
 
+    @FindBy(xpath = "//div[@id='notification-bar']/span")
+    private WebElement buildDoneGreenMessage;
+
+    @FindBy(css = "button[href $= '/build?delay=0sec']")
+    private WebElement dropdownBuild;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -493,5 +499,19 @@ public class HomePage extends BasePage<HomePage> {
 
         return buildScheduledMessagePopUp.getAttribute("data-notification");
     }
+
+    public HomePage clickBuildNowFromDropdown() {
+        dropdownBuild.click();
+
+        return this;
+    }
+
+    public String catchBuildNowDoneMessage() {
+
+        return buildDoneGreenMessage.getText();
+
+
+    }
+
 
 }
