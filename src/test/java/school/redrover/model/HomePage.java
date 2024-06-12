@@ -116,7 +116,7 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']//span[@data-notification='Build scheduled']")
     private WebElement buildScheduledMessagePopUp;
 
-    @FindBy(xpath = "//div[@id='notification-bar']/span")
+    @FindBy(css= "#notification-bar > span")
     private WebElement buildDoneGreenMessage;
 
     @FindBy(css = "button[href $= '/build?delay=0sec']")
