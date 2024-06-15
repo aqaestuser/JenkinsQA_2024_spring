@@ -60,7 +60,7 @@ public class HomePage extends BasePage<HomePage> {
     private WebElement manageFromDashboardBreadcrumbsMenu;
 
     @FindBy(css = "[aria-describedby*='tippy']")
-    private WebElement builSchedulePopUp;
+    private WebElement buildSchedulePopUp;
 
     @FindBy(xpath = "//a[contains(@href, 'workflow-stage')]")
     private WebElement fullStageViewOnDropdown;
@@ -343,6 +343,7 @@ public class HomePage extends BasePage<HomePage> {
         return new FullStageViewPage(getDriver());
     }
 
+    @Step("Click 'Rename' on dropdown menu")
     public MultibranchPipelineRenamePage clickRenameOnDropdownForMultibranchPipeline() {
         renameFromDropdown.click();
 
@@ -392,7 +393,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public HomePage waitForBuildSchedulePopUp() {
-        getWait2().until(ExpectedConditions.visibilityOf(builSchedulePopUp));
+        getWait2().until(ExpectedConditions.visibilityOf(buildSchedulePopUp));
 
         return this;
     }

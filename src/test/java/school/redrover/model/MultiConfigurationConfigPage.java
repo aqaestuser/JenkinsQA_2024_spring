@@ -20,9 +20,6 @@ public class MultiConfigurationConfigPage extends
     @FindBy(name = "Apply")
     private WebElement applyButton;
 
-    @FindBy(id = "itemname-required")
-    private WebElement errorRequiresName;
-
     @FindBy(xpath = "//label[text()='Discard old builds']")
     private WebElement discardOldBuildsCheckbox;
 
@@ -69,10 +66,6 @@ public class MultiConfigurationConfigPage extends
 
     public String getToggleStatusMessage() {
         return toggleSwitch.getText();
-    }
-
-    public String getErrorRequiresName() {
-        return errorRequiresName.getText();
     }
 
     @Step("Click on the checkbox 'Discard old builds'")
