@@ -725,6 +725,23 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
+    @Story("US_02.005 Edit description")
+    @Description("Verify button Add Description background color on mouse hover")
+    public void testVerifyColorOfAddDescriptionButtonBackground() {
+        String expectedColor = "rgba(175,175,207,.175)";
+
+        String actualColor = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .clickSaveButton()
+                .hoverOnAddDescriptionButton()
+                .getColorOfAddDescriptionButtonBackground();
+
+        Assert.assertEquals(actualColor, expectedColor);
+    }
+
+    @Test
     @Story("US_02.004 Verify the Pipeline configuration")
     @Description("02.004.12 Verify that description preview can be hidden")
     public void testHideDescriptionPreview() {
