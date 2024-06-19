@@ -224,12 +224,14 @@ public class HomePage extends BasePage<HomePage> {
         return new ManageJenkinsPage(getDriver());
     }
 
+    @Step("Click '+' button to create a new View")
     public CreateNewViewPage clickPlusToCreateView() {
         newView.click();
 
         return new CreateNewViewPage(getDriver());
     }
 
+    @Step("Click View Name on the 'Homepage'")
     public ViewPage clickViewName(String viewName) {
         getDriver().findElement(By.linkText(viewName)).click();
 
@@ -442,6 +444,7 @@ public class HomePage extends BasePage<HomePage> {
         return new PipelineSyntaxPage(getDriver());
     }
 
+    @Step("Get list of View names")
     public int getSizeViewNameList() {
         return viewNameList.size();
     }
