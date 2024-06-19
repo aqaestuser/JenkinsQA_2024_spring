@@ -6,7 +6,6 @@ import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.HomePage;
-import school.redrover.model.ViewMyListConfigPage;
 import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
 
@@ -24,17 +23,17 @@ public class ViewsTest extends BaseTest {
 
         ViewPage viewPage = new HomePage(getDriver())
                 .clickCreateAJob()
-                .setItemName("Freestyle")
+                .typeItemName("Freestyle")
                 .selectFreestyleAndClickOk()
                 .clickSaveButton()
                 .clickLogo()
                 .clickNewItem()
-                .setItemName("Pipeline")
+                .typeItemName("Pipeline")
                 .selectPipelineAndClickOk()
                 .clickSaveButton()
                 .clickLogo()
                 .clickNewItem()
-                .setItemName("OrganizationFolder")
+                .typeItemName("OrganizationFolder")
                 .selectOrganizationFolderAndClickOk()
                 .clickSaveButton()
                 .clickLogo()
@@ -59,7 +58,7 @@ public class ViewsTest extends BaseTest {
 
         List<String> actualPipelineViewList = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(pipelineName)
+                .typeItemName(pipelineName)
                 .selectPipelineAndClickOk()
                 .clickSaveButton()
                 .clickLogo()

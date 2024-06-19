@@ -1,7 +1,11 @@
 package school.redrover.model;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.WheelInput;
 import org.openqa.selenium.support.FindBy;
@@ -91,6 +95,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage, Pipe
         super(driver, new PipelineProjectPage(driver));
     }
 
+    @Step("Type {description} to Description input field")
     public PipelineConfigPage addDescription(String descriptionText) {
         getWait2().until(ExpectedConditions.visibilityOf(descriptionTextArea)).sendKeys(descriptionText);
 
@@ -193,12 +198,14 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage, Pipe
         return this;
     }
 
+    @Step("Click 'Discard old builds' check box")
     public PipelineConfigPage clickDiscardOldBuilds() {
         getWait5().until(ExpectedConditions.elementToBeClickable(discardOldBuildsCheckbox)).click();
 
         return this;
     }
 
+    @Step("Type {number} of builds to keep")
     public PipelineConfigPage setNumberBuildsToKeep(int numberOfBuilds) {
         WheelInput.ScrollOrigin scrollFromDuildField = WheelInput.ScrollOrigin.fromElement(numberBuildsToKeep);
         new Actions(getDriver())
@@ -224,6 +231,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage, Pipe
         return this;
     }
 
+    @Step("Type {script} to 'Script' input field")
     public PipelineConfigPage sendScript(int stagesQtt, String pipelineScript) {
         getDriver().findElement(By.className("ace_text-input")).sendKeys(pipelineScript);
 
@@ -238,16 +246,19 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage, Pipe
 
     public PipelineConfigPage selectDropdownDefinition(Integer index) {
         WebElement dropDownDefinition = getDriver().findElement(By.xpath(
-                "//section[@class = 'jenkins-section']//select[@class = 'jenkins-select__input dropdownList']/option[" + index + "]"));
+                "//section[@class = 'jenkins-section']"
+                        + "//select[@class = 'jenkins-select__input dropdownList']/option[" + index + "]"));
 
         getWait5().until(ExpectedConditions.visibilityOf(dropDownDefinition)).click();
         return this;
     }
 
     public boolean isPipelineDisplayed() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='pipeline']"))).isDisplayed();
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[@id='pipeline']"))).isDisplayed();
     }
 
+    @Step("Click 'Preview'")
     public PipelineConfigPage clickPreview() {
         preview.click();
 

@@ -35,11 +35,8 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(css = "[href='/newView']")
     private WebElement newView;
 
-    @FindBy(css = "[href*='rename']")
-    private WebElement renameFromDropdown;
-
-    @FindBy(css = "[href*='move']")
-    private WebElement moveFromDropdown;
+    @FindBy(css = "[class*='dropdown'] [href$='rename']")
+    private WebElement dropdownRename;
 
     @FindBy(xpath = "//a[@class='sortheader' and text()='Name']")
     private WebElement columnNameTitle;
@@ -72,10 +69,7 @@ public class HomePage extends BasePage<HomePage> {
     private WebElement passiveViewName;
 
     @FindBy(css = "[href$='builds']")
-    private WebElement buildHistoryButton;
-
-    @FindBy(xpath = "//a[contains(@href, '/move')]")
-    private WebElement moveOption;
+    private WebElement buildHistoryOnSidebar;
 
     @FindBy(xpath = "//a[@href='/asynchPeople/']")
     private WebElement peopleButton;
@@ -149,13 +143,14 @@ public class HomePage extends BasePage<HomePage> {
         return new CreateNewItemPage(getDriver());
     }
 
-    @Step("Click 'Create a Job'")
+    @Step("Click on the 'Create a job' at start page")
     public CreateNewItemPage clickCreateAJob() {
         createAJobLink.click();
 
         return new CreateNewItemPage(getDriver());
     }
 
+    @Step("Get Item list from Dashboard")
     public List<String> getItemList() {
         return itemList.stream()
                 .map(WebElement::getText)
@@ -172,23 +167,18 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Click 'Delete' in dropdown menu")
-    public DeleteDialog clickDeleteInDropdown(DeleteDialog dialog) {
-        dropdownDelete.click();
-        return dialog;
+    @Step("Click 'Rename' on the project dropdown menu")
+    public ProjectRenamePage<?> clickRenameOnDropdown() {
+        dropdownRename.click();
+
+        return new ProjectRenamePage<>(getDriver());
     }
 
-    @Step("Click 'Rename' on dropdown menu")
-    public FreestyleRenamePage clickRenameOnDropdownForFreestyleProject() {
-        renameFromDropdown.click();
-
-        return new FreestyleRenamePage(getDriver());
-    }
-
-    @Step("Click 'Move' in project dropdown menu")
-    public MovePage clickMoveInDropdown() {
+    @Step("Click 'Move' on the project dropdown menu")
+    public ProjectMovePage<?> clickMoveOnDropdown() {
         dropdownMove.click();
-        return new MovePage(getDriver());
+
+        return new ProjectMovePage<>(getDriver());
     }
 
     @Step("Click on the link 'Build Executor Status'")
@@ -250,18 +240,6 @@ public class HomePage extends BasePage<HomePage> {
                 .perform();
 
         return this;
-    }
-
-    public MultiConfigurationRenamePage clickRenameOnDropdownForMultiConfigurationProject() {
-        renameFromDropdown.click();
-
-        return new MultiConfigurationRenamePage(getDriver());
-    }
-
-    public MultiConfigurationMovePage selectMoveFromDropdown() {
-        moveFromDropdown.click();
-
-        return new MultiConfigurationMovePage(getDriver());
     }
 
     @Step("Click on the specific Pipeline name")
@@ -345,13 +323,6 @@ public class HomePage extends BasePage<HomePage> {
         return new FullStageViewPage(getDriver());
     }
 
-    @Step("Click 'Rename' on dropdown menu")
-    public MultibranchPipelineRenamePage clickRenameOnDropdownForMultibranchPipeline() {
-        renameFromDropdown.click();
-
-        return new MultibranchPipelineRenamePage(getDriver());
-    }
-
     @Step("Click the '{name}' project name")
     public <T> T clickJobByName(String name, T page) {
         getDriver().findElement(By.xpath(
@@ -382,29 +353,20 @@ public class HomePage extends BasePage<HomePage> {
         return activeViewName.getCssValue("background-color");
     }
 
-    public HomePage scheduleBuildForItem(String itemName) {
-        getDriver().findElement(By.xpath("//a[contains(@tooltip,'Schedule a Build for " + itemName + "')]")).click();
-
-        return this;
-    }
-
-    public BuildHistoryPage clickBuildHistory() {
-        buildHistoryButton.click();
-
-        return new BuildHistoryPage(getDriver());
-    }
-
-    public HomePage waitForBuildSchedulePopUp() {
+    @Step("Click green triangle to schedule build for project")
+    public HomePage clickScheduleBuildForItemAndWaitForBuildSchedulePopUp(String itemName) {
+        getDriver().findElement(
+                By.xpath("//a[contains(@tooltip,'Schedule a Build for " + itemName + "')]")).click();
         getWait2().until(ExpectedConditions.visibilityOf(buildSchedulePopUp));
 
         return this;
     }
 
-    @Step("Select folder to move")
-    public MovePage chooseFolderToMove() {
-        getWait5().until(ExpectedConditions.visibilityOf(moveOption)).click();
+    @Step("Click 'Build History' on sidebar menu")
+    public BuildHistoryPage clickBuildHistory() {
+        buildHistoryOnSidebar.click();
 
-        return new MovePage(getDriver());
+        return new BuildHistoryPage(getDriver());
     }
 
     @Step("Click 'People' on sidebar")
@@ -430,13 +392,6 @@ public class HomePage extends BasePage<HomePage> {
         return new FreestyleProjectPage(getDriver());
     }
 
-    @Step("Click 'Rename' on dropdown menu for the folder")
-    public FolderRenamePage clickRenameOnDropdownForFolder() {
-        renameFromDropdown.click();
-
-        return new FolderRenamePage(getDriver());
-    }
-
     @Step("Click 'Pipeline Syntax' from dropdown menu")
     public PipelineSyntaxPage openItemPipelineSyntaxFromDropdown() {
         dropdownPipelineSyntax.click();
@@ -449,11 +404,16 @@ public class HomePage extends BasePage<HomePage> {
         return viewNameList.size();
     }
 
-    @Step("Click 'Delete' in dropdown menu and confirm it by click 'Yes' in confirming dialog ")
-    public HomePage clickDeleteOnDropdownAndConfirm() {
+    @Step("Click 'Delete' in dropdown menu")
+    public HomePage clickDeleteOnDropdown() {
         dropdownDelete.click();
 
-        getWait5().until(ExpectedConditions.visibilityOf(yesButton)).click();
+        return this;
+    }
+
+    @Step("Click 'Yes' in confirming dialog")
+    public HomePage clickYesForConfirmDelete() {
+        getWait2().until(ExpectedConditions.visibilityOf(yesButton)).click();
 
         return this;
     }

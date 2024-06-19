@@ -1,13 +1,14 @@
 package school.redrover.model;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BuildHistoryPage extends BasePage<BuildHistoryPage> {
 
@@ -15,7 +16,7 @@ public class BuildHistoryPage extends BasePage<BuildHistoryPage> {
     private WebElement buildHistoryItemDropdownArrow;
 
     @FindBy(css = "[href$='Delete']")
-    private WebElement dropdownDeleteButton;
+    private WebElement dropdownDelete;
 
     @FindBy(css = "td [class$='link'][href*='job']")
     private List<WebElement> buildsList;
@@ -32,26 +33,37 @@ public class BuildHistoryPage extends BasePage<BuildHistoryPage> {
     @FindBy(xpath = "//li[@class='permalink-item']")
     private List<WebElement> permalinkList;
 
+    @FindBy(css = "dialog .jenkins-button--primary")
+    private WebElement yesButton;
+
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
     }
 
-    public BuildHistoryPage hoverOverItemName(String name) {
+    @Step("Click Project arrow to open dropdown menu")
+    public BuildHistoryPage clickItemDropdownArrow(String name) {
         hoverOverElement(getDriver().findElement(By.cssSelector("td [href='/job/" + name + "/']")));
+        clickBreadcrumbsDropdownArrow(buildHistoryItemDropdownArrow);
 
         return this;
     }
 
     public BuildHistoryPage clickItemDropdownArrow() {
-        clickSpecificDropdownArrow(buildHistoryItemDropdownArrow);
+        clickBreadcrumbsDropdownArrow(buildHistoryItemDropdownArrow);
 
         return this;
     }
 
-    public DeleteDialog clickItemDeleteButton() {
-        dropdownDeleteButton.click();
+    public BuildHistoryPage clickDeleteOnDropdown() {
+        dropdownDelete.click();
 
-        return new DeleteDialog(getDriver());
+        return this;
+    }
+
+    public BuildHistoryPage clickYesToConfirmDelete() {
+        yesButton.click();
+
+        return this;
     }
 
     public List<String> getBuildsList() {
@@ -81,7 +93,7 @@ public class BuildHistoryPage extends BasePage<BuildHistoryPage> {
                 .stream()
                 .map(WebElement::getText)
                 .map(permalink -> permalink.split(",")[0].trim())
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }
