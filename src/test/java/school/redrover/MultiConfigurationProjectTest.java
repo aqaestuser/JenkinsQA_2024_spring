@@ -41,9 +41,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         String newProjectName = new HomePage(getDriver())
                 .openItemDropdown(PROJECT_NAME)
-                .clickRenameOnDropdownForMultiConfigurationProject()
-                .changeProjectNameWithoutClear(addToProjectName)
-                .clickRenameButton()
+                .clickRenameOnDropdown()
+                .typeNewName(addToProjectName)
+                .clickRenameButtonWhenRenamedViaDropdown(new MultiConfigurationProjectPage(getDriver()))
                 .getProjectName();
 
         Assert.assertEquals(newProjectName,
@@ -118,7 +118,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                         PROJECT_NAME,
                         TestUtils.Item.MULTI_CONFIGURATION_PROJECT)
                 .clickNewItem()
-                .setItemName(newProjectName)
+                .typeItemName(newProjectName)
                 .typeItemNameInCopyFrom(PROJECT_NAME)
                 .clickOkAnyway(new MultibranchPipelineConfigPage(getDriver()))
                 .clickSaveButton()
@@ -193,7 +193,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         String actualYesButtonColor = new HomePage(getDriver())
                 .clickSpecificMultiConfigurationProjectName(PROJECT_NAME)
-                .clickSidebarDelete()
+                .clickDeleteOnSidebar()
                 .getYesButtonColorDeletingViaSidebar();
 
         Assert.assertEquals(actualYesButtonColor, expectedColorNone);
@@ -209,7 +209,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         CreateNewItemPage createNewItemPage =
                 new HomePage(getDriver())
                         .clickNewItem()
-                        .setItemName(emptyName)
+                        .typeItemName(emptyName)
                         .selectMultiConfiguration();
 
         boolean isErrorMessageCorrect = createNewItemPage.getErrorMessageEmptyName().contains(errorMessage);
@@ -224,7 +224,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testCreateMultiConfigurationProject() {
         List<String> projectNameList = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(PROJECT_NAME)
+                .typeItemName(PROJECT_NAME)
                 .selectMultiConfigurationAndClickOk()
                 .clickSaveButton()
                 .clickLogo()
@@ -237,15 +237,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     @Story("US_03.004  Rename project")
     @Description("Check,an existing project can be renamed")
-    public void testRenameMCProject() {
+    public void testRenameProject() {
 
         HomePage homePage = new HomePage(getDriver());
 
         homePage
-                .clickJobByName(PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
-                .clickRenameInMenu()
-                .changeProjectNameWithClear(RANDOM_PROJECT_NAME)
-                .clickRenameButton()
+                .clickSpecificMultiConfigurationProjectName(PROJECT_NAME)
+                .clickRenameOnSidebar()
+                .clearNameInputField()
+                .typeNewName(RANDOM_PROJECT_NAME)
+                .clickRenameButtonWhenRenamedViaSidebar()
                 .clickLogo();
 
         Assert.assertTrue(homePage.isItemExists(RANDOM_PROJECT_NAME) && !homePage.isItemExists(PROJECT_NAME));
@@ -261,8 +262,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
         List<String> itemsList = new HomePage(getDriver())
                 .clickSpecificMultiConfigurationProjectName(PROJECT_NAME)
                 .clickBreadcrumbsProjectDropdownArrow()
-                .clickDropdownDelete()
-                .clickYes(new HomePage(getDriver()))
+                .clickDeleteOnBreadcrumbsMenu()
+                .clickYesWhenDeletedItemOnHomePage()
                 .getItemList();
 
         Assert.assertListNotContainsObject(itemsList, PROJECT_NAME,
@@ -280,9 +281,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(new HomePage(getDriver())
                 .openItemDropdownWithSelenium(PROJECT_NAME)
-                .selectMoveFromDropdown()
-                .selectFolder(folderName)
-                .clickMove()
+                .clickMoveOnDropdown()
+                .selectDestinationFolderFromList(folderName)
+                .clickMoveButtonWhenMovedViaDropdown(new MultiConfigurationProjectPage(getDriver()))
                 .isProjectInsideFolder(PROJECT_NAME, folderName));
     }
 
@@ -294,9 +295,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
         HomePage homePage = TestUtils.createMultiConfigurationProject(this, RANDOM_PROJECT_NAME);
 
         boolean isProjectDeleted = homePage
-                .clickJobByName(RANDOM_PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
-                .clickSidebarDelete()
-                .clickYes(homePage)
+                .clickSpecificMultiConfigurationProjectName(RANDOM_PROJECT_NAME)
+                .clickDeleteOnSidebar()
+                .clickYesWhenDeletedItemOnHomePage()
                 .isItemDeleted(RANDOM_PROJECT_NAME);
 
         Assert.assertTrue(isProjectDeleted);
@@ -358,7 +359,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         List<String> disabledProjectList = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(PROJECT_NAME)
+                .typeItemName(PROJECT_NAME)
                 .selectMultiConfigurationAndClickOk()
                 .clickBreadcrumbsProjectName()
                 .clickDisableProject()
@@ -376,16 +377,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
         TestUtils.createFolderProject(this, FOLDER_NAME);
         TestUtils.createMultiConfigurationProject(this, PROJECT_NAME);
 
-        new HomePage(getDriver())
-                .clickJobByName(PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
-                .clickMoveOptionInMenu()
-                .selectFolder(FOLDER_NAME)
-                .clickMove()
-                .clickLogo()
-                .clickSpecificFolderName(FOLDER_NAME);
+        boolean isProjectMoved = new HomePage(getDriver())
+                .clickSpecificMultiConfigurationProjectName(PROJECT_NAME)
+                .clickMoveOnSidebar()
+                .selectDestinationFolderFromList(FOLDER_NAME)
+                .clickMoveButtonWhenMovedViaSidebar()
+                .clickFolderNameOnBreadcrumbs(FOLDER_NAME)
+                .getItemListInsideFolder()
+                .contains(PROJECT_NAME);
 
-        boolean isProjectMoved = new FolderProjectPage(getDriver()).getItemListInsideFolder().contains(PROJECT_NAME);
-        boolean isProjectDeleted = new HomePage(getDriver()).isItemDeleted(FOLDER_NAME);
+        boolean isProjectDeleted = new FolderProjectPage(getDriver())
+                .clickLogo()
+                .isItemDeleted(PROJECT_NAME);
 
         Assert.assertTrue(isProjectMoved && isProjectDeleted);
     }

@@ -60,7 +60,7 @@ public class CreateNewItemPage extends BasePage<CreateNewItemPage> {
     }
 
     @Step("Type {name} to name input field")
-    public CreateNewItemPage setItemName(String name) {
+    public CreateNewItemPage typeItemName(String name) {
         getWait5().until(ExpectedConditions.visibilityOf(nameText));
         nameText.sendKeys(name);
 
@@ -140,6 +140,7 @@ public class CreateNewItemPage extends BasePage<CreateNewItemPage> {
         return this;
     }
 
+    @Step("Get error message about invalid character or duplicate name")
     public String getErrorMessageInvalidCharacterOrDuplicateName() {
         return errorItemNameInvalid.getText();
     }
@@ -183,6 +184,7 @@ public class CreateNewItemPage extends BasePage<CreateNewItemPage> {
         return this;
     }
 
+    @Step("Get hint on creating an item name")
     public String getItemNameHintText() {
         return errorMessageEmptyName.getText();
     }
