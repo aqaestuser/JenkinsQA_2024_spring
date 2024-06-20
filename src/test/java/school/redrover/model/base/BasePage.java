@@ -87,10 +87,6 @@ public abstract class BasePage<T extends BasePage<T>> extends BaseModel {
                 .click().perform();
     }
 
-    public String getText(WebElement webElement) {
-        return webElement.getText();
-    }
-
     public String getHeadingText() {
         return heading.getText();
     }
@@ -141,6 +137,7 @@ public abstract class BasePage<T extends BasePage<T>> extends BaseModel {
         js.executeScript("window.scrollTo(0, 0);");
     }
 
+//    TODO refactor this one -
     public static ExpectedCondition<Boolean> isElementInViewPort(WebElement element) {
         return new ExpectedCondition<>() {
             @Override
