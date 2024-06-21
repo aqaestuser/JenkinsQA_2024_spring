@@ -57,9 +57,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineProjectPage, Pipe
     @FindBy(name = "quiet_period")
     private WebElement quietPeriodInputField;
 
-    @FindBy(xpath = "//input[@name='quiet_period']")
-    private WebElement numberOfSecondsHint;
-
     @FindBy(xpath = "//div[@class='form-container tr']//div[@class='error']")
     private WebElement errorMessageForQuietPeriodInputField;
 

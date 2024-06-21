@@ -27,9 +27,6 @@ public class BuildHistoryPage extends BasePage<BuildHistoryPage> {
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link']")
     private WebElement buildNameOnTimeline;
 
-    @FindBy(className = "console-output")
-    private WebElement textConsoleOutput;
-
     @FindBy(xpath = "//li[@class='permalink-item']")
     private List<WebElement> permalinkList;
 
@@ -43,12 +40,6 @@ public class BuildHistoryPage extends BasePage<BuildHistoryPage> {
     @Step("Click Project arrow to open dropdown menu")
     public BuildHistoryPage clickItemDropdownArrow(String name) {
         hoverOverElement(getDriver().findElement(By.cssSelector("td [href='/job/" + name + "/']")));
-        clickBreadcrumbsDropdownArrow(buildHistoryItemDropdownArrow);
-
-        return this;
-    }
-
-    public BuildHistoryPage clickItemDropdownArrow() {
         clickBreadcrumbsDropdownArrow(buildHistoryItemDropdownArrow);
 
         return this;

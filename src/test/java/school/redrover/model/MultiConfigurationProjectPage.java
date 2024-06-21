@@ -41,9 +41,6 @@ public class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigur
     @FindBy(css = "[href^='/job'] [class$='dropdown-chevron']")
     private WebElement breadcrumbsProjectDropdownArrow;
 
-    @FindBy(xpath = "//*[contains(@href, 'move')]")
-    private WebElement moveOptionInMenu;
-
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
     }

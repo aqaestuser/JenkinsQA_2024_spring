@@ -37,6 +37,7 @@ public class ViewPage extends BasePage<ViewPage> {
         super(driver);
     }
 
+    @Step("Click 'Edit View' link on the side bar menu")
     public ViewMyListConfigPage clickEditViewOnSidebar() {
         editViewButton.click();
 

@@ -108,8 +108,6 @@ public class ViewsTest extends BaseTest {
         Assert.assertEquals(columnNameText.get(0), "Description");
     }
 
-
-
     @Test
     @Story("US_10.001 Create View")
     @Description("Verify Items in Views are sorted alphabetically")
