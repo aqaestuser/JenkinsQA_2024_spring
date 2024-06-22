@@ -77,7 +77,7 @@ public class PipelineTest extends BaseTest {
     @Description("Find created project by partial name, using 'Search' input field")
     public void testFindProjectByPartialNameMatch() {
         List<String> searchResult = new HomePage(getDriver())
-                .getHeader().typeSearchQueryPressEnter("First")
+                .getHeader().typeSearchQueryAndPressEnter("First")
                 .getSearchResult();
 
         Allure.step("Expected result: Searched Project is displayed");
@@ -875,6 +875,8 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
+    @Story("US_02.004 Verify the Pipeline configuration")
+    @Description("Verify add display name in advanced section")
     public void testAddDisplayNameInAdvancedSection() {
         final String expectedDisplayName = "Display_name";
 
@@ -893,6 +895,8 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDisplayNameInAdvancedSection")
+    @Story("US_02.004 Verify the Pipeline configuration")
+    @Description("Verify edit display name in advanced section")
     public void testEditDisplayNameInAdvancedSection() {
         final String editedDisplayNameText = " - EDITED";
 
@@ -911,6 +915,8 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testAddDisplayNameInAdvancedSection", "testEditDisplayNameInAdvancedSection"})
+    @Story("US_02.004 Verify the Pipeline configuration")
+    @Description("Verify delete display name in advanced section")
     public void testDeleteDisplayNameInAdvancedSection() {
         String projectsDisplayNameInHeader = new HomePage(getDriver())
                 .clickSpecificPipelineName(PIPELINE_NAME)

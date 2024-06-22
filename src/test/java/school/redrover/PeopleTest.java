@@ -1,5 +1,6 @@
 package school.redrover;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
@@ -7,9 +8,8 @@ import org.openqa.selenium.Dimension;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.HomePage;
-import school.redrover.model.PeoplePage;
-import school.redrover.model.UsersPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,92 +27,6 @@ public class PeopleTest extends BaseTest {
                 .getNamesList();
 
         Assert.assertListContainsObject(namesList, "admin", "People page is not correct!");
-    }
-
-    @Test
-    @Story("US_07.002 Sort people")
-    @Description("Sort people by UserID, Name, Last Commit Activity, On/Off Value")
-    public void testSortPeople() {
-
-        final List<String> userNamesList = List.of(
-                "johndoe21",
-                "janesmith1985",
-                "david_lee92",
-                "emily_williams",
-                "alex_johnson",
-                "chris_evans",
-                "mary_jones",
-                "michael_brown",
-                "steve_rogers",
-                "lisa_taylor");
-
-        new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickUsersLink();
-
-        for (String userName : userNamesList) {
-
-            new UsersPage(getDriver())
-                    .clickCreateUser()
-                    .clearUserNameField()
-                    .typeUserName(userName)
-                    .setPassword(userName)
-                    .setConfirmPassword(userName)
-                    .setFullName(userName.replaceAll("\\d", ""))
-                    .setEmailAddress(userName + "@example.com")
-                    .clickCreateUser();
-        }
-
-        List<String> expectedUserIDList = new UsersPage(getDriver())
-                .clickLogo()
-                .clickPeopleOnSidebar()
-                .getUserIDList()
-                .stream()
-                .sorted(Collections.reverseOrder())
-                .toList();
-
-        List<String> actualUserIDList = new PeoplePage(getDriver())
-                .clickTitleUserID()
-                .getUserIDList();
-
-
-        List<String> expectedNamesList = new PeoplePage(getDriver())
-                .getNamesList()
-                .stream()
-                .sorted(Collections.reverseOrder())
-                .toList();
-
-        List<String> actualNamesList = new PeoplePage(getDriver())
-                .clickTitleName()
-                .getNamesList();
-
-
-        List<String> expectedLastCommitActivityList = new PeoplePage(getDriver())
-                .getLastCommitActivityList()
-                .stream()
-                .sorted(Collections.reverseOrder())
-                .toList();
-
-        List<String> actualLastCommitActivityList = new PeoplePage(getDriver())
-                .clickTitleLastCommitActivity()
-                .getLastCommitActivityList();
-
-
-        List<String> expectedOnOffList = new PeoplePage(getDriver())
-                .getOnOffList()
-                .stream()
-                .sorted(Collections.reverseOrder())
-                .toList();
-
-        List<String> actualOnOffList = new PeoplePage(getDriver())
-                .clickTitleOn()
-                .getOnOffList();
-
-        Assert.assertEquals(actualUserIDList, expectedUserIDList);
-        Assert.assertEquals(actualNamesList, expectedNamesList);
-        Assert.assertEquals(actualLastCommitActivityList, expectedLastCommitActivityList);
-        Assert.assertEquals(actualOnOffList, expectedOnOffList);
-
     }
 
     @Test
@@ -149,5 +63,69 @@ public class PeopleTest extends BaseTest {
                 .getUserIconSize();
 
         Assert.assertEquals(actualIconSize, new Dimension(24, 24));
+    }
+
+    public void createUser(String username) {
+        TestUtils.createUser(this, username);
+    }
+
+    @Test
+    @Story("US_07.002 Sort people")
+    @Description("Sort people by user ID")
+    public void testSortPeopleByUserIdDescending() {
+        List<String> userslist = List.of("johndoe21", "janesmith1985", "david_lee92",
+                "emily_williams", "alex_johnson", "chris_evans",
+                "mary_jones", "michael_brown", "steve_rogers", "lisa_taylor");
+        userslist.forEach(this::createUser);
+
+        List<String> userIDList = new HomePage(getDriver())
+                .clickPeopleOnSidebar()
+                .clickTitleUserID()
+                .getUserIDList();
+
+        Allure.step("Expected result:  Table is sorted descending by User ID");
+        Assert.assertEquals(userIDList, userIDList.stream().sorted(Collections.reverseOrder()).toList());
+    }
+
+    @Test(dependsOnMethods = "testSortPeopleByUserIdDescending")
+    @Story("US_07.002 Sort people")
+    @Description("Sort people descending by full name")
+    public void testSortPeopleByFullNameDescending() {
+
+        List<String> namesList = new HomePage(getDriver())
+                .clickPeopleOnSidebar()
+                .clickTitleName()
+                .getNamesList();
+
+        Allure.step("Expected result:  Table is sorted descending by full name");
+        Assert.assertEquals(namesList, namesList.stream().sorted(Collections.reverseOrder()).toList());
+    }
+
+    @Test(dependsOnMethods = "testSortPeopleByUserIdDescending")
+    @Story("US_07.002 Sort people")
+    @Description("Sort people by last commit activity")
+    public void testSortPeopleByLastCommitActivityDescending() {
+        List<String> lastCommitActivityList = new HomePage(getDriver())
+                .clickPeopleOnSidebar()
+                .clickTitleLastCommitActivity()
+                .getLastCommitActivityList();
+
+        Allure.step("Expected result:  Table is sorted descending by last commit activity");
+        Assert.assertEquals(
+                lastCommitActivityList,
+                lastCommitActivityList.stream().sorted(Collections.reverseOrder()).toList());
+    }
+
+    @Test(dependsOnMethods = "testSortPeopleByUserIdDescending")
+    @Story("US_07.002 Sort people")
+    @Description("Sort people by on/off state value")
+    public void testSortPeopleByStateDescending() {
+        List<String> onOffList = new HomePage(getDriver())
+                .clickPeopleOnSidebar()
+                .clickTitleOn()
+                .getOnOffList();
+
+        Allure.step("Expected result:  Table is sorted descending by state");
+        Assert.assertEquals(onOffList, onOffList.stream().sorted(Collections.reverseOrder()).toList());
     }
 }
