@@ -11,10 +11,13 @@ import school.redrover.model.CreateUserPage;
 import school.redrover.model.HomePage;
 import school.redrover.model.JobBuildConsolePage;
 import school.redrover.model.UserConfigurePage;
+import school.redrover.runner.AssertUtils;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.Comparator;
 import java.util.List;
+
 
 @Epic("User")
 public class UserTest extends BaseTest {
@@ -40,8 +43,10 @@ public class UserTest extends BaseTest {
                 .clickCreateUser()
                 .getUserIDList();
 
-        Allure.step("Expected result:  User is present on page");
-        Assert.assertTrue(userNamesList.contains("TestUser"));
+        AssertUtils
+                .allureAnnotation("User is present on page")
+                .isTrue(userNamesList.contains("TestUser"));
+
     }
 
     @Test(dependsOnMethods = "testCreateUserViaManageJenkins")
@@ -49,12 +54,15 @@ public class UserTest extends BaseTest {
     @Description("Check search box dropdown hints for users")
     public void testSearchForUserThroughSearchBar() {
 
+        TestUtils.createUser(this, FULL_NAME);
         String userFullName = new HomePage(getDriver())
                 .getHeader().typeTextToSearchField(FULL_NAME)
                 .getHeader().getSearchFieldText();
 
-        Allure.step("Expected result:  User hint is present into search box dropdown");
-        Assert.assertEquals(userFullName, "User");
+        AssertUtils
+                .allureAnnotation("User hint is present into search box dropdown")
+                .equals(userFullName, "User");
+
     }
 
     @Test(dependsOnMethods = "testRedirectToUserPage")
@@ -67,8 +75,9 @@ public class UserTest extends BaseTest {
                 .clickColumnNameHeader()
                 .getUserNamesList();
 
-        Allure.step("Expected result:  Users are sorted descending by full name");
-        Assert.assertEquals(names, names.stream().sorted(Comparator.reverseOrder()).toList());
+        AssertUtils
+                .allureAnnotation("Users are sorted descending by full name")
+                .equals(names, names.stream().sorted(Comparator.reverseOrder()).toList());
     }
 
     @Test(dependsOnMethods = "testRedirectToUserPage")
@@ -82,8 +91,10 @@ public class UserTest extends BaseTest {
                 .clickColumnUserIDHeader()
                 .getUserIDList();
 
-        Allure.step("Expected result:  Users are sorted descending by userID");
-        Assert.assertEquals(userIDList, userIDList.stream().sorted(Comparator.reverseOrder()).toList());
+
+        AssertUtils
+                .allureAnnotation("Users are sorted descending by userID")
+                .equals(userIDList, userIDList.stream().sorted(Comparator.reverseOrder()).toList());
     }
 
     @DataProvider(name = "usersCreateDataProvider")
@@ -114,8 +125,10 @@ public class UserTest extends BaseTest {
                 .clickUser(username)
                 .getCurrentUrl();
 
-        Allure.step("Expected result:  Page URL contains username");
-        Assert.assertTrue(currentUrl.contains(username));
+
+        AssertUtils
+                .allureAnnotation("Page URL contains username")
+                .isTrue(currentUrl.contains(username));
     }
 
 
@@ -137,17 +150,21 @@ public class UserTest extends BaseTest {
 
         CreateUserPage createUserPage = new CreateUserPage(getDriver());
 
-        Allure.step("Expected result:  Username error message");
-        Assert.assertNotNull(createUserPage.getUsernameErrorMsgField());
+        AssertUtils
+                .allureAnnotation("Username error message")
+                .notNull(createUserPage.getUsernameErrorMsgField());
 
-        Allure.step("Expected result:  Password error message");
-        Assert.assertNotNull(createUserPage.getPasswordErrorMsgField());
+        AssertUtils
+                .allureAnnotation("Password error message")
+                .notNull(createUserPage.getPasswordErrorMsgField());
 
-        Allure.step("Expected result:  Full name error message");
-        Assert.assertNotNull(createUserPage.getFullNameErrorMsgField());
+        AssertUtils
+                .allureAnnotation("Full name error message")
+                .notNull(createUserPage.getFullNameErrorMsgField());
 
-        Allure.step("Expected result:  Email error message");
-        Assert.assertNotNull(createUserPage.getEmailErrorMsgField());
+        AssertUtils
+                .allureAnnotation("Email error message")
+                .notNull(createUserPage.getEmailErrorMsgField());
     }
 
     @Test
@@ -189,15 +206,14 @@ public class UserTest extends BaseTest {
         new JobBuildConsolePage(getDriver())
                 .revokeTokenViaHTTPRequest(token, uuid, user);
 
-        Allure.step("Expected result: Build is triggered remotely");
-        Assert.assertTrue(
-                actualConsoleLogs.contains("Started by remote host"),
-                "The build should be triggered remotely."
-        );
-        Assert.assertFalse(
-                actualConsoleLogs.contains("Started by user"),
-                "The build should NOT be triggered by user."
-        );
+        AssertUtils
+                .allureAnnotation("Build is triggered remotely")
+                .isTrue(actualConsoleLogs.contains("Started by remote host"));
+
+        AssertUtils
+                .allureAnnotation("The build should NOT be triggered by user")
+                .isFalse(actualConsoleLogs.contains("Started by user"));
+
 
         final List<String> uuidList = new JobBuildConsolePage(getDriver())
                 .clickLogo()
