@@ -54,9 +54,6 @@ public class BaseAPITest {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
 
-                ProjectUtils.log(Level.INFO, "all cookies>>>");
-                cookieStore.getCookies().forEach(System.out::println);
-
                 crumb = new Gson().fromJson(EntityUtils.toString(response.getEntity()), Crumb.class).crumb;
                 ProjectUtils.log(Level.INFO, "Crumb: " + crumb);
             }
