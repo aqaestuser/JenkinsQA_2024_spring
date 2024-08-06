@@ -4,6 +4,9 @@ import com.google.common.net.HttpHeaders;
 import com.google.gson.Gson;
 import io.qameta.allure.Epic;
 import io.restassured.RestAssured;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,10 +16,6 @@ import org.apache.http.util.EntityUtils;
 import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 @Epic("APITest")
 public class APITest {
