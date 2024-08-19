@@ -1,4 +1,5 @@
-Feature: Views
+@severity=minor
+Feature: Views testing with Cucumber
 
   Scenario: Items in Views are sorted alphabetically by default
     When Go to New Item via Create a job

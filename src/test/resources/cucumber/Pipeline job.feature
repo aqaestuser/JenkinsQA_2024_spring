@@ -1,4 +1,6 @@
-Feature: Pipeline job
+@critical
+@severity=critical
+Feature: Pipeline Testing with Cucumber
 
   Scenario: Create the job
     When Go to New Item

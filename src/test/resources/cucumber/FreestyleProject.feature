@@ -1,4 +1,6 @@
-Feature: Freestyle job
+@critical
+@severity=critical
+Feature: Freestyle Testing with Cucumber
 
   Scenario: Create job
     When Go to NewJob

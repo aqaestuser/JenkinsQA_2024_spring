@@ -74,6 +74,13 @@ jobs:
           APP_OPTIONS: host=localhost;port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
           CI_RUN: true
 
+      - name: Run Cucumber Tests
+        run: mvn test -Dsurefire.suiteXmlFiles=xmlSuits/cucumber.xml
+        env:
+          CHROME_OPTIONS: --remote-allow-origins=*;--disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless=new;--window-size=1920,1080
+          APP_OPTIONS: host=localhost;port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
+          CI_RUN: true
+
       - name: CrossBrowser test
         run: mvn test -Dsurefire.suiteXmlFiles=xmlSuits/crossBrowser.xml
         env:
